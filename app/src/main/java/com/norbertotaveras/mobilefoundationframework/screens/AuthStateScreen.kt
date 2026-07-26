@@ -28,7 +28,8 @@ fun AuthStateScreen() {
                 InfoRow(label = "Contract module", value = "auth-core")
                 InfoRow(label = "Session model", value = "AuthSession")
                 InfoRow(label = "Provider state", value = "Available to SDK modules")
-                InfoRow(label = "Live readout", value = "Firebase screen")
+                InfoRow(label = "Firebase readout", value = "Firebase screen")
+                InfoRow(label = "Google credential readout", value = "Google screen")
             }
         }
     }

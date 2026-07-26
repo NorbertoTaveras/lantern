@@ -63,8 +63,8 @@ fun HomeScreen() {
 
                 ModuleRow(
                     name = "auth-google",
-                    description = "Credential Manager Google sign-in provider prepared for wiring.",
-                    status = "Prepared",
+                    description = "Credential Manager Google sign-in provider wired in the sample app.",
+                    status = "Live",
                     icon = Icons.AutoMirrored.Filled.Login
                 )
 
@@ -83,7 +83,7 @@ fun HomeScreen() {
             leadingIcon = Icons.Filled.Cloud
         ) {
             InfoRow(label = "Firebase anonymous sign-in", value = "Ready")
-            InfoRow(label = "Google sign-in", value = "UI prepared")
+            InfoRow(label = "Google sign-in", value = "Ready")
             InfoRow(label = "Firebase + Google bridge", value = "UI prepared")
             InfoRow(label = "Future modules", value = "Roadmapped")
         }
