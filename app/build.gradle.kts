@@ -1,6 +1,9 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -11,13 +14,28 @@ android {
         }
     }
 
+    val localProperties = Properties().apply {
+        val localPropertiesFile = rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { load(it) }
+        }
+    }
+
+    val firebaseWebClientId: String =
+        localProperties.getProperty("FIREBASE_WEB_CLIENT_ID", "")
+
     defaultConfig {
         applicationId = "com.norbertotaveras.mobilefoundationframework"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
+        resValue(
+            "string",
+            "firebase_web_client_id",
+            "\"$firebaseWebClientId\""
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -33,6 +51,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        buildConfig = true
+        resValues = true
         compose = true
     }
 }
@@ -41,6 +61,11 @@ dependencies {
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
     implementation(project(":auth-core"))
+    implementation(project(":auth-firebase"))
+    implementation(project(":auth-google"))
+    implementation(project(":auth-firebase-google"))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

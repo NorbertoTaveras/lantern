@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthConfig
+import com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider
 import com.norbertotaveras.mobilefoundation.core.Enviroment
 import com.norbertotaveras.mobilefoundation.core.SdkConfig
 import com.norbertotaveras.mobilefoundation.logging.AndroidSdkLogger
@@ -25,6 +27,12 @@ class MainActivity : ComponentActivity() {
         )
         val logger = AndroidSdkLogger(
             isEnabled = config.isDebugLoggingEnabled
+        )
+        val authProvider = FirebaseGoogleAuthProvider(
+            context = applicationContext,
+            config = FirebaseGoogleAuthConfig(
+                serverClientId = getString(R.string.firebase_web_client_id)
+            )
         )
         logger.debug("Mobile Foundation Framework initialized")
         enableEdgeToEdge()
