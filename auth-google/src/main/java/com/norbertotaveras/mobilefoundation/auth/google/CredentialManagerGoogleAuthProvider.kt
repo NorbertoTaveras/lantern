@@ -1,0 +1,75 @@
+package com.norbertotaveras.mobilefoundation.auth.google
+
+import android.content.Context
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.norbertotaveras.mobilefoundation.core.SdkError
+import com.norbertotaveras.mobilefoundation.core.SdkResult
+
+class CredentialManagerGoogleAuthProvider(
+    private val errorMapper: GoogleAuthErrorMapper = GoogleAuthErrorMapper()
+) : GoogleAuthProvider {
+
+    override suspend fun signIn(
+        context: Context,
+        config: GoogleAuthConfig
+    ): SdkResult<GoogleAuthToken> {
+        return try {
+            val credentialManager = CredentialManager.create(context)
+
+            val googleIdOption = GetGoogleIdOption.Builder()
+                .setServerClientId(config.serverClientId)
+                .setFilterByAuthorizedAccounts(config.filterByAuthorizedAccounts)
+                .setAutoSelectEnabled(config.autoSelectEnabled)
+                .build()
+
+            val request = GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build()
+
+            val result = credentialManager.getCredential(
+                context = context,
+                request = request
+            )
+
+            val credential = GoogleIdTokenCredential.createFrom(result.credential.data)
+
+            SdkResult.Success(
+                GoogleAuthToken(
+                    idToken = credential.idToken,
+                    displayName = credential.displayName,
+                    email = credential.id,
+                    profilePictureUri = credential.profilePictureUri?.toString()
+                )
+            )
+        } catch (throwable: GoogleIdTokenParsingException) {
+            SdkResult.Failure(
+                SdkError(
+                    code = GoogleAuthErrorCodes.INVALID_CREDENTIAL,
+                    message = "Unable to parse Google ID token credential.",
+                    cause = throwable
+                )
+            )
+        } catch (throwable: Throwable) {
+            SdkResult.Failure(errorMapper.map(throwable))
+        }
+    }
+
+    override suspend fun signOut(context: Context): SdkResult<Unit> {
+        return try {
+            val credentialManager = CredentialManager.create(context)
+
+            credentialManager.clearCredentialState(
+                ClearCredentialStateRequest()
+            )
+
+            SdkResult.Success(Unit)
+        } catch (throwable: Throwable) {
+            SdkResult.Failure(errorMapper.map(throwable))
+        }
+    }
+}
