@@ -64,6 +64,8 @@ dependencies {
     implementation(project(":auth-firebase"))
     implementation(project(":auth-google"))
     implementation(project(":auth-firebase-google"))
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(platform(libs.androidx.compose.bom))
