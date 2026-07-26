@@ -32,6 +32,10 @@ import com.norbertotaveras.mobilefoundationframework.screens.FirebaseAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.HomeScreen
 import com.norbertotaveras.mobilefoundationframework.navigation.SampleDestination
 import com.norbertotaveras.mobilefoundationframework.navigation.sampleDestinations
+import com.norbertotaveras.mobilefoundationframework.screens.AuthStateScreen
+import com.norbertotaveras.mobilefoundationframework.screens.FirebaseGoogleAuthScreen
+import com.norbertotaveras.mobilefoundationframework.screens.GoogleAuthScreen
+import com.norbertotaveras.mobilefoundationframework.screens.LoggingScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

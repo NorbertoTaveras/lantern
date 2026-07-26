@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.norbertotaveras.mobilefoundationframework"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
@@ -28,7 +28,7 @@ android {
     defaultConfig {
         applicationId = "com.norbertotaveras.mobilefoundationframework"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         resValue(
@@ -64,6 +64,8 @@ dependencies {
     implementation(project(":auth-firebase"))
     implementation(project(":auth-google"))
     implementation(project(":auth-firebase-google"))
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(platform(libs.firebase.bom))
