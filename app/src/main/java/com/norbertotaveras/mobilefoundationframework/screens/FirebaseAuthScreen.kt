@@ -2,23 +2,29 @@ package com.norbertotaveras.mobilefoundationframework.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.Login
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.norbertotaveras.mobilefoundationframework.firebase.FirebaseAuthUiState
+import com.norbertotaveras.mobilefoundationframework.components.DemoSection
+import com.norbertotaveras.mobilefoundationframework.components.DestructiveDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
+import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
 import com.norbertotaveras.mobilefoundationframework.firebase.FirebaseAuthViewModel
 
 @Composable
@@ -27,87 +33,72 @@ fun FirebaseAuthScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    FirebaseAuthContent(
-        uiState = uiState,
-        onAnonymousSignInClick = viewModel::signInAnonymously,
-        onSignOutClick = viewModel::signOut,
-        onRefreshSessionClick = viewModel::loadCurrentSession
-    )
-}
-
-@Composable
-private fun FirebaseAuthContent(
-    uiState: FirebaseAuthUiState,
-    onAnonymousSignInClick: () -> Unit,
-    onSignOutClick: () -> Unit,
-    onRefreshSessionClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    FeatureScreen(
+        title = "Firebase Auth",
+        subtitle = "Exercise the live Firebase Authentication provider without changing the SDK module boundary.",
+        icon = Icons.Filled.Cloud,
+        status = if (uiState.userId != null) "Signed in" else "Not signed in"
     ) {
-        Text(text = "Firebase Auth")
-        Text(text = "Test anonymous Firebase Authentication through the SDK.")
-
-        if (uiState.isLoading) {
-            CircularProgressIndicator()
-        }
-
-        Button(
-            onClick = onAnonymousSignInClick,
-            enabled = !uiState.isLoading,
-            modifier = Modifier.fillMaxWidth()
+        DemoSection(
+            title = "Session controls",
+            description = "Anonymous sign-in is the first working auth flow in the sample app.",
+            leadingIcon = Icons.AutoMirrored.Filled.Login
         ) {
-            Text(text = "Sign in anonymously")
-        }
-
-        OutlinedButton(
-            onClick = onSignOutClick,
-            enabled = !uiState.isLoading,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Sign out")
-        }
-
-        TextButton(
-            onClick = onRefreshSessionClick,
-            enabled = !uiState.isLoading
-        ) {
-            Text(text = "Refresh current session")
-        }
-
-        FirebaseAuthStateCard(uiState = uiState)
-    }
-}
-
-@Composable
-private fun FirebaseAuthStateCard(
-    uiState: FirebaseAuthUiState
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(text = "Session")
-
-            Text(text = "User ID: ${uiState.userId ?: "None"}")
-            Text(text = "Email: ${uiState.email ?: "None"}")
-            Text(text = "Display name: ${uiState.displayName ?: "None"}")
-            Text(text = "Provider: ${uiState.provider ?: "None"}")
-
-            uiState.message?.let { message ->
-                Text(text = "Message: $message")
+            if (uiState.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                }
             }
 
-            uiState.errorMessage?.let { error ->
-                Text(text = "Error: $error")
+            PrimaryDemoButton(
+                text = "Sign in anonymously",
+                icon = Icons.AutoMirrored.Filled.Login,
+                enabled = !uiState.isLoading,
+                onClick = viewModel::signInAnonymously
+            )
+
+            SecondaryDemoButton(
+                text = "Refresh current session",
+                icon = Icons.Filled.Refresh,
+                enabled = !uiState.isLoading,
+                onClick = viewModel::loadCurrentSession
+            )
+
+            DestructiveDemoButton(
+                text = "Sign out",
+                icon = Icons.AutoMirrored.Filled.ExitToApp,
+                enabled = !uiState.isLoading,
+                onClick = viewModel::signOut
+            )
+        }
+
+        DemoSection(
+            title = "Session",
+            description = "This data comes from the Firebase auth provider wrapper.",
+            leadingIcon = Icons.Filled.AccountCircle
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                InfoRow(
+                    label = "User ID",
+                    value = uiState.userId ?: "None",
+                    supportingText = "Firebase UID"
+                )
+                InfoRow(label = "Email", value = uiState.email ?: "None")
+                InfoRow(label = "Display name", value = uiState.displayName ?: "None")
+                InfoRow(label = "Provider", value = uiState.provider ?: "None")
             }
         }
+
+        StatusMessage(
+            message = uiState.message,
+            errorMessage = uiState.errorMessage
+        )
     }
 }

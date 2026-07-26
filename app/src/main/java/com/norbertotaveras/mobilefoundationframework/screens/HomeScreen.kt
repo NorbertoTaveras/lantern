@@ -1,21 +1,101 @@
 package com.norbertotaveras.mobilefoundationframework.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Login
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.norbertotaveras.mobilefoundationframework.components.DemoSection
+import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
+import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.ModuleRow
 
 @Composable
 fun HomeScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp)
+    FeatureScreen(
+        title = "Mobile Foundation SDK",
+        subtitle = "A modular Android foundation library with clean SDK boundaries and a sample app for manual verification.",
+        icon = Icons.Filled.Home,
+        status = "FWK-17 demo polish"
     ) {
-        Text(text = "Mobile Foundation SDK")
-        Text(text = "Use the drawer to test each SDK feature.")
+        DemoSection(
+            title = "Current SDK modules",
+            description = "The sample app showcases the modules that exist today without pulling UI into library code.",
+            leadingIcon = Icons.Filled.Security
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                ModuleRow(
+                    name = "sdk-core",
+                    description = "Shared primitives such as results, errors, config, and dispatchers.",
+                    status = "Core",
+                    icon = Icons.Filled.Home
+                )
+
+                ModuleRow(
+                    name = "logging",
+                    description = "SDK logger abstraction and Android logger implementation.",
+                    status = "Ready",
+                    icon = Icons.Filled.BugReport
+                )
+
+                ModuleRow(
+                    name = "auth-core",
+                    description = "Provider-neutral auth contracts, state, sessions, and models.",
+                    status = "Ready",
+                    icon = Icons.Filled.AccountCircle
+                )
+
+                ModuleRow(
+                    name = "auth-firebase",
+                    description = "Firebase-backed auth provider with anonymous sign-in support.",
+                    status = "Live",
+                    icon = Icons.Filled.Cloud
+                )
+
+                ModuleRow(
+                    name = "auth-google",
+                    description = "Credential Manager Google sign-in provider prepared for wiring.",
+                    status = "Prepared",
+                    icon = Icons.AutoMirrored.Filled.Login
+                )
+
+                ModuleRow(
+                    name = "auth-firebase-google",
+                    description = "Bridge module planned to authenticate Google sessions with Firebase.",
+                    status = "Prepared",
+                    icon = Icons.Filled.Security
+                )
+            }
+        }
+
+        DemoSection(
+            title = "Demo status",
+            description = "The screen set is intentionally scoped to the modules already created.",
+            leadingIcon = Icons.Filled.Cloud
+        ) {
+            InfoRow(label = "Firebase anonymous sign-in", value = "Ready")
+            InfoRow(label = "Google sign-in", value = "UI prepared")
+            InfoRow(label = "Firebase + Google bridge", value = "UI prepared")
+            InfoRow(label = "Future modules", value = "Roadmapped")
+        }
+
+        DemoSection(
+            title = "Current boundary",
+            description = "Upcoming permissions, storage, and networking modules are intentionally not created in this slice.",
+            leadingIcon = Icons.Filled.BugReport
+        ) {
+            Text(
+                text = "Use the drawer to inspect each implemented or prepared SDK area. The Firebase Auth demo remains the only live auth flow in this pass."
+            )
+        }
     }
 }
