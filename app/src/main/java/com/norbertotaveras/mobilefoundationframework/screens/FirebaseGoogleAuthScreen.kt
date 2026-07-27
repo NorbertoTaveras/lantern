@@ -22,10 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.norbertotaveras.mobilefoundationframework.R
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.DestructiveDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
@@ -45,6 +47,14 @@ fun FirebaseGoogleAuthScreen(
         icon = Icons.Filled.Security,
         status = if (uiState.isSignedIn) "Signed in" else "Ready"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Google", value = "Token"),
+                DemoMetric(label = "Firebase", value = if (uiState.isSignedIn) "Session" else "Ready"),
+                DemoMetric(label = "Provider", value = uiState.provider ?: "None")
+            )
+        )
+
         DemoSection(
             title = "Bridge controls",
             description = "This flow invokes auth-firebase-google and clears both Firebase and Google credential state on sign-out.",

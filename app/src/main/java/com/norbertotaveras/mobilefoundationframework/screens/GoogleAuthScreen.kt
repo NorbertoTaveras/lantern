@@ -20,9 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.norbertotaveras.mobilefoundationframework.R
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
@@ -42,6 +44,14 @@ fun GoogleAuthScreen(
         icon = Icons.AutoMirrored.Filled.Login,
         status = if (uiState.isSignedIn) "Credential loaded" else "Ready"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Provider", value = "Google"),
+                DemoMetric(label = "Credential", value = if (uiState.isSignedIn) "Loaded" else "Empty"),
+                DemoMetric(label = "Token", value = if (uiState.idTokenPreview != null) "Preview" else "None")
+            )
+        )
+
         DemoSection(
             title = "Credential controls",
             description = "This flow requests a Google ID token through the auth-google provider only.",
@@ -95,13 +105,13 @@ fun GoogleAuthScreen(
 
         DemoSection(
             title = "Implementation state",
-            description = "Firebase authentication is intentionally not invoked in this slice.",
+            description = "This screen stays provider-specific; use Firebase + Google for the Firebase credential exchange.",
             leadingIcon = Icons.Filled.Security
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 InfoRow(label = "Provider module", value = "auth-google")
                 InfoRow(label = "Runtime flow", value = "Wired")
-                InfoRow(label = "Firebase bridge", value = "Not wired")
+                InfoRow(label = "Firebase bridge", value = "Separate screen")
             }
         }
 

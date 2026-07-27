@@ -8,9 +8,11 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.norbertotaveras.mobilefoundation.logging.AndroidSdkLogger
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
 
 @Composable
@@ -23,6 +25,14 @@ fun LoggingScreen() {
         icon = Icons.Filled.BugReport,
         status = "Ready"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Implementation", value = "Android"),
+                DemoMetric(label = "Levels", value = "4"),
+                DemoMetric(label = "UI dependency", value = "None")
+            )
+        )
+
         DemoSection(
             title = "Logger action",
             description = "Tap once to send debug, info, warning, and error messages through AndroidSdkLogger.",

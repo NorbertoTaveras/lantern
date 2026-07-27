@@ -18,10 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.DestructiveDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
@@ -39,6 +41,14 @@ fun FirebaseAuthScreen(
         icon = Icons.Filled.Cloud,
         status = if (uiState.userId != null) "Signed in" else "Not signed in"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Provider", value = uiState.provider ?: "None"),
+                DemoMetric(label = "Session", value = if (uiState.userId != null) "Active" else "Empty"),
+                DemoMetric(label = "Flow", value = "Anonymous")
+            )
+        )
+
         DemoSection(
             title = "Session controls",
             description = "Anonymous sign-in is the first working auth flow in the sample app.",

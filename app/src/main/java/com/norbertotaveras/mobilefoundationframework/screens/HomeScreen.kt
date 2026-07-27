@@ -8,13 +8,16 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.ModuleRow
 
 @Composable
@@ -23,8 +26,16 @@ fun HomeScreen() {
         title = "Mobile Foundation SDK",
         subtitle = "A modular Android foundation library with clean SDK boundaries and a sample app for manual verification.",
         icon = Icons.Filled.Home,
-        status = "FWK-17 demo polish"
+        status = "FWK-23 baseline"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "SDK modules", value = "7"),
+                DemoMetric(label = "Live demos", value = "4"),
+                DemoMetric(label = "UI modules", value = "0")
+            )
+        )
+
         DemoSection(
             title = "Current SDK modules",
             description = "The sample app showcases the modules that exist today without pulling UI into library code.",
@@ -70,9 +81,16 @@ fun HomeScreen() {
 
                 ModuleRow(
                     name = "auth-firebase-google",
-                    description = "Bridge module planned to authenticate Google sessions with Firebase.",
-                    status = "Prepared",
+                    description = "Bridge module that authenticates Google sessions with Firebase.",
+                    status = "Live",
                     icon = Icons.Filled.Security
+                )
+
+                ModuleRow(
+                    name = "permissions",
+                    description = "Android-version-aware runtime permission resolver.",
+                    status = "Live",
+                    icon = Icons.Filled.PrivacyTip
                 )
             }
         }
@@ -84,17 +102,17 @@ fun HomeScreen() {
         ) {
             InfoRow(label = "Firebase anonymous sign-in", value = "Ready")
             InfoRow(label = "Google sign-in", value = "Ready")
-            InfoRow(label = "Firebase + Google bridge", value = "UI prepared")
-            InfoRow(label = "Future modules", value = "Roadmapped")
+            InfoRow(label = "Firebase + Google bridge", value = "Ready")
+            InfoRow(label = "Runtime permissions", value = "Ready")
         }
 
         DemoSection(
             title = "Current boundary",
-            description = "Upcoming permissions, storage, and networking modules are intentionally not created in this slice.",
+            description = "Upcoming storage and networking modules are intentionally not created in this UI pass.",
             leadingIcon = Icons.Filled.BugReport
         ) {
             Text(
-                text = "Use the drawer to inspect each implemented or prepared SDK area. The Firebase Auth demo remains the only live auth flow in this pass."
+                text = "Use the drawer to inspect each implemented SDK area. Compose stays in the sample app, while reusable contracts and provider logic stay inside SDK modules."
             )
         }
     }

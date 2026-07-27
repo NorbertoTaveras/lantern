@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -68,11 +68,20 @@ fun SampleNavigationDrawer() {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                modifier = Modifier.widthIn(max = 360.dp)
+            ) {
                 DrawerHeader()
 
                 HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                )
+
+                Text(
+                    text = "SDK samples",
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 sampleDestinations.forEach { destination ->
@@ -97,13 +106,8 @@ fun SampleNavigationDrawer() {
                             }
                         },
                         badge = {
-                            if (
-                                destination == SampleDestination.FirebaseAuth ||
-                                destination == SampleDestination.GoogleAuth ||
-                                destination == SampleDestination.FirebaseGoogleAuth ||
-                                destination == SampleDestination.Permissions
-                            ) {
-                                Text(text = "Live")
+                            destination.drawerBadge()?.let {
+                                StatusPill(text = it)
                             }
                         },
                         selected = currentRoute == destination.route,
@@ -124,6 +128,15 @@ fun SampleNavigationDrawer() {
                         modifier = Modifier.padding(horizontal = 12.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Text(
+                    text = "Sample app owns UI, Firebase config, and manual verification.",
+                    modifier = Modifier.padding(24.dp),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     ) {
@@ -182,12 +195,12 @@ private fun DrawerHeader() {
         ) {
             Surface(
                 modifier = Modifier.clip(CircleShape),
-                color = MaterialTheme.colorScheme.primaryContainer
+                color = MaterialTheme.colorScheme.primary
             ) {
                 Icon(
                     imageVector = SampleDestination.FirebaseGoogleAuth.icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .padding(14.dp)
                         .size(28.dp)
@@ -196,12 +209,7 @@ private fun DrawerHeader() {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            AssistChip(
-                onClick = {},
-                label = {
-                    Text(text = "Demo")
-                }
-            )
+            StatusPill(text = "Demo")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -221,13 +229,21 @@ private fun DrawerHeader() {
         Spacer(modifier = Modifier.height(12.dp))
 
         Row {
-            AssistChip(
-                onClick = {},
-                label = {
-                    Text(text = "v0.1.0-dev")
-                }
-            )
+            StatusPill(text = "v0.1.0-dev")
         }
+    }
+}
+
+private fun SampleDestination.drawerBadge(): String? {
+    return when (this) {
+        SampleDestination.FirebaseAuth,
+        SampleDestination.GoogleAuth,
+        SampleDestination.FirebaseGoogleAuth,
+        SampleDestination.Permissions -> "Live"
+
+        SampleDestination.Home -> "Now"
+        SampleDestination.AuthState,
+        SampleDestination.Logging -> null
     }
 }
 

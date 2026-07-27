@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -45,11 +44,14 @@ import com.norbertotaveras.mobilefoundation.permissions.PermissionRequestLaunche
 import com.norbertotaveras.mobilefoundation.permissions.PermissionState
 import com.norbertotaveras.mobilefoundation.permissions.PermissionStatus
 import com.norbertotaveras.mobilefoundation.permissions.SdkPermission
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
 import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.StatusPill
 import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
 import kotlin.coroutines.resume
 import kotlinx.coroutines.CancellableContinuation
@@ -115,6 +117,14 @@ fun PermissionsScreen() {
         icon = Icons.Filled.PrivacyTip,
         status = "${states.values.count { it.isGranted }}/${demoPermissions.size} granted"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Granted", value = states.values.count { it.isGranted }.toString()),
+                DemoMetric(label = "Tracked", value = demoPermissions.size.toString()),
+                DemoMetric(label = "Common request", value = commonDemoPermissions.size.toString())
+            )
+        )
+
         DemoSection(
             title = "Permission controls",
             description = "Requests are launched by the sample app and resolved through the permissions SDK module.",
@@ -221,12 +231,7 @@ private fun PermissionDemoRow(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    AssistChip(
-                        onClick = {},
-                        label = {
-                            Text(text = state.statusLabel())
-                        }
-                    )
+                    StatusPill(text = state.statusLabel())
                 }
             }
 

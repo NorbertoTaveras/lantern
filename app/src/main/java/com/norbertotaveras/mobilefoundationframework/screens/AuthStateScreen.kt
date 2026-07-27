@@ -7,9 +7,11 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
 import com.norbertotaveras.mobilefoundationframework.components.DemoSection
 import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
 import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
 
 @Composable
 fun AuthStateScreen() {
@@ -19,6 +21,14 @@ fun AuthStateScreen() {
         icon = Icons.Filled.AccountCircle,
         status = "Simple"
     ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Contract", value = "auth-core"),
+                DemoMetric(label = "Sessions", value = "Unified"),
+                DemoMetric(label = "Providers", value = "3")
+            )
+        )
+
         DemoSection(
             title = "State model",
             description = "The app currently demonstrates Firebase session state on the Firebase Auth screen.",
