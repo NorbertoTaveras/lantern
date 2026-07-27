@@ -96,7 +96,10 @@ fun SampleNavigationDrawer() {
                             }
                         },
                         badge = {
-                            if (destination == SampleDestination.FirebaseAuth) {
+                            if (
+                                destination == SampleDestination.FirebaseAuth ||
+                                destination == SampleDestination.GoogleAuth
+                            ) {
                                 Text(text = "Live")
                             }
                         },

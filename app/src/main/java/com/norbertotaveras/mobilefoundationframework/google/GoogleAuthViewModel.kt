@@ -43,7 +43,9 @@ class GoogleAuthViewModel(
             )
 
             val config = GoogleAuthConfig(
-                serverClientId = trimmedClientId
+                serverClientId = trimmedClientId,
+                filterByAuthorizedAccounts = false,
+                autoSelectEnabled = false
             )
 
             when (val result = authProvider.signIn(context, config)) {

@@ -5,6 +5,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.norbertotaveras.mobilefoundation.core.SdkError
@@ -21,14 +22,20 @@ class CredentialManagerGoogleAuthProvider(
         return try {
             val credentialManager = CredentialManager.create(context)
 
-            val googleIdOption = GetGoogleIdOption.Builder()
-                .setServerClientId(config.serverClientId)
-                .setFilterByAuthorizedAccounts(config.filterByAuthorizedAccounts)
-                .setAutoSelectEnabled(config.autoSelectEnabled)
-                .build()
+            val credentialOption = if (config.filterByAuthorizedAccounts) {
+                GetGoogleIdOption.Builder()
+                    .setServerClientId(config.serverClientId)
+                    .setFilterByAuthorizedAccounts(true)
+                    .setAutoSelectEnabled(config.autoSelectEnabled)
+                    .build()
+            } else {
+                GetSignInWithGoogleOption.Builder(
+                    serverClientId = config.serverClientId
+                ).build()
+            }
 
             val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
+                .addCredentialOption(credentialOption)
                 .build()
 
             val result = credentialManager.getCredential(
