@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":auth-firebase"))
     implementation(project(":auth-google"))
     implementation(project(":auth-firebase-google"))
+    implementation(project(":permissions"))
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)

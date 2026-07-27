@@ -49,6 +49,7 @@ import com.norbertotaveras.mobilefoundationframework.screens.FirebaseGoogleAuthS
 import com.norbertotaveras.mobilefoundationframework.screens.GoogleAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.HomeScreen
 import com.norbertotaveras.mobilefoundationframework.screens.LoggingScreen
+import com.norbertotaveras.mobilefoundationframework.screens.PermissionsScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +100,8 @@ fun SampleNavigationDrawer() {
                             if (
                                 destination == SampleDestination.FirebaseAuth ||
                                 destination == SampleDestination.GoogleAuth ||
-                                destination == SampleDestination.FirebaseGoogleAuth
+                                destination == SampleDestination.FirebaseGoogleAuth ||
+                                destination == SampleDestination.Permissions
                             ) {
                                 Text(text = "Live")
                             }
@@ -260,6 +262,10 @@ private fun SampleNavHost(
 
         composable(SampleDestination.AuthState.route) {
             AuthStateScreen()
+        }
+
+        composable(SampleDestination.Permissions.route) {
+            PermissionsScreen()
         }
 
         composable(SampleDestination.Logging.route) {

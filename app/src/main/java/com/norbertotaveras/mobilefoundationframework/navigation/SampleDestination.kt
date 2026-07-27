@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -50,6 +51,13 @@ sealed class SampleDestination(
         icon = Icons.Filled.AccountCircle
     )
 
+    data object Permissions : SampleDestination(
+        route = "permissions",
+        title = "Permissions",
+        description = "Runtime permission resolver",
+        icon = Icons.Filled.PrivacyTip
+    )
+
     data object Logging : SampleDestination(
         route = "logging",
         title = "Logging",
@@ -64,5 +72,6 @@ val sampleDestinations = listOf(
     SampleDestination.GoogleAuth,
     SampleDestination.FirebaseGoogleAuth,
     SampleDestination.AuthState,
+    SampleDestination.Permissions,
     SampleDestination.Logging
 )
