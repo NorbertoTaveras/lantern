@@ -98,7 +98,8 @@ fun SampleNavigationDrawer() {
                         badge = {
                             if (
                                 destination == SampleDestination.FirebaseAuth ||
-                                destination == SampleDestination.GoogleAuth
+                                destination == SampleDestination.GoogleAuth ||
+                                destination == SampleDestination.FirebaseGoogleAuth
                             ) {
                                 Text(text = "Live")
                             }
