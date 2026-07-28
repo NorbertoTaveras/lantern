@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
