@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -58,6 +59,13 @@ sealed class SampleDestination(
         icon = Icons.Filled.PrivacyTip
     )
 
+    data object SecureStorage : SampleDestination(
+        route = "secure_storage",
+        title = "Secure Storage",
+        description = "Local key-value and token storage",
+        icon = Icons.Filled.Lock
+    )
+
     data object Logging : SampleDestination(
         route = "logging",
         title = "Logging",
@@ -73,5 +81,6 @@ val sampleDestinations = listOf(
     SampleDestination.FirebaseGoogleAuth,
     SampleDestination.AuthState,
     SampleDestination.Permissions,
+    SampleDestination.SecureStorage,
     SampleDestination.Logging
 )

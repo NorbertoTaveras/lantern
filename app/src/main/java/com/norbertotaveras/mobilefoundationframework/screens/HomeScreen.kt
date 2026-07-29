@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Text
@@ -26,12 +27,12 @@ fun HomeScreen() {
         title = "Mobile Foundation SDK",
         subtitle = "A modular Android foundation library with clean SDK boundaries and a sample app for manual verification.",
         icon = Icons.Filled.Home,
-        status = "FWK-23 baseline"
+        status = "FWK-29 sample"
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "7"),
-                DemoMetric(label = "Live demos", value = "4"),
+                DemoMetric(label = "SDK modules", value = "8"),
+                DemoMetric(label = "Live demos", value = "5"),
                 DemoMetric(label = "UI modules", value = "0")
             )
         )
@@ -92,6 +93,13 @@ fun HomeScreen() {
                     status = "Live",
                     icon = Icons.Filled.PrivacyTip
                 )
+
+                ModuleRow(
+                    name = "secure-storage",
+                    description = "DataStore-backed key-value storage and token persistence contracts.",
+                    status = "Live",
+                    icon = Icons.Filled.Lock
+                )
             }
         }
 
@@ -104,11 +112,12 @@ fun HomeScreen() {
             InfoRow(label = "Google sign-in", value = "Ready")
             InfoRow(label = "Firebase + Google bridge", value = "Ready")
             InfoRow(label = "Runtime permissions", value = "Ready")
+            InfoRow(label = "Secure storage", value = "Ready")
         }
 
         DemoSection(
             title = "Current boundary",
-            description = "Upcoming storage and networking modules are intentionally not created in this UI pass.",
+            description = "Upcoming networking modules are intentionally not created in this UI pass.",
             leadingIcon = Icons.Filled.BugReport
         ) {
             Text(

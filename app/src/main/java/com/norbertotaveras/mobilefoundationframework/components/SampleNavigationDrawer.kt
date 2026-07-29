@@ -50,6 +50,7 @@ import com.norbertotaveras.mobilefoundationframework.screens.GoogleAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.HomeScreen
 import com.norbertotaveras.mobilefoundationframework.screens.LoggingScreen
 import com.norbertotaveras.mobilefoundationframework.screens.PermissionsScreen
+import com.norbertotaveras.mobilefoundationframework.screens.SecureStorageScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -239,7 +240,8 @@ private fun SampleDestination.drawerBadge(): String? {
         SampleDestination.FirebaseAuth,
         SampleDestination.GoogleAuth,
         SampleDestination.FirebaseGoogleAuth,
-        SampleDestination.Permissions -> "Live"
+        SampleDestination.Permissions,
+        SampleDestination.SecureStorage -> "Live"
 
         SampleDestination.Home -> "Now"
         SampleDestination.AuthState,
@@ -282,6 +284,10 @@ private fun SampleNavHost(
 
         composable(SampleDestination.Permissions.route) {
             PermissionsScreen()
+        }
+
+        composable(SampleDestination.SecureStorage.route) {
+            SecureStorageScreen()
         }
 
         composable(SampleDestination.Logging.route) {
