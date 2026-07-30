@@ -3,6 +3,11 @@ package com.norbertotaveras.mobilefoundation.network.okhttp
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * Adds an authorization header when [tokenProvider] returns a non-blank access token.
+ *
+ * Existing authorization headers are preserved by default so callers can override auth per request.
+ */
 class AuthHeaderInterceptor(
     private val tokenProvider: TokenProvider,
     private val headerName: String = DEFAULT_AUTH_HEADER,

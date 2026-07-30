@@ -5,6 +5,9 @@ import com.norbertotaveras.mobilefoundation.network.okhttp.internal.DefaultHeade
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 
+/**
+ * Creates OkHttp clients configured with Mobile Foundation defaults and optional SDK interceptors.
+ */
 class OkHttpNetworkClientFactory(
     private val config: NetworkConfig = NetworkConfig()
 ) {

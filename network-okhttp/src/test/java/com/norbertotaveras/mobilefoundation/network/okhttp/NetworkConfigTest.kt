@@ -1,0 +1,21 @@
+package com.norbertotaveras.mobilefoundation.network.okhttp
+
+import org.junit.Assert.assertThrows
+import org.junit.Test
+
+class NetworkConfigTest {
+
+    @Test
+    fun initRejectsNegativeTimeouts() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkConfig(connectTimeoutMillis = -1)
+        }
+    }
+
+    @Test
+    fun initRejectsBlankHeaderNames() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkConfig(defaultHeaders = mapOf(" " to "value"))
+        }
+    }
+}

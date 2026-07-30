@@ -1,5 +1,10 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
+/**
+ * Retry policy for [RetryInterceptor].
+ *
+ * Defaults are conservative and only retry idempotent requests for transient status codes or IO failures.
+ */
 data class NetworkRetryConfig(
     val maxRetries: Int = DEFAULT_MAX_RETRIES,
     val initialDelayMillis: Long = DEFAULT_INITIAL_DELAY_MILLIS,

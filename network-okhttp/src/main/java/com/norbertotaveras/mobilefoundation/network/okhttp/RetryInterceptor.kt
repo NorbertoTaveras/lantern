@@ -4,6 +4,9 @@ import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * Retries idempotent requests after transient HTTP statuses or IO failures.
+ */
 class RetryInterceptor(
     private val config: NetworkRetryConfig = NetworkRetryConfig(),
     private val sleeper: Sleeper = ThreadSleeper

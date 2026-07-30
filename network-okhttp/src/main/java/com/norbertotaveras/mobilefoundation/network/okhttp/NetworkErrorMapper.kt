@@ -7,6 +7,9 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import okhttp3.Response
 
+/**
+ * Maps common networking failures into SDK-level errors that app layers can handle consistently.
+ */
 class NetworkErrorMapper {
 
     fun map(throwable: Throwable): SdkError {

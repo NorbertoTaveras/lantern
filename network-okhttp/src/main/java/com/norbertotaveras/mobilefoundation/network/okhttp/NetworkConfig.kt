@@ -1,5 +1,10 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
+/**
+ * Base configuration used when creating Mobile Foundation OkHttp clients.
+ *
+ * Timeout values are in milliseconds. A timeout value of 0 uses OkHttp's no-timeout behavior.
+ */
 data class NetworkConfig(
     val connectTimeoutMillis: Long = DEFAULT_CONNECT_TIMEOUT_MILLIS,
     val readTimeoutMillis: Long = DEFAULT_READ_TIMEOUT_MILLIS,
