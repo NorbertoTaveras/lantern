@@ -11,6 +11,7 @@ class OkHttpNetworkClientFactory(
 
     fun create(
         tokenProvider: TokenProvider? = null,
+        retryConfig: NetworkRetryConfig? = null,
         interceptors: List<Interceptor> = emptyList(),
         networkInterceptors: List<Interceptor> = emptyList()
     ): OkHttpClient {
@@ -28,6 +29,9 @@ class OkHttpNetworkClientFactory(
                 }
                 if (tokenProvider != null) {
                     addInterceptor(AuthHeaderInterceptor(tokenProvider))
+                }
+                if (retryConfig != null) {
+                    addInterceptor(RetryInterceptor(retryConfig))
                 }
                 interceptors.forEach(::addInterceptor)
                 networkInterceptors.forEach(::addNetworkInterceptor)
