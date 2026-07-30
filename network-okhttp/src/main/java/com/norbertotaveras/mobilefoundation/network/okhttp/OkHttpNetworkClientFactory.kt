@@ -10,6 +10,7 @@ class OkHttpNetworkClientFactory(
 ) {
 
     fun create(
+        tokenProvider: TokenProvider? = null,
         interceptors: List<Interceptor> = emptyList(),
         networkInterceptors: List<Interceptor> = emptyList()
     ): OkHttpClient {
@@ -24,6 +25,9 @@ class OkHttpNetworkClientFactory(
             .apply {
                 if (config.defaultHeaders.isNotEmpty()) {
                     addInterceptor(DefaultHeadersInterceptor(config.defaultHeaders))
+                }
+                if (tokenProvider != null) {
+                    addInterceptor(AuthHeaderInterceptor(tokenProvider))
                 }
                 interceptors.forEach(::addInterceptor)
                 networkInterceptors.forEach(::addNetworkInterceptor)
