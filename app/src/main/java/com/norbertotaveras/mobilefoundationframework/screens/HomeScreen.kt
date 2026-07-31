@@ -7,10 +7,13 @@ import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.SyncAlt
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -27,12 +30,12 @@ fun HomeScreen() {
         title = "Mobile Foundation SDK",
         subtitle = "A modular Android foundation library with clean SDK boundaries and a sample app for manual verification.",
         icon = Icons.Filled.Home,
-        status = "FWK-29 sample"
+        status = "FWK-37 sample"
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "8"),
-                DemoMetric(label = "Live demos", value = "5"),
+                DemoMetric(label = "SDK modules", value = "12"),
+                DemoMetric(label = "Live demos", value = "7"),
                 DemoMetric(label = "UI modules", value = "0")
             )
         )
@@ -100,6 +103,34 @@ fun HomeScreen() {
                     status = "Live",
                     icon = Icons.Filled.Lock
                 )
+
+                ModuleRow(
+                    name = "network-okhttp",
+                    description = "OkHttp interceptors, retry rules, and network error mapping utilities.",
+                    status = "Ready",
+                    icon = Icons.Filled.SyncAlt
+                )
+
+                ModuleRow(
+                    name = "remote-config",
+                    description = "Provider-neutral typed remote configuration contracts.",
+                    status = "Ready",
+                    icon = Icons.Filled.Tune
+                )
+
+                ModuleRow(
+                    name = "remote-config-firebase",
+                    description = "Firebase Remote Config provider implementation with defaults and fetch support.",
+                    status = "Live",
+                    icon = Icons.Filled.Cloud
+                )
+
+                ModuleRow(
+                    name = "feature-flags",
+                    description = "Typed feature flag contracts with static provider evaluation for samples and tests.",
+                    status = "Live",
+                    icon = Icons.Filled.Flag
+                )
             }
         }
 
@@ -113,11 +144,13 @@ fun HomeScreen() {
             InfoRow(label = "Firebase + Google bridge", value = "Ready")
             InfoRow(label = "Runtime permissions", value = "Ready")
             InfoRow(label = "Secure storage", value = "Ready")
+            InfoRow(label = "Remote config", value = "Ready")
+            InfoRow(label = "Feature flags", value = "Ready")
         }
 
         DemoSection(
             title = "Current boundary",
-            description = "Upcoming networking modules are intentionally not created in this UI pass.",
+            description = "Upcoming notification, media picker, background work, analytics, app versioning, and deep link modules are intentionally not created in this UI pass.",
             leadingIcon = Icons.Filled.BugReport
         ) {
             Text(

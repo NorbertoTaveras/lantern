@@ -50,6 +50,8 @@ import com.norbertotaveras.mobilefoundationframework.screens.GoogleAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.HomeScreen
 import com.norbertotaveras.mobilefoundationframework.screens.LoggingScreen
 import com.norbertotaveras.mobilefoundationframework.screens.PermissionsScreen
+import com.norbertotaveras.mobilefoundationframework.screens.FeatureFlagsScreen
+import com.norbertotaveras.mobilefoundationframework.screens.RemoteConfigScreen
 import com.norbertotaveras.mobilefoundationframework.screens.SecureStorageScreen
 import kotlinx.coroutines.launch
 
@@ -241,7 +243,9 @@ private fun SampleDestination.drawerBadge(): String? {
         SampleDestination.GoogleAuth,
         SampleDestination.FirebaseGoogleAuth,
         SampleDestination.Permissions,
-        SampleDestination.SecureStorage -> "Live"
+        SampleDestination.SecureStorage,
+        SampleDestination.RemoteConfig,
+        SampleDestination.FeatureFlags -> "Live"
 
         SampleDestination.Home -> "Now"
         SampleDestination.AuthState,
@@ -288,6 +292,14 @@ private fun SampleNavHost(
 
         composable(SampleDestination.SecureStorage.route) {
             SecureStorageScreen()
+        }
+
+        composable(SampleDestination.RemoteConfig.route) {
+            RemoteConfigScreen()
+        }
+
+        composable(SampleDestination.FeatureFlags.route) {
+            FeatureFlagsScreen()
         }
 
         composable(SampleDestination.Logging.route) {

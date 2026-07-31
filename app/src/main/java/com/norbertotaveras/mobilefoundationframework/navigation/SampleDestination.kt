@@ -5,10 +5,12 @@ import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class SampleDestination(
@@ -66,6 +68,20 @@ sealed class SampleDestination(
         icon = Icons.Filled.Lock
     )
 
+    data object RemoteConfig : SampleDestination(
+        route = "remote_config",
+        title = "Remote Config",
+        description = "Firebase-backed config values",
+        icon = Icons.Filled.Tune
+    )
+
+    data object FeatureFlags : SampleDestination(
+        route = "feature_flags",
+        title = "Feature Flags",
+        description = "Typed flag evaluation",
+        icon = Icons.Filled.Flag
+    )
+
     data object Logging : SampleDestination(
         route = "logging",
         title = "Logging",
@@ -82,5 +98,7 @@ val sampleDestinations = listOf(
     SampleDestination.AuthState,
     SampleDestination.Permissions,
     SampleDestination.SecureStorage,
+    SampleDestination.RemoteConfig,
+    SampleDestination.FeatureFlags,
     SampleDestination.Logging
 )
