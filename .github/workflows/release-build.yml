@@ -6,7 +6,7 @@ on:
       - "release/**"
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 concurrency:
@@ -47,6 +47,16 @@ jobs:
           fi
 
           echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Validate release tag is unused
+        shell: bash
+        run: |
+          tag="v${MOBILE_FOUNDATION_VERSION}"
+
+          if git ls-remote --tags origin "refs/tags/${tag}" | grep -q .; then
+            echo "Release tag ${tag} already exists."
+            exit 1
+          fi
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -137,9 +147,23 @@ jobs:
           cd build/local-maven
           find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 shasum -a 256 > SHA256SUMS
 
+      - name: Package Maven release bundle
+        run: |
+          tar -czf "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz" -C build/local-maven .
+
       - name: Upload local Maven release
         uses: actions/upload-artifact@v4
         with:
           name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
           path: build/local-maven
           if-no-files-found: error
+
+      - name: Create GitHub release
+        run: |
+          gh release create "v${MOBILE_FOUNDATION_VERSION}" \
+            "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz#Mobile Foundation Maven ${MOBILE_FOUNDATION_VERSION}" \
+            --target "$GITHUB_SHA" \
+            --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
+            --notes "Published Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION} from ${GITHUB_REF_NAME}."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
