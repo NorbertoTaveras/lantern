@@ -1,0 +1,76 @@
+name: Android CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build SDK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build SDK modules
+        run: |
+          ./gradlew \
+            :sdk-core:build \
+            :logging:build \
+            :auth-core:build \
+            :auth-firebase:build \
+            :auth-google:build \
+            :auth-firebase-google:build \
+            :permissions:build \
+            :secure-storage:build \
+            :network-okhttp:build \
+            :remote-config:build \
+            :remote-config-firebase:build \
+            :feature-flags:build \
+            :notifications:build \
+            :notifications-firebase:build \
+            :media-picker:build \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Validate local Maven publishing
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write sample app Firebase config
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+
+      - name: Build sample app
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: ./gradlew :app:build --no-configuration-cache --max-workers=2
