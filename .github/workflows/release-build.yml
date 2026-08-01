@@ -147,6 +147,55 @@ jobs:
           cd build/local-maven
           find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 shasum -a 256 > SHA256SUMS
 
+      - name: Generate release provenance
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          local_maven = Path("build/local-maven")
+          modules = []
+
+          for pom in sorted(local_maven.rglob("*.pom")):
+              root = ET.parse(pom).getroot()
+              namespace = {"m": root.tag.split("}")[0].strip("{")} if root.tag.startswith("{") else {}
+
+              def text(name):
+                  path = f"m:{name}" if namespace else name
+                  value = root.findtext(path, namespaces=namespace)
+                  return value or ""
+
+              modules.append(
+                  {
+                      "groupId": text("groupId"),
+                      "artifactId": text("artifactId"),
+                      "version": text("version"),
+                      "pom": str(pom.relative_to(local_maven)),
+                  }
+              )
+
+          provenance = {
+              "name": "Mobile Foundation SDK",
+              "version": os.environ["MOBILE_FOUNDATION_VERSION"],
+              "tag": f"v{os.environ['MOBILE_FOUNDATION_VERSION']}",
+              "branch": os.environ["GITHUB_REF_NAME"],
+              "commit": os.environ["GITHUB_SHA"],
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "runId": os.environ["GITHUB_RUN_ID"],
+              "runAttempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "mavenRepository": "build/local-maven",
+              "checksumFile": "SHA256SUMS",
+              "bundleFile": f"mobile-foundation-maven-{os.environ['MOBILE_FOUNDATION_VERSION']}.tgz",
+              "artifactFileCount": sum(1 for path in local_maven.rglob("*") if path.is_file()),
+              "modules": modules,
+          }
+
+          output = Path("build/release-provenance.json")
+          output.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
+          PY
+
       - name: Package Maven release bundle
         run: |
           tar -czf "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz" -C build/local-maven .
@@ -155,13 +204,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
-          path: build/local-maven
+          path: |
+            build/local-maven
+            build/release-provenance.json
           if-no-files-found: error
 
       - name: Create GitHub release
         run: |
           gh release create "v${MOBILE_FOUNDATION_VERSION}" \
             "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz#Mobile Foundation Maven ${MOBILE_FOUNDATION_VERSION}" \
+            "build/release-provenance.json#Release provenance ${MOBILE_FOUNDATION_VERSION}" \
             --target "$GITHUB_SHA" \
             --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
             --notes "Published Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION} from ${GITHUB_REF_NAME}."
