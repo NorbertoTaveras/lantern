@@ -37,8 +37,8 @@ jobs:
             exit 1
           fi
 
-          if [[ "$MOBILE_FOUNDATION_VERSION" != *-SNAPSHOT ]]; then
-            echo "Develop snapshot versions must end with -SNAPSHOT."
+          if [[ ! "$MOBILE_FOUNDATION_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?-SNAPSHOT$ ]]; then
+            echo "Develop snapshot versions must use x.y.z-SNAPSHOT or x.y.z-prerelease-SNAPSHOT."
             exit 1
           fi
 
@@ -97,6 +97,9 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
+      - name: Prepare local Maven snapshot repository
+        run: rm -rf build/local-maven
+
       - name: Publish local Maven snapshot
         run: |
           ./gradlew \
@@ -112,6 +115,11 @@ jobs:
       - name: Build sample app
         if: env.GOOGLE_SERVICES_JSON != ''
         run: ./gradlew :app:build --no-configuration-cache --max-workers=2
+
+      - name: Generate Maven snapshot checksums
+        run: |
+          cd build/local-maven
+          find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 shasum -a 256 > SHA256SUMS
 
       - name: Upload local Maven snapshot
         uses: actions/upload-artifact@v4

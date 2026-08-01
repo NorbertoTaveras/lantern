@@ -41,6 +41,11 @@ jobs:
             exit 1
           fi
 
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "Release branch versions must use x.y.z or x.y.z-prerelease."
+            exit 1
+          fi
+
           echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
 
       - name: Set up JDK
@@ -98,6 +103,9 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
+      - name: Prepare local Maven release repository
+        run: rm -rf build/local-maven
+
       - name: Publish local Maven release
         run: |
           ./gradlew \
@@ -123,6 +131,11 @@ jobs:
       - name: Build sample app
         if: env.GOOGLE_SERVICES_JSON != ''
         run: ./gradlew :app:build --no-configuration-cache --max-workers=2
+
+      - name: Generate Maven release checksums
+        run: |
+          cd build/local-maven
+          find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 shasum -a 256 > SHA256SUMS
 
       - name: Upload local Maven release
         uses: actions/upload-artifact@v4
