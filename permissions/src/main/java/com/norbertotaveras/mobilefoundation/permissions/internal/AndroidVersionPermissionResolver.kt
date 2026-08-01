@@ -1,10 +1,12 @@
 package com.norbertotaveras.mobilefoundation.permissions.internal
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Build
 import com.norbertotaveras.mobilefoundation.permissions.PermissionStatus
 import com.norbertotaveras.mobilefoundation.permissions.SdkPermission
 
+@SuppressLint("InlinedApi")
 class AndroidVersionPermissionResolver(
     private val sdkInt: Int = Build.VERSION.SDK_INT
 ) {

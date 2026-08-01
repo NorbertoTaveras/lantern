@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -17,10 +18,30 @@ subprojects {
         .orElse("0.1.0-SNAPSHOT")
         .get()
 
+    plugins.withId("com.android.application") {
+        extensions.configure<ApplicationExtension>("android") {
+            lint {
+                abortOnError = true
+                checkDependencies = true
+                warningsAsErrors = true
+                disable += "GradleDependency"
+                disable += "AndroidGradlePluginVersion"
+            }
+        }
+    }
+
     plugins.withId("com.android.library") {
         apply(plugin = "maven-publish")
 
         extensions.configure<LibraryExtension>("android") {
+            lint {
+                abortOnError = true
+                checkDependencies = true
+                warningsAsErrors = true
+                disable += "GradleDependency"
+                disable += "AndroidGradlePluginVersion"
+            }
+
             publishing {
                 singleVariant("release") {
                     withSourcesJar()
