@@ -1,0 +1,31 @@
+package com.norbertotaveras.mobilefoundation.notifications.firebase
+
+import com.google.firebase.messaging.FirebaseMessaging
+import com.norbertotaveras.mobilefoundation.core.SdkResult
+import com.norbertotaveras.mobilefoundation.notifications.NotificationTopic
+import com.norbertotaveras.mobilefoundation.notifications.NotificationTopicManager
+import kotlinx.coroutines.tasks.await
+
+class FirebaseMessagingTopicManager(
+    private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
+    private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
+) : NotificationTopicManager {
+
+    override suspend fun subscribe(topic: NotificationTopic): SdkResult<Unit> {
+        return try {
+            firebaseMessaging.subscribeToTopic(topic.value).await()
+            SdkResult.Success(Unit)
+        } catch (throwable: Throwable) {
+            SdkResult.Failure(errorMapper.map(FirebaseMessagingErrorMapper.Operation.SubscribeTopic, throwable))
+        }
+    }
+
+    override suspend fun unsubscribe(topic: NotificationTopic): SdkResult<Unit> {
+        return try {
+            firebaseMessaging.unsubscribeFromTopic(topic.value).await()
+            SdkResult.Success(Unit)
+        } catch (throwable: Throwable) {
+            SdkResult.Failure(errorMapper.map(FirebaseMessagingErrorMapper.Operation.UnsubscribeTopic, throwable))
+        }
+    }
+}
