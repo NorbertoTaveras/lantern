@@ -1,0 +1,48 @@
+name: Dependency Security
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "24 10 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dependency-security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-submission:
+    name: Submit Gradle Dependency Graph
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          dependency-graph: generate-submit-and-upload
+
+      - name: Write dependency security summary
+        run: |
+          {
+            echo "## Dependency security"
+            echo
+            echo "- Submitted the Gradle dependency graph for Dependabot alerts."
+            echo "- Uploaded the generated dependency graph artifact for auditability."
+            echo "- Source ref: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+          } >> "$GITHUB_STEP_SUMMARY"
