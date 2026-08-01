@@ -7,4 +7,5 @@ object MediaPickerErrorCodes {
     const val PICKER_UNAVAILABLE = "media_picker_unavailable"
     const val PERMISSION_DENIED = "media_picker_permission_denied"
     const val SELECTION_FAILED = "media_picker_selection_failed"
+    const val RESULT_MAPPING_FAILED = "media_picker_result_mapping_failed"
 }

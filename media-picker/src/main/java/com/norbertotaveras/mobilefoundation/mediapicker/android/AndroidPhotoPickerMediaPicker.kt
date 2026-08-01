@@ -1,0 +1,35 @@
+package com.norbertotaveras.mobilefoundation.mediapicker.android
+
+import com.norbertotaveras.mobilefoundation.core.SdkError
+import com.norbertotaveras.mobilefoundation.core.SdkResult
+import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest
+import com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker
+import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerErrorCodes
+import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult
+
+class AndroidPhotoPickerMediaPicker(
+    private val launcher: AndroidPhotoPickerLauncher,
+    private val requestMapper: AndroidPhotoPickerRequestMapper = AndroidPhotoPickerRequestMapper()
+) : MediaPicker {
+
+    override suspend fun pick(request: MediaPickRequest): SdkResult<MediaPickerResult> {
+        return when (val validation = request.validate()) {
+            is SdkResult.Failure -> validation
+            is SdkResult.Success -> launchPicker(validation.data)
+        }
+    }
+
+    private suspend fun launchPicker(request: MediaPickRequest): SdkResult<MediaPickerResult> {
+        return try {
+            SdkResult.Success(launcher.launch(requestMapper.map(request)))
+        } catch (throwable: Throwable) {
+            SdkResult.Failure(
+                SdkError(
+                    code = MediaPickerErrorCodes.SELECTION_FAILED,
+                    message = throwable.localizedMessage ?: "Unable to launch Android Photo Picker.",
+                    cause = throwable
+                )
+            )
+        }
+    }
+}

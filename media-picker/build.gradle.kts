@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
