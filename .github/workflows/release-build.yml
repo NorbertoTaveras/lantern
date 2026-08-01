@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 concurrency:
   group: release-build-${{ github.ref }}
@@ -104,6 +105,16 @@ jobs:
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
+
+      - name: Publish GitHub Packages release
+        run: |
+          ./gradlew \
+            publishAllPublicationsToGitHubPackagesRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Write sample app Firebase config
         if: env.GOOGLE_SERVICES_JSON != ''

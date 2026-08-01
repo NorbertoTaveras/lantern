@@ -59,6 +59,27 @@ subprojects {
                         .asFile
                         .toURI()
                 }
+                maven {
+                    name = "gitHubPackages"
+                    url = uri(
+                        "https://maven.pkg.github.com/${
+                            providers.gradleProperty("GITHUB_PACKAGES_REPOSITORY")
+                                .orElse(providers.environmentVariable("GITHUB_REPOSITORY"))
+                                .orElse("norbertotaveras/android_mobilefoundation_framework")
+                                .get()
+                        }"
+                    )
+                    credentials {
+                        username = providers.gradleProperty("GITHUB_PACKAGES_USERNAME")
+                            .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                            .orElse("")
+                            .get()
+                        password = providers.gradleProperty("GITHUB_PACKAGES_TOKEN")
+                            .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                            .orElse("")
+                            .get()
+                    }
+                }
             }
         }
 
