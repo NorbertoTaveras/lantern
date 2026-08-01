@@ -1,18 +1,10 @@
-name: Android CI
+name: Develop Snapshot
 
 on:
-  pull_request:
-    branches:
-      - develop
-      - main
-      - "release/**"
-  push:
-    branches:
-      - "release/**"
   workflow_dispatch:
     inputs:
       version:
-        description: Snapshot or release version to build.
+        description: Snapshot version to build from develop.
         required: true
         default: 0.1.0-SNAPSHOT
 
@@ -20,22 +12,35 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-ci-${{ github.ref }}
+  group: develop-snapshot-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Validate SDK
+  snapshot:
+    name: Build Snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      MOBILE_FOUNDATION_VERSION: 0.1.0-SNAPSHOT
+      MOBILE_FOUNDATION_VERSION: ${{ inputs.version }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Validate develop snapshot inputs
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_NAME}" != "develop" ]]; then
+            echo "Develop snapshots must be run from the develop branch."
+            exit 1
+          fi
+
+          if [[ "$MOBILE_FOUNDATION_VERSION" != *-SNAPSHOT ]]; then
+            echo "Develop snapshot versions must end with -SNAPSHOT."
+            exit 1
+          fi
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -48,15 +53,6 @@ jobs:
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
-
-      - name: Resolve build version
-        shell: bash
-        run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "MOBILE_FOUNDATION_VERSION=${{ inputs.version }}" >> "$GITHUB_ENV"
-          elif [[ "${GITHUB_REF_NAME}" == release/* ]]; then
-            echo "MOBILE_FOUNDATION_VERSION=${GITHUB_REF_NAME#release/}" >> "$GITHUB_ENV"
-          fi
 
       - name: Run SDK lint
         run: |
@@ -101,7 +97,7 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Validate local Maven publishing
+      - name: Publish local Maven snapshot
         run: |
           ./gradlew \
             publishAllPublicationsToMobileFoundationLocalRepository \
@@ -117,8 +113,7 @@ jobs:
         if: env.GOOGLE_SERVICES_JSON != ''
         run: ./gradlew :app:build --no-configuration-cache --max-workers=2
 
-      - name: Upload local Maven artifacts
-        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref_name, 'release/')
+      - name: Upload local Maven snapshot
         uses: actions/upload-artifact@v4
         with:
           name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}

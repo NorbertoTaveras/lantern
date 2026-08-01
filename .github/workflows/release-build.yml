@@ -1,0 +1,121 @@
+name: Release Build
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Build Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Resolve release version
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#release/}"
+
+          if [[ -z "$version" || "$version" == "$GITHUB_REF_NAME" ]]; then
+            echo "Release builds must run from release/{version} branches."
+            exit 1
+          fi
+
+          if [[ "$version" == *SNAPSHOT* ]]; then
+            echo "Release branch versions must not contain SNAPSHOT."
+            exit 1
+          fi
+
+          echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run SDK lint
+        run: |
+          ./gradlew \
+            :sdk-core:lint \
+            :logging:lint \
+            :auth-core:lint \
+            :auth-firebase:lint \
+            :auth-google:lint \
+            :auth-firebase-google:lint \
+            :permissions:lint \
+            :secure-storage:lint \
+            :network-okhttp:lint \
+            :remote-config:lint \
+            :remote-config-firebase:lint \
+            :feature-flags:lint \
+            :notifications:lint \
+            :notifications-firebase:lint \
+            :media-picker:lint \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Build SDK modules
+        run: |
+          ./gradlew \
+            :sdk-core:build \
+            :logging:build \
+            :auth-core:build \
+            :auth-firebase:build \
+            :auth-google:build \
+            :auth-firebase-google:build \
+            :permissions:build \
+            :secure-storage:build \
+            :network-okhttp:build \
+            :remote-config:build \
+            :remote-config-firebase:build \
+            :feature-flags:build \
+            :notifications:build \
+            :notifications-firebase:build \
+            :media-picker:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Publish local Maven release
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write sample app Firebase config
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+
+      - name: Build sample app
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: ./gradlew :app:build --no-configuration-cache --max-workers=2
+
+      - name: Upload local Maven release
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
+          path: build/local-maven
+          if-no-files-found: error
