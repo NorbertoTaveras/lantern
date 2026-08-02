@@ -27,6 +27,8 @@ jobs:
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      GITHUB_PACKAGES_USERNAME: ${{ github.actor }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MOBILE_FOUNDATION_BASE_VERSION: ${{ inputs.base_version }}
 
     steps:

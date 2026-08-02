@@ -19,6 +19,25 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "gitHubPackages"
+            url = uri("https://maven.pkg.github.com/norbertotaveras/android_mobilefoundation_framework")
+            credentials {
+                username = providers.gradleProperty("GITHUB_PACKAGES_USERNAME")
+                    .orElse(providers.environmentVariable("GITHUB_PACKAGES_USERNAME"))
+                    .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .orElse("")
+                    .get()
+                password = providers.gradleProperty("GITHUB_PACKAGES_TOKEN")
+                    .orElse(providers.environmentVariable("GITHUB_PACKAGES_TOKEN"))
+                    .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .orElse("")
+                    .get()
+            }
+            content {
+                includeGroup("com.norbertotaveras.mobilefoundation")
+            }
+        }
     }
 }
 

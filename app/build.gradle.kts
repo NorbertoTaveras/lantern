@@ -57,18 +57,21 @@ android {
     }
 }
 
+val mobileFoundationVersion = providers.gradleProperty("SAMPLE_APP_MOBILE_FOUNDATION_VERSION")
+    .orElse("0.1.0-dev.2-SNAPSHOT")
+
 dependencies {
-    implementation(project(":sdk-core"))
-    implementation(project(":logging"))
-    implementation(project(":auth-core"))
-    implementation(project(":auth-firebase"))
-    implementation(project(":auth-google"))
-    implementation(project(":auth-firebase-google"))
-    implementation(project(":permissions"))
-    implementation(project(":secure-storage"))
-    implementation(project(":remote-config"))
-    implementation(project(":remote-config-firebase"))
-    implementation(project(":feature-flags"))
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-google:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase-google:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-permissions:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-storage:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config-firebase:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-flags:${mobileFoundationVersion.get()}")
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
