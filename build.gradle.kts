@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.plugins.signing.SigningExtension
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -32,6 +33,7 @@ subprojects {
 
     plugins.withId("com.android.library") {
         apply(plugin = "maven-publish")
+        apply(plugin = "signing")
 
         extensions.configure<LibraryExtension>("android") {
             lint {
@@ -98,6 +100,20 @@ subprojects {
                             description.set("Mobile Foundation SDK module ${project.name}.")
                         }
                     }
+                }
+            }
+
+            val signingKey = providers.gradleProperty("MAVEN_SIGNING_KEY")
+                .orElse(providers.environmentVariable("MAVEN_SIGNING_KEY"))
+                .orNull
+            val signingPassword = providers.gradleProperty("MAVEN_SIGNING_PASSWORD")
+                .orElse(providers.environmentVariable("MAVEN_SIGNING_PASSWORD"))
+                .orNull
+
+            if (!signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
+                extensions.configure<SigningExtension>("signing") {
+                    useInMemoryPgpKeys(signingKey, signingPassword)
+                    sign(extensions.getByType(PublishingExtension::class.java).publications["release"])
                 }
             }
         }
