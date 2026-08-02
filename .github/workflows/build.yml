@@ -1,0 +1,81 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - "release/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Android Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      MOBILE_FOUNDATION_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Write sample app Firebase config
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+
+      - name: Build project
+        run: |
+          ./gradlew \
+            clean \
+            build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Prepare local Maven repository
+        run: rm -rf build/local-maven
+
+      - name: Publish SDK artifacts to local Maven
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Upload local Maven artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mobile-foundation-build-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
+          path: build/local-maven
+          if-no-files-found: error
+
+      - name: Upload sample app APKs
+        if: env.GOOGLE_SERVICES_JSON != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mobile-foundation-sample-app-${{ github.run_number }}
+          path: app/build/outputs/apk/**/*.apk
+          if-no-files-found: error
