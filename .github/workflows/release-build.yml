@@ -1,4 +1,4 @@
-name: Release Build
+name: Publish Android Library
 
 on:
   push:
@@ -14,10 +14,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release:
-    name: Build Release
+  validate-release:
+    name: Validate Release
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      mobile-foundation-version: ${{ steps.version.outputs.mobile-foundation-version }}
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -25,8 +27,11 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate release inputs
+        id: version
         run: bash .github/scripts/validate-release-version.sh
 
       - name: Set up JDK
@@ -98,6 +103,84 @@ jobs:
           MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
           MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
 
+      - name: Write sample app Firebase config
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+
+      - name: Build sample app
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: ./gradlew :app:build --no-configuration-cache --max-workers=2
+
+      - name: Prepare Maven release artifacts
+        run: python3 .github/scripts/prepare-maven-artifacts.py
+
+      - name: Check duplicate GitHub package versions
+        run: bash .github/scripts/check-github-package-version.sh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate release notes
+        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
+
+      - name: Upload local Maven release
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
+          path: |
+            build/local-maven
+            build/mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}.tgz
+            build/release-provenance.json
+            build/release-assets/*
+            build/release-notes.md
+          if-no-files-found: error
+
+  publish-library:
+    name: Publish Android Library
+    needs: validate-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: github-packages
+
+    env:
+      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-release.outputs.mobile-foundation-version }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Prepare local Maven release repository
+        run: rm -rf build/local-maven
+
+      - name: Publish local Maven release
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+        env:
+          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
+          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
+
+      - name: Check duplicate GitHub package versions
+        run: bash .github/scripts/check-github-package-version.sh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish GitHub Packages release
         run: |
           ./gradlew \
@@ -110,33 +193,20 @@ jobs:
           MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
           MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
 
-      - name: Write sample app Firebase config
-        if: env.GOOGLE_SERVICES_JSON != ''
-        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
-
-      - name: Build sample app
-        if: env.GOOGLE_SERVICES_JSON != ''
-        run: ./gradlew :app:build --no-configuration-cache --max-workers=2
-
       - name: Prepare Maven release artifacts
         run: python3 .github/scripts/prepare-maven-artifacts.py
 
-      - name: Upload local Maven release
-        uses: actions/upload-artifact@v4
-        with:
-          name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
-          path: |
-            build/local-maven
-            build/release-provenance.json
-          if-no-files-found: error
+      - name: Generate release notes
+        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
 
       - name: Create GitHub release
         run: |
           gh release create "v${MOBILE_FOUNDATION_VERSION}" \
             "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz#Mobile Foundation Maven ${MOBILE_FOUNDATION_VERSION}" \
             "build/release-provenance.json#Release provenance ${MOBILE_FOUNDATION_VERSION}" \
+            build/release-assets/* \
             --target "$GITHUB_SHA" \
             --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
-            --notes "Published Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION} from ${GITHUB_REF_NAME}."
+            --notes-file build/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

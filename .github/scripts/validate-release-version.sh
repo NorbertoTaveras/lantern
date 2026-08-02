@@ -26,3 +26,4 @@ if git ls-remote --tags origin "refs/tags/${tag}" | grep -q .; then
 fi
 
 echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
+echo "mobile-foundation-version=$version" >> "$GITHUB_OUTPUT"
