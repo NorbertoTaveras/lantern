@@ -111,6 +111,15 @@ jobs:
         if: env.GOOGLE_SERVICES_JSON != ''
         run: ./gradlew :app:build --no-configuration-cache --max-workers=2
 
+      - name: Build consumer smoke app
+        run: |
+          ./gradlew \
+            -p consumer-smoke \
+            :app:assembleDebug \
+            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
       - name: Prepare Maven release artifacts
         run: python3 .github/scripts/prepare-maven-artifacts.py
 
