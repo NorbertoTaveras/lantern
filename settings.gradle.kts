@@ -1,3 +1,5 @@
+import java.util.Properties
+
 pluginManagement {
     repositories {
         google {
@@ -14,6 +16,19 @@ pluginManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
+}
+
+fun localProperty(name: String) = providers.provider {
+    localProperties.getProperty(name).orEmpty()
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -26,11 +41,13 @@ dependencyResolutionManagement {
                 username = providers.gradleProperty("GITHUB_PACKAGES_USERNAME")
                     .orElse(providers.environmentVariable("GITHUB_PACKAGES_USERNAME"))
                     .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .orElse(localProperty("GITHUB_PACKAGES_USERNAME"))
                     .orElse("")
                     .get()
                 password = providers.gradleProperty("GITHUB_PACKAGES_TOKEN")
                     .orElse(providers.environmentVariable("GITHUB_PACKAGES_TOKEN"))
                     .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .orElse(localProperty("GITHUB_PACKAGES_TOKEN"))
                     .orElse("")
                     .get()
             }
