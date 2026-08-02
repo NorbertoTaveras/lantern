@@ -16,7 +16,7 @@ jobs:
     name: Validate Release Without Publishing
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras'
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}

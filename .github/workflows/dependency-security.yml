@@ -17,7 +17,7 @@ jobs:
     name: Submit Gradle Dependency Graph
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras'
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
 
     steps:
       - name: Check out repository
