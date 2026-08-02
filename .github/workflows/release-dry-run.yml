@@ -16,6 +16,7 @@ jobs:
     name: Validate Release Without Publishing
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras'
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -37,6 +38,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -80,6 +84,14 @@ jobs:
             :notifications:build \
             :notifications-firebase:build \
             :media-picker:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2

@@ -17,6 +17,7 @@ jobs:
     name: Submit Gradle Dependency Graph
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras'
 
     steps:
       - name: Check out repository
@@ -28,6 +29,9 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
+
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
@@ -37,10 +41,12 @@ jobs:
           dependency-graph: generate-submit-and-upload
 
       - name: Write dependency security summary
+        if: always()
         run: |
           {
             echo "## Dependency security"
             echo
+            echo "- Status: ${{ job.status }}"
             echo "- Submitted the Gradle dependency graph for Dependabot alerts."
             echo "- Uploaded the generated dependency graph artifact for auditability."
             echo "- Source ref: ${GITHUB_REF_NAME}"

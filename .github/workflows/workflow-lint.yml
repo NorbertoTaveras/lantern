@@ -20,6 +20,7 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras'
 
     env:
       ACTIONLINT_VERSION: 1.7.12
@@ -42,3 +43,15 @@ jobs:
 
       - name: Lint workflows
         run: actionlint -color
+
+      - name: Write workflow lint summary
+        if: always()
+        run: |
+          {
+            echo "## Workflow lint"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Linter: actionlint ${ACTIONLINT_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+          } >> "$GITHUB_STEP_SUMMARY"

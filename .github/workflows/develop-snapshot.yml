@@ -21,6 +21,7 @@ jobs:
     name: Validate Snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     outputs:
       mobile-foundation-version: ${{ steps.snapshot-version.outputs.mobile-foundation-version }}
 
@@ -44,6 +45,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -91,6 +95,14 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
       - name: Prepare local Maven snapshot repository
         run: rm -rf build/local-maven
 
@@ -125,6 +137,11 @@ jobs:
       - name: Prepare Maven snapshot artifacts
         run: python3 .github/scripts/prepare-maven-artifacts.py --snapshot
 
+      - name: Check duplicate GitHub package versions
+        run: bash .github/scripts/check-github-package-version.sh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload local Maven snapshot
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -136,11 +153,25 @@ jobs:
             build/release-assets/*
           if-no-files-found: error
 
+      - name: Write snapshot validation summary
+        if: always()
+        run: |
+          {
+            echo "## Snapshot validation"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated lint, builds, publishing readiness, duplicate package versions, and consumer smoke app."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   publish-snapshot:
     name: Publish Develop Snapshot
     needs: validate-snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     environment: github-packages
 
     env:
@@ -159,8 +190,30 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
+
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
+
+      - name: Prepare local Maven snapshot repository
+        run: rm -rf build/local-maven
+
+      - name: Publish local Maven snapshot
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+        env:
+          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
+          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
+
+      - name: Check duplicate GitHub package versions
+        run: bash .github/scripts/check-github-package-version.sh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish GitHub Packages snapshot
         run: |
@@ -173,3 +226,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
           MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
+
+      - name: Write snapshot publish summary
+        if: always()
+        run: |
+          {
+            echo "## Snapshot publish"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Environment: github-packages"
+            echo "- Published to GitHub Packages after protected environment approval."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish failure guidance
+        if: failure()
+        run: |
+          {
+            echo "## Snapshot publish troubleshooting"
+            echo
+            echo "- Confirm the github-packages environment approval was granted."
+            echo "- Confirm the workflow token has packages:write permission."
+            echo "- Confirm the generated snapshot version was not already published."
+            echo "- Check MAVEN_SIGNING_KEY and MAVEN_SIGNING_PASSWORD only if signing tasks failed."
+          } >> "$GITHUB_STEP_SUMMARY"

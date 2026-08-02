@@ -18,6 +18,7 @@ jobs:
     name: Validate Release
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     outputs:
       mobile-foundation-version: ${{ steps.version.outputs.mobile-foundation-version }}
 
@@ -42,6 +43,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -85,6 +89,14 @@ jobs:
             :notifications:build \
             :notifications-firebase:build \
             :media-picker:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
@@ -143,11 +155,25 @@ jobs:
             build/release-notes.md
           if-no-files-found: error
 
+      - name: Write release validation summary
+        if: always()
+        run: |
+          {
+            echo "## Release validation"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated lint, builds, publishing readiness, duplicate package versions, release assets, and release notes."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   publish-library:
     name: Publish Android Library
     needs: validate-release
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     environment: github-packages
 
     env:
@@ -167,6 +193,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "platforms;android-37" "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -219,3 +248,28 @@ jobs:
             --notes-file build/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write release publish summary
+        if: always()
+        run: |
+          {
+            echo "## Release publish"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Environment: github-packages"
+            echo "- Published to GitHub Packages after duplicate-version validation."
+            echo "- Created GitHub release v${MOBILE_FOUNDATION_VERSION} with Maven archive, provenance, staged AAR/POM/module assets, and release notes."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish failure guidance
+        if: failure()
+        run: |
+          {
+            echo "## Release publish troubleshooting"
+            echo
+            echo "- Confirm the github-packages environment approval was granted."
+            echo "- Confirm the workflow token has contents:write and packages:write permissions."
+            echo "- Confirm v${MOBILE_FOUNDATION_VERSION} and its GitHub Packages versions do not already exist."
+            echo "- Check MAVEN_SIGNING_KEY and MAVEN_SIGNING_PASSWORD only if signing tasks failed."
+          } >> "$GITHUB_STEP_SUMMARY"
