@@ -1,0 +1,45 @@
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    groups:
+      android-gradle-tooling:
+        patterns:
+          - "com.android.*"
+          - "org.jetbrains.kotlin*"
+          - "gradle"
+      android-compose:
+        patterns:
+          - "androidx.compose*"
+      android-firebase:
+        patterns:
+          - "com.google.firebase*"
+          - "com.google.gms*"
+      android-androidx:
+        patterns:
+          - "androidx.*"
+      android-test:
+        patterns:
+          - "junit*"
+          - "androidx.test*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:30"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
