@@ -50,8 +50,12 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Write sample app Firebase config
-        if: env.GOOGLE_SERVICES_JSON != ''
-        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        run: |
+          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          else
+            bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
+          fi
 
       - name: Build project
         run: |
@@ -115,6 +119,12 @@ jobs:
       - name: Write build summary
         if: always()
         run: |
+          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
+            firebase_config_source="secret"
+          else
+            firebase_config_source="ci-placeholder"
+          fi
+
           {
             echo "## Build"
             echo
@@ -122,6 +132,7 @@ jobs:
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
+            echo "- Firebase config source: ${firebase_config_source}"
             echo "- Validated SDK publishing readiness checks."
             echo "- Published SDK artifacts to local Maven for consumer smoke testing."
           } >> "$GITHUB_STEP_SUMMARY"
