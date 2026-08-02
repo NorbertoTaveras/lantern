@@ -47,8 +47,8 @@ jobs:
       - name: Install Android SDK packages
         run: |
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
-            "platforms;android-36" \
-            "platforms;android-37" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
             "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
@@ -201,8 +201,8 @@ jobs:
       - name: Install Android SDK packages
         run: |
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
-            "platforms;android-36" \
-            "platforms;android-37" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
             "build-tools;36.1.0"
 
       - name: Make Gradle wrapper executable
