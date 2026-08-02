@@ -26,37 +26,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Resolve release version
-        shell: bash
-        run: |
-          version="${GITHUB_REF_NAME#release/}"
-
-          if [[ -z "$version" || "$version" == "$GITHUB_REF_NAME" ]]; then
-            echo "Release builds must run from release/{version} branches."
-            exit 1
-          fi
-
-          if [[ "$version" == *SNAPSHOT* ]]; then
-            echo "Release branch versions must not contain SNAPSHOT."
-            exit 1
-          fi
-
-          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "Release branch versions must use x.y.z or x.y.z-prerelease."
-            exit 1
-          fi
-
-          echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
-
-      - name: Validate release tag is unused
-        shell: bash
-        run: |
-          tag="v${MOBILE_FOUNDATION_VERSION}"
-
-          if git ls-remote --tags origin "refs/tags/${tag}" | grep -q .; then
-            echo "Release tag ${tag} already exists."
-            exit 1
-          fi
+      - name: Validate release inputs
+        run: bash .github/scripts/validate-release-version.sh
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -147,63 +118,8 @@ jobs:
         if: env.GOOGLE_SERVICES_JSON != ''
         run: ./gradlew :app:build --no-configuration-cache --max-workers=2
 
-      - name: Generate Maven release checksums
-        run: |
-          cd build/local-maven
-          find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 shasum -a 256 > SHA256SUMS
-
-      - name: Generate release provenance
-        run: |
-          python3 - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          import xml.etree.ElementTree as ET
-
-          local_maven = Path("build/local-maven")
-          modules = []
-
-          for pom in sorted(local_maven.rglob("*.pom")):
-              root = ET.parse(pom).getroot()
-              namespace = {"m": root.tag.split("}")[0].strip("{")} if root.tag.startswith("{") else {}
-
-              def text(name):
-                  path = f"m:{name}" if namespace else name
-                  value = root.findtext(path, namespaces=namespace)
-                  return value or ""
-
-              modules.append(
-                  {
-                      "groupId": text("groupId"),
-                      "artifactId": text("artifactId"),
-                      "version": text("version"),
-                      "pom": str(pom.relative_to(local_maven)),
-                  }
-              )
-
-          provenance = {
-              "name": "Mobile Foundation SDK",
-              "version": os.environ["MOBILE_FOUNDATION_VERSION"],
-              "tag": f"v{os.environ['MOBILE_FOUNDATION_VERSION']}",
-              "branch": os.environ["GITHUB_REF_NAME"],
-              "commit": os.environ["GITHUB_SHA"],
-              "repository": os.environ["GITHUB_REPOSITORY"],
-              "runId": os.environ["GITHUB_RUN_ID"],
-              "runAttempt": os.environ["GITHUB_RUN_ATTEMPT"],
-              "mavenRepository": "build/local-maven",
-              "checksumFile": "SHA256SUMS",
-              "bundleFile": f"mobile-foundation-maven-{os.environ['MOBILE_FOUNDATION_VERSION']}.tgz",
-              "artifactFileCount": sum(1 for path in local_maven.rglob("*") if path.is_file()),
-              "modules": modules,
-          }
-
-          output = Path("build/release-provenance.json")
-          output.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
-          PY
-
-      - name: Package Maven release bundle
-        run: |
-          tar -czf "build/mobile-foundation-maven-${MOBILE_FOUNDATION_VERSION}.tgz" -C build/local-maven .
+      - name: Prepare Maven release artifacts
+        run: python3 .github/scripts/prepare-maven-artifacts.py
 
       - name: Upload local Maven release
         uses: actions/upload-artifact@v4
