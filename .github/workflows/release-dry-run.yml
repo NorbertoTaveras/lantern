@@ -22,7 +22,7 @@ jobs:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
       GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
-      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
     steps:
       - name: Check out repository
@@ -33,7 +33,7 @@ jobs:
       - name: Check GitHub Packages credentials
         if: env.GITHUB_PACKAGES_TOKEN == ''
         run: |
-          echo "GITHUB_PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
+          echo "PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
           exit 1
 
       - name: Validate release inputs
@@ -143,7 +143,7 @@ jobs:
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+          GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Generate dry-run release notes
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md

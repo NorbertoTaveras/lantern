@@ -29,7 +29,7 @@ jobs:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
       GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
-      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
       MOBILE_FOUNDATION_BASE_VERSION: ${{ inputs.base_version }}
 
     steps:
@@ -39,7 +39,7 @@ jobs:
       - name: Check GitHub Packages credentials
         if: env.GITHUB_PACKAGES_TOKEN == ''
         run: |
-          echo "GITHUB_PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
+          echo "PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
           exit 1
 
       - name: Resolve develop snapshot version
@@ -150,7 +150,7 @@ jobs:
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+          GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Write snapshot validation summary
         if: always()
@@ -178,7 +178,7 @@ jobs:
       MOBILE_FOUNDATION_VERSION: ${{ needs.validate-snapshot.outputs.mobile-foundation-version }}
       GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
-      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
     steps:
       - name: Check out repository
@@ -187,7 +187,7 @@ jobs:
       - name: Check GitHub Packages credentials
         if: env.GITHUB_PACKAGES_TOKEN == ''
         run: |
-          echo "GITHUB_PACKAGES_TOKEN is required to publish private SDK packages to ${GITHUB_PACKAGES_REPOSITORY}."
+          echo "PACKAGES_TOKEN is required to publish private SDK packages to ${GITHUB_PACKAGES_REPOSITORY}."
           exit 1
 
       - name: Set up JDK
@@ -226,7 +226,7 @@ jobs:
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
+          GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Publish GitHub Packages snapshot
         run: |
@@ -258,7 +258,7 @@ jobs:
             echo "## Snapshot publish troubleshooting"
             echo
             echo "- Confirm the github-packages environment approval was granted."
-            echo "- Confirm GITHUB_PACKAGES_TOKEN has read:packages, write:packages, and access to the private package repository."
+            echo "- Confirm PACKAGES_TOKEN has read:packages, write:packages, and access to the private package repository."
             echo "- Confirm the generated snapshot version was not already published."
             echo "- Check MAVEN_SIGNING_KEY and MAVEN_SIGNING_PASSWORD only if signing tasks failed."
           } >> "$GITHUB_STEP_SUMMARY"
