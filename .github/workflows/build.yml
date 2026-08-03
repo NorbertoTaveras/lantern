@@ -104,28 +104,6 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Upload local Maven artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: mobile-foundation-build-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
-          path: build/local-maven
-          if-no-files-found: error
-
-      - name: Upload sample app APKs
-        if: env.GOOGLE_SERVICES_JSON != ''
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: mobile-foundation-sample-app-${{ github.run_number }}
-          path: app/build/outputs/apk/**/*.apk
-          if-no-files-found: error
-
-      - name: Upload consumer smoke APK
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: mobile-foundation-consumer-smoke-${{ github.run_number }}
-          path: consumer-smoke/app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-
       - name: Write build summary
         if: always()
         run: |
@@ -145,4 +123,5 @@ jobs:
             echo "- Firebase config source: ${firebase_config_source}"
             echo "- Validated SDK publishing readiness checks."
             echo "- Published SDK artifacts to local Maven for consumer smoke testing."
+            echo "- Binary artifacts: not uploaded from public-source CI; SDK artifacts publish only through protected package workflows."
           } >> "$GITHUB_STEP_SUMMARY"

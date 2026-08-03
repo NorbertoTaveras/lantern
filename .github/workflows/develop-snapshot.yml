@@ -147,24 +147,10 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Prepare Maven snapshot artifacts
-        run: python3 .github/scripts/prepare-maven-artifacts.py --snapshot
-
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
-
-      - name: Upload local Maven snapshot
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}
-          path: |
-            build/local-maven
-            build/mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}-snapshot.tgz
-            build/snapshot-provenance.json
-            build/release-assets/*
-          if-no-files-found: error
 
       - name: Write snapshot validation summary
         if: always()
@@ -177,6 +163,7 @@ jobs:
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated lint, builds, publishing readiness, duplicate package versions, and consumer smoke app."
+            echo "- Binary artifacts: not uploaded from public-source CI; snapshot artifacts publish only to private GitHub Packages after approval."
           } >> "$GITHUB_STEP_SUMMARY"
 
   publish-snapshot:

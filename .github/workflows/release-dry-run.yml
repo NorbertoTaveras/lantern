@@ -140,9 +140,6 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Prepare Maven dry-run artifacts
-        run: python3 .github/scripts/prepare-maven-artifacts.py --dry-run
-
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
@@ -150,18 +147,6 @@ jobs:
 
       - name: Generate dry-run release notes
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md
-
-      - name: Upload Maven dry-run artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}-dry-run
-          path: |
-            build/local-maven
-            build/mobile-foundation-maven-${{ env.MOBILE_FOUNDATION_VERSION }}-dry-run.tgz
-            build/release-dry-run-provenance.json
-            build/release-assets/*
-            build/release-notes.md
-          if-no-files-found: error
 
       - name: Write release dry-run summary
         run: |
@@ -173,4 +158,5 @@ jobs:
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Published only to local Maven output."
             echo "- No GitHub Packages publish or GitHub Release was created."
+            echo "- Binary artifacts: not uploaded from public-source CI."
           } >> "$GITHUB_STEP_SUMMARY"
