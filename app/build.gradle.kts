@@ -58,7 +58,7 @@ android {
 }
 
 val mobileFoundationVersion = providers.gradleProperty("SAMPLE_APP_MOBILE_FOUNDATION_VERSION")
-    .orElse("0.1.0-dev.2-SNAPSHOT")
+    .orElse("0.1.0-dev.3-SNAPSHOT")
 
 dependencies {
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:${mobileFoundationVersion.get()}")
