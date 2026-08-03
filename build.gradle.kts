@@ -4,6 +4,19 @@ import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugins.signing.SigningExtension
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
+}
+
+fun localProperty(name: String) = providers.provider {
+    localProperties.getProperty(name)
+}
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -28,6 +41,7 @@ subprojects {
                 warningsAsErrors = true
                 disable += "GradleDependency"
                 disable += "AndroidGradlePluginVersion"
+                disable += "UseTomlInstead"
             }
         }
     }
@@ -43,6 +57,7 @@ subprojects {
                 warningsAsErrors = true
                 disable += "GradleDependency"
                 disable += "AndroidGradlePluginVersion"
+                disable += "UseTomlInstead"
             }
 
             publishing {
@@ -67,18 +82,24 @@ subprojects {
                     url = uri(
                         "https://maven.pkg.github.com/${
                             providers.gradleProperty("GITHUB_PACKAGES_REPOSITORY")
+                                .orElse(providers.environmentVariable("GITHUB_PACKAGES_REPOSITORY"))
+                                .orElse(localProperty("GITHUB_PACKAGES_REPOSITORY"))
                                 .orElse(providers.environmentVariable("GITHUB_REPOSITORY"))
-                                .orElse("norbertotaveras/android_mobilefoundation_framework")
+                                .orElse("NorbertoTaveras/android_mobilefoundation_packages")
                                 .get()
                         }"
                     )
                     credentials {
                         username = providers.gradleProperty("GITHUB_PACKAGES_USERNAME")
+                            .orElse(providers.environmentVariable("GITHUB_PACKAGES_USERNAME"))
                             .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                            .orElse(localProperty("GITHUB_PACKAGES_USERNAME"))
                             .orElse("")
                             .get()
                         password = providers.gradleProperty("GITHUB_PACKAGES_TOKEN")
+                            .orElse(providers.environmentVariable("GITHUB_PACKAGES_TOKEN"))
                             .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                            .orElse(localProperty("GITHUB_PACKAGES_TOKEN"))
                             .orElse("")
                             .get()
                     }

@@ -26,8 +26,13 @@ val localProperties = Properties().apply {
 }
 
 fun localProperty(name: String) = providers.provider {
-    localProperties.getProperty(name).orEmpty()
+    localProperties.getProperty(name)
 }
+
+val githubPackagesRepository = providers.gradleProperty("GITHUB_PACKAGES_REPOSITORY")
+    .orElse(providers.environmentVariable("GITHUB_PACKAGES_REPOSITORY"))
+    .orElse(localProperty("GITHUB_PACKAGES_REPOSITORY"))
+    .orElse("NorbertoTaveras/android_mobilefoundation_packages")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -36,7 +41,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven {
             name = "gitHubPackages"
-            url = uri("https://maven.pkg.github.com/norbertotaveras/android_mobilefoundation_framework")
+            url = uri("https://maven.pkg.github.com/${githubPackagesRepository.get()}")
             credentials {
                 username = providers.gradleProperty("GITHUB_PACKAGES_USERNAME")
                     .orElse(providers.environmentVariable("GITHUB_PACKAGES_USERNAME"))

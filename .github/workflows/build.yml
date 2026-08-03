@@ -25,13 +25,20 @@ jobs:
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      GITHUB_PACKAGES_USERNAME: ${{ github.actor }}
-      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.GITHUB_PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      GITHUB_PACKAGES_USERNAME: ${{ vars.GITHUB_PACKAGES_USERNAME || github.actor }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_PACKAGES_TOKEN }}
       MOBILE_FOUNDATION_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
 
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Check GitHub Packages credentials
+        if: env.GITHUB_PACKAGES_TOKEN == ''
+        run: |
+          echo "GITHUB_PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
+          exit 1
 
       - name: Set up JDK
         uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
