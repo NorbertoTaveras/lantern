@@ -67,11 +67,25 @@ jobs:
             bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
           fi
 
-      - name: Build project
+      - name: Build SDK modules
         run: |
           ./gradlew \
             clean \
-            build \
+            :sdk-core:build \
+            :logging:build \
+            :auth-core:build \
+            :auth-firebase:build \
+            :auth-google:build \
+            :auth-firebase-google:build \
+            :permissions:build \
+            :secure-storage:build \
+            :network-okhttp:build \
+            :remote-config:build \
+            :remote-config-firebase:build \
+            :feature-flags:build \
+            :notifications:build \
+            :notifications-firebase:build \
+            :media-picker:build \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
@@ -92,6 +106,15 @@ jobs:
           ./gradlew \
             publishAllPublicationsToMobileFoundationLocalRepository \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Build sample app from local SDK artifacts
+        run: |
+          ./gradlew \
+            :app:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 

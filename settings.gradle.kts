@@ -37,6 +37,13 @@ val githubPackagesRepository = providers.gradleProperty("GITHUB_PACKAGES_REPOSIT
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            name = "mobileFoundationLocal"
+            url = uri(file("build/local-maven"))
+            content {
+                includeGroup("com.norbertotaveras.mobilefoundation")
+            }
+        }
         google()
         mavenCentral()
         maven {
