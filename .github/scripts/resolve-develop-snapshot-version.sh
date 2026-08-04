@@ -6,15 +6,12 @@ if [[ "${GITHUB_REF_NAME}" != "develop" ]]; then
   exit 1
 fi
 
-base_version="${MOBILE_FOUNDATION_BASE_VERSION:-0.1.0-SNAPSHOT}"
-base_version="${base_version%-SNAPSHOT}"
+snapshot_version="${MOBILE_FOUNDATION_BASE_VERSION:-0.1.0-SNAPSHOT}"
 
-if [[ ! "$base_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+if [[ ! "$snapshot_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?-SNAPSHOT$ ]]; then
   echo "Snapshot base versions must use x.y.z-SNAPSHOT or x.y.z-prerelease-SNAPSHOT."
   exit 1
 fi
-
-snapshot_version="${base_version}-dev.${GITHUB_RUN_NUMBER}-SNAPSHOT"
 
 echo "MOBILE_FOUNDATION_VERSION=$snapshot_version" >> "$GITHUB_ENV"
 echo "mobile-foundation-version=$snapshot_version" >> "$GITHUB_OUTPUT"
