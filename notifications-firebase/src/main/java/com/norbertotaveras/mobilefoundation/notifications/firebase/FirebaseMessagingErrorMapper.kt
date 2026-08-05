@@ -2,7 +2,7 @@ package com.norbertotaveras.mobilefoundation.notifications.firebase
 
 import com.norbertotaveras.mobilefoundation.core.SdkError
 
-class FirebaseMessagingErrorMapper {
+internal class FirebaseMessagingErrorMapper {
 
     fun map(
         operation: Operation,

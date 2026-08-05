@@ -2,7 +2,7 @@ package com.norbertotaveras.mobilefoundation.remoteconfig.firebase
 
 import com.norbertotaveras.mobilefoundation.core.SdkError
 
-class FirebaseRemoteConfigErrorMapper {
+internal class FirebaseRemoteConfigErrorMapper {
 
     fun map(
         operation: Operation,

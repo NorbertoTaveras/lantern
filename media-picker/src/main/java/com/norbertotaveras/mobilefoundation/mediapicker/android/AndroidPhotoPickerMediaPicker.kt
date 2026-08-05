@@ -7,10 +7,17 @@ import com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerErrorCodes
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult
 
-class AndroidPhotoPickerMediaPicker(
+class AndroidPhotoPickerMediaPicker internal constructor(
     private val launcher: AndroidPhotoPickerLauncher,
     private val requestMapper: AndroidPhotoPickerRequestMapper = AndroidPhotoPickerRequestMapper()
 ) : MediaPicker {
+
+    constructor(
+        launcher: AndroidPhotoPickerLauncher
+    ) : this(
+        launcher = launcher,
+        requestMapper = AndroidPhotoPickerRequestMapper()
+    )
 
     override suspend fun pick(request: MediaPickRequest): SdkResult<MediaPickerResult> {
         return when (val validation = request.validate()) {

@@ -6,7 +6,7 @@ import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaSelectionMode
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaType
 
-class AndroidPhotoPickerRequestMapper {
+internal class AndroidPhotoPickerRequestMapper {
 
     fun map(request: MediaPickRequest): AndroidPhotoPickerRequest {
         return AndroidPhotoPickerRequest(

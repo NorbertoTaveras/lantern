@@ -6,10 +6,17 @@ import com.norbertotaveras.mobilefoundation.notifications.NotificationTopic
 import com.norbertotaveras.mobilefoundation.notifications.NotificationTopicManager
 import kotlinx.coroutines.tasks.await
 
-class FirebaseMessagingTopicManager(
+class FirebaseMessagingTopicManager internal constructor(
     private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
     private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
 ) : NotificationTopicManager {
+
+    constructor(
+        firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance()
+    ) : this(
+        firebaseMessaging = firebaseMessaging,
+        errorMapper = FirebaseMessagingErrorMapper()
+    )
 
     override suspend fun subscribe(topic: NotificationTopic): SdkResult<Unit> {
         return try {

@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
-class SecureTokenCodec(
+internal class SecureTokenCodec(
     private val json: Json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true

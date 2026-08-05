@@ -17,12 +17,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
-class FirebaseRemoteConfigProvider(
+class FirebaseRemoteConfigProvider internal constructor(
     private val firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance(),
     private val config: FirebaseRemoteConfigProviderConfig = FirebaseRemoteConfigProviderConfig(),
     private val valueMapper: FirebaseRemoteConfigValueMapper = FirebaseRemoteConfigValueMapper(config.valueTypes),
     private val errorMapper: FirebaseRemoteConfigErrorMapper = FirebaseRemoteConfigErrorMapper()
 ) : RemoteConfigProvider {
+
+    constructor(
+        firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance(),
+        config: FirebaseRemoteConfigProviderConfig = FirebaseRemoteConfigProviderConfig()
+    ) : this(
+        firebaseRemoteConfig = firebaseRemoteConfig,
+        config = config,
+        valueMapper = FirebaseRemoteConfigValueMapper(config.valueTypes),
+        errorMapper = FirebaseRemoteConfigErrorMapper()
+    )
 
     private val snapshotState = MutableStateFlow(RemoteConfigSnapshot.Empty)
 

@@ -17,13 +17,26 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 
-class DataStoreSecureKeyValueStore(
+class DataStoreSecureKeyValueStore internal constructor(
     context: Context,
     private val config: SecureStorageConfig = SecureStorageConfig(),
     dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider,
     private val logger: SdkLogger = NoOpSdkLogger(),
     private val errorMapper: SecureStorageErrorMapper = SecureStorageErrorMapper()
 ) : SecureKeyValueStore {
+
+    constructor(
+        context: Context,
+        config: SecureStorageConfig = SecureStorageConfig(),
+        dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider,
+        logger: SdkLogger = NoOpSdkLogger()
+    ) : this(
+        context = context,
+        config = config,
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        errorMapper = SecureStorageErrorMapper()
+    )
 
     private val dataStore = PreferenceDataStoreFactory.create(
         scope = CoroutineScope(dispatcherProvider.io + SupervisorJob()),

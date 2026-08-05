@@ -11,9 +11,11 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
-class CredentialManagerGoogleAuthProvider(
+class CredentialManagerGoogleAuthProvider internal constructor(
     private val errorMapper: GoogleAuthErrorMapper = GoogleAuthErrorMapper()
 ) : GoogleAuthProvider {
+
+    constructor() : this(GoogleAuthErrorMapper())
 
     override suspend fun signIn(
         context: Context,

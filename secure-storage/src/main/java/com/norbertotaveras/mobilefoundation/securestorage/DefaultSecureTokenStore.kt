@@ -3,10 +3,17 @@ package com.norbertotaveras.mobilefoundation.securestorage
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 import com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec
 
-class DefaultSecureTokenStore(
+class DefaultSecureTokenStore internal constructor(
     private val keyValueStore: SecureKeyValueStore,
     private val tokenCodec: SecureTokenCodec = SecureTokenCodec()
 ) : SecureTokenStore {
+
+    constructor(
+        keyValueStore: SecureKeyValueStore
+    ) : this(
+        keyValueStore = keyValueStore,
+        tokenCodec = SecureTokenCodec()
+    )
 
     override suspend fun saveToken(
         key: SecureStorageKey,

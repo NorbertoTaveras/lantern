@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 
-class PermissionChecker(
+internal class PermissionChecker(
     private val context: Context
 ) {
 

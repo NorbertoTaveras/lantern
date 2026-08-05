@@ -3,7 +3,7 @@ package com.norbertotaveras.mobilefoundation.securestorage.internal
 import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.securestorage.SecureStorageErrorCodes
 
-class SecureStorageErrorMapper {
+internal class SecureStorageErrorMapper {
 
     fun map(
         operation: Operation,

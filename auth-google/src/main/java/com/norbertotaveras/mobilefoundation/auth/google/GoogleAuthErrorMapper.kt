@@ -6,7 +6,7 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.norbertotaveras.mobilefoundation.core.SdkError
 
-class GoogleAuthErrorMapper {
+internal class GoogleAuthErrorMapper {
 
     fun map(throwable: Throwable): SdkError {
         return when (throwable) {

@@ -4,7 +4,7 @@ import com.norbertotaveras.mobilefoundation.permissions.PermissionRationaleProvi
 import com.norbertotaveras.mobilefoundation.permissions.PermissionState
 import com.norbertotaveras.mobilefoundation.permissions.PermissionStatus
 
-class PermissionMapper private constructor(
+internal class PermissionMapper private constructor(
     private val isGranted: (String) -> Boolean,
     private val isDeclared: (String) -> Boolean,
     private val rationaleProvider: PermissionRationaleProvider

@@ -4,7 +4,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue
 import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigKey
 import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigValue
 
-class FirebaseRemoteConfigValueMapper(
+internal class FirebaseRemoteConfigValueMapper(
     private val valueTypes: Map<RemoteConfigKey, FirebaseRemoteConfigValueType> = emptyMap()
 ) {
 
