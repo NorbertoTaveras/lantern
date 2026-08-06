@@ -261,6 +261,81 @@ tasks.register("checkSdkArchitecture") {
     }
 }
 
+tasks.register("checkConsumerShrinkerRules") {
+    group = "verification"
+    description = "Checks SDK consumer shrinker rules stay scoped and production-safe."
+
+    doLast {
+        val consumerRuleDeclaration = Regex("""consumerProguardFiles\s*\(([^)]*)\)""")
+        val dangerousRulePatterns = listOf(
+            Regex("""^-dontshrink\b"""),
+            Regex("""^-dontoptimize\b"""),
+            Regex("""^-dontobfuscate\b"""),
+            Regex("""^-keep\s+class\s+\*\*"""),
+            Regex("""^-keep\s+class\s+\*\s*\{\s*\*\s*;\s*}"""),
+            Regex("""^-keep\s+class\s+androidx\.\*\*"""),
+            Regex("""^-keep\s+class\s+kotlin\.\*\*"""),
+            Regex("""^-keep\s+class\s+kotlinx\.\*\*"""),
+            Regex("""^-keep\s+class\s+com\.google\.firebase\.\*\*"""),
+            Regex("""^-keep\s+class\s+okhttp3\.\*\*"""),
+        )
+        val failures = mutableListOf<String>()
+
+        sdkModuleNames.forEach { moduleName ->
+            val moduleDirectory = project(":$moduleName").projectDir
+            val buildFile = moduleDirectory.resolve("build.gradle.kts")
+            val buildFileText = buildFile.readText()
+            val declaredRuleFiles = consumerRuleDeclaration
+                .findAll(buildFileText)
+                .flatMap { match ->
+                    Regex(""""([^"]+\.pro)"""")
+                        .findAll(match.groupValues[1])
+                        .map { it.groupValues[1] }
+                }
+                .toList()
+
+            declaredRuleFiles.forEach { ruleFilePath ->
+                val ruleFile = moduleDirectory.resolve(ruleFilePath)
+                if (!ruleFile.isFile) {
+                    failures += ":$moduleName declares missing consumer shrinker rule file $ruleFilePath."
+                    return@forEach
+                }
+            }
+
+            val ruleFiles = moduleDirectory
+                .walkTopDown()
+                .filter { it.isFile && it.extension == "pro" }
+                .filterNot { it.toPath().any { pathPart -> pathPart.toString() == "build" } }
+                .toList()
+
+            ruleFiles.forEach { ruleFile ->
+                ruleFile.readLines().forEachIndexed { index, rawLine ->
+                    val line = rawLine.trim()
+                    if (line.isBlank() || line.startsWith("#")) {
+                        return@forEachIndexed
+                    }
+
+                    dangerousRulePatterns.forEach { pattern ->
+                        if (pattern.containsMatchIn(line)) {
+                            failures += ":$moduleName has broad consumer shrinker rule ${ruleFile.relativeTo(moduleDirectory)}:${index + 1}: $line"
+                        }
+                    }
+                }
+            }
+        }
+
+        if (failures.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("SDK consumer shrinker rule check failed.")
+                    failures.forEach { appendLine("- $it") }
+                    appendLine("Keep SDK consumer rules minimal and module-specific. Prefer bundled dependency rules when available.")
+                }
+            )
+        }
+    }
+}
+
 tasks.register("checkApiCompatibility") {
     group = "verification"
     description = "Checks generated release publication metadata and SDK binary API signatures."
@@ -434,6 +509,7 @@ tasks.register("checkPublishingReadiness") {
     dependsOn(
         "checkPublishingGroup",
         "checkSdkArchitecture",
+        "checkConsumerShrinkerRules",
         "checkApiCompatibility",
     )
 }
