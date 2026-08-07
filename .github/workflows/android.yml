@@ -1,7 +1,6 @@
-name: Build
+name: Android CI
 
 on:
-  pull_request:
   push:
     branches:
       - develop
@@ -13,12 +12,12 @@ permissions:
   packages: read
 
 concurrency:
-  group: build-${{ github.ref }}
+  group: android-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   android:
-    name: Android Build
+    name: Android Validation
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
@@ -33,12 +32,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-
-      - name: Check GitHub Packages credentials
-        if: env.GITHUB_PACKAGES_TOKEN == ''
-        run: |
-          echo "PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
-          exit 1
 
       - name: Set up JDK
         uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
@@ -58,14 +51,6 @@ jobs:
 
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
-
-      - name: Write sample app Firebase config
-        run: |
-          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
-            printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
-          else
-            bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
-          fi
 
       - name: Build SDK modules
         run: |
@@ -90,6 +75,28 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
+      - name: Run SDK lint
+        run: |
+          ./gradlew \
+            :sdk-core:lint \
+            :logging:lint \
+            :auth-core:lint \
+            :auth-firebase:lint \
+            :auth-google:lint \
+            :auth-firebase-google:lint \
+            :permissions:lint \
+            :secure-storage:lint \
+            :network-okhttp:lint \
+            :remote-config:lint \
+            :remote-config-firebase:lint \
+            :feature-flags:lint \
+            :notifications:lint \
+            :notifications-firebase:lint \
+            :media-picker:lint \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
       - name: Run SDK publishing readiness checks
         run: |
           ./gradlew \
@@ -108,6 +115,14 @@ jobs:
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
+
+      - name: Write sample app Firebase config
+        run: |
+          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          else
+            bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
+          fi
 
       - name: Build sample app from local SDK artifacts
         run: |
@@ -137,14 +152,13 @@ jobs:
           fi
 
           {
-            echo "## Build"
+            echo "## Android CI"
             echo
             echo "- Status: ${{ job.status }}"
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Firebase config source: ${firebase_config_source}"
-            echo "- Validated SDK publishing readiness checks."
-            echo "- Published SDK artifacts to local Maven for consumer smoke testing."
-            echo "- Binary artifacts: not uploaded from public-source CI; SDK artifacts publish only through protected package workflows."
+            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, sample app, and consumer smoke app."
+            echo "- Published artifacts only to local Maven for validation. This workflow does not publish externally."
           } >> "$GITHUB_STEP_SUMMARY"

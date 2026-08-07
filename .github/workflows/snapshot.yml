@@ -1,48 +1,50 @@
-name: Publish Android Library
+name: Snapshot
 
 on:
-  push:
-    branches:
-      - "release/**"
+  workflow_dispatch:
+    inputs:
+      base_version:
+        description: Snapshot version, for example 0.1.0-SNAPSHOT.
+        required: true
+        default: 0.1.0-SNAPSHOT
 
 permissions:
-  contents: write
+  contents: read
   packages: write
 
 concurrency:
-  group: release-build-${{ github.ref }}
+  group: snapshot-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  validate-release:
-    name: Validate Release
+  validate-snapshot:
+    name: Validate Snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     outputs:
-      mobile-foundation-version: ${{ steps.version.outputs.mobile-foundation-version }}
+      mobile-foundation-version: ${{ steps.snapshot-version.outputs.mobile-foundation-version }}
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
       GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
       GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+      MOBILE_FOUNDATION_BASE_VERSION: ${{ inputs.base_version }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          fetch-depth: 0
 
       - name: Check GitHub Packages credentials
         if: env.GITHUB_PACKAGES_TOKEN == ''
         run: |
-          echo "PACKAGES_TOKEN is required to read private SDK packages from ${GITHUB_PACKAGES_REPOSITORY}."
+          echo "PACKAGES_TOKEN is required to publish private SDK packages to ${GITHUB_PACKAGES_REPOSITORY}."
           exit 1
 
-      - name: Validate release inputs
-        id: version
-        run: bash .github/scripts/validate-release-version.sh
+      - name: Resolve develop snapshot version
+        id: snapshot-version
+        run: bash .github/scripts/resolve-develop-snapshot-version.sh
 
       - name: Set up JDK
         uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
@@ -63,30 +65,10 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Run SDK lint
-        run: |
-          ./gradlew \
-            :sdk-core:lint \
-            :logging:lint \
-            :auth-core:lint \
-            :auth-firebase:lint \
-            :auth-google:lint \
-            :auth-firebase-google:lint \
-            :permissions:lint \
-            :secure-storage:lint \
-            :network-okhttp:lint \
-            :remote-config:lint \
-            :remote-config-firebase:lint \
-            :feature-flags:lint \
-            :notifications:lint \
-            :notifications-firebase:lint \
-            :media-picker:lint \
-            --no-configuration-cache \
-            --max-workers=2
-
       - name: Build SDK modules
         run: |
           ./gradlew \
+            clean \
             :sdk-core:build \
             :logging:build \
             :auth-core:build \
@@ -106,6 +88,28 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
+      - name: Run SDK lint
+        run: |
+          ./gradlew \
+            :sdk-core:lint \
+            :logging:lint \
+            :auth-core:lint \
+            :auth-firebase:lint \
+            :auth-google:lint \
+            :auth-firebase-google:lint \
+            :permissions:lint \
+            :secure-storage:lint \
+            :network-okhttp:lint \
+            :remote-config:lint \
+            :remote-config-firebase:lint \
+            :feature-flags:lint \
+            :notifications:lint \
+            :notifications-firebase:lint \
+            :media-picker:lint \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
       - name: Run SDK publishing readiness checks
         run: |
           ./gradlew \
@@ -114,27 +118,33 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Prepare local Maven release repository
+      - name: Prepare local Maven snapshot repository
         run: rm -rf build/local-maven
 
-      - name: Publish local Maven release
+      - name: Publish local Maven snapshot
         run: |
           ./gradlew \
             publishAllPublicationsToMobileFoundationLocalRepository \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
-        env:
-          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
-          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
 
       - name: Write sample app Firebase config
-        if: env.GOOGLE_SERVICES_JSON != ''
-        run: printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        run: |
+          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          else
+            bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
+          fi
 
-      - name: Build sample app
-        if: env.GOOGLE_SERVICES_JSON != ''
-        run: ./gradlew :app:build --no-configuration-cache --max-workers=2
+      - name: Build sample app from local SDK artifacts
+        run: |
+          ./gradlew \
+            :app:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
 
       - name: Build consumer smoke app
         run: |
@@ -150,33 +160,30 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
-      - name: Generate release notes
-        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
-
-      - name: Write release validation summary
+      - name: Write snapshot validation summary
         if: always()
         run: |
           {
-            echo "## Release validation"
+            echo "## Snapshot validation"
             echo
             echo "- Status: ${{ job.status }}"
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
-            echo "- Validated lint, builds, publishing readiness, duplicate package versions, and release notes."
-            echo "- Binary artifacts: not uploaded from public-source CI; release artifacts publish only to private GitHub Packages after approval."
+            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, duplicate GitHub Packages versions, sample app, and consumer smoke app."
+            echo "- No external publish happens until the protected github-packages environment approves the publish job."
           } >> "$GITHUB_STEP_SUMMARY"
 
-  publish-library:
-    name: Publish Android Library
-    needs: validate-release
+  publish-snapshot:
+    name: Publish Private Snapshot
+    needs: validate-snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     environment: github-packages
 
     env:
-      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-release.outputs.mobile-foundation-version }}
+      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-snapshot.outputs.mobile-foundation-version }}
       GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
       GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
@@ -184,8 +191,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          fetch-depth: 0
 
       - name: Check GitHub Packages credentials
         if: env.GITHUB_PACKAGES_TOKEN == ''
@@ -212,69 +217,49 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Prepare local Maven release repository
+      - name: Prepare local Maven snapshot repository
         run: rm -rf build/local-maven
 
-      - name: Publish local Maven release
+      - name: Publish local Maven snapshot
         run: |
           ./gradlew \
             publishAllPublicationsToMobileFoundationLocalRepository \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
-        env:
-          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
-          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
 
       - name: Check duplicate GitHub package versions
         run: bash .github/scripts/check-github-package-version.sh
         env:
           GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
-      - name: Publish GitHub Packages release
+      - name: Publish GitHub Packages snapshot
         run: |
           ./gradlew \
             publishAllPublicationsToGitHubPackagesRepository \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
-        env:
-          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
-          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
 
-      - name: Generate release notes
-        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
-
-      - name: Create GitHub release
-        run: |
-          gh release create "v${MOBILE_FOUNDATION_VERSION}" \
-            --target "$GITHUB_SHA" \
-            --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
-            --notes-file build/release-notes.md
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Write release publish summary
+      - name: Write snapshot publish summary
         if: always()
         run: |
           {
-            echo "## Release publish"
+            echo "## Snapshot publish"
             echo
             echo "- Status: ${{ job.status }}"
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Environment: github-packages"
-            echo "- Published to GitHub Packages after duplicate-version validation."
-            echo "- Created GitHub release v${MOBILE_FOUNDATION_VERSION} with release notes only; Maven artifacts remain in private GitHub Packages."
+            echo "- Published private snapshot artifacts to GitHub Packages after protected environment approval."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish failure guidance
         if: failure()
         run: |
           {
-            echo "## Release publish troubleshooting"
+            echo "## Snapshot publish troubleshooting"
             echo
             echo "- Confirm the github-packages environment approval was granted."
             echo "- Confirm PACKAGES_TOKEN has read:packages, write:packages, and access to the private package repository."
-            echo "- Confirm v${MOBILE_FOUNDATION_VERSION} and its GitHub Packages versions do not already exist."
-            echo "- Check MAVEN_SIGNING_KEY and MAVEN_SIGNING_PASSWORD only if signing tasks failed."
+            echo "- Confirm the snapshot version was not already published."
           } >> "$GITHUB_STEP_SUMMARY"

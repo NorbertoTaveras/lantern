@@ -18,6 +18,11 @@ if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; 
   exit 1
 fi
 
+if [[ -n "${MOBILE_FOUNDATION_VERSION:-}" && "$MOBILE_FOUNDATION_VERSION" != "$version" ]]; then
+  echo "MOBILE_FOUNDATION_VERSION must match release branch version ${version}, but was ${MOBILE_FOUNDATION_VERSION}."
+  exit 1
+fi
+
 tag="v${version}"
 
 if git ls-remote --tags origin "refs/tags/${tag}" | grep -q .; then

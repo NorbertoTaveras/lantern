@@ -1,7 +1,6 @@
 name: Workflow Lint
 
 on:
-  pull_request:
   push:
     branches:
       - develop

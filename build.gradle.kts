@@ -1,10 +1,13 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SourcesJar
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.GradleException
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.plugins.signing.SigningExtension
 import java.util.Properties
 import java.util.jar.JarFile
 
@@ -27,6 +30,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.maven.publish) apply false
 }
 
 subprojects {
@@ -49,8 +53,7 @@ subprojects {
     }
 
     plugins.withId("com.android.library") {
-        apply(plugin = "maven-publish")
-        apply(plugin = "signing")
+        apply(plugin = "com.vanniktech.maven.publish")
 
         extensions.configure<LibraryExtension>("android") {
             lint {
@@ -61,10 +64,51 @@ subprojects {
                 disable += "AndroidGradlePluginVersion"
                 disable += "UseTomlInstead"
             }
+        }
 
-            publishing {
-                singleVariant("release") {
-                    withSourcesJar()
+        extensions.configure<MavenPublishBaseExtension>("mavenPublishing") {
+            coordinates(
+                groupId = project.group.toString(),
+                artifactId = "mobilefoundation-${project.name}",
+                version = project.version.toString(),
+            )
+            configure(
+                AndroidSingleVariantLibrary(
+                    variant = "release",
+                    sourcesJar = SourcesJar.Sources(),
+                    javadocJar = JavadocJar.Empty(),
+                )
+            )
+            publishToMavenCentral(automaticRelease = true)
+
+            val signingKey = providers.gradleProperty("signingInMemoryKey").orNull
+            if (!signingKey.isNullOrBlank()) {
+                signAllPublications()
+            }
+
+            pom {
+                name.set("Mobile Foundation ${project.name}")
+                description.set("Mobile Foundation SDK module ${project.name}.")
+                inceptionYear.set("2026")
+                url.set("https://github.com/NorbertoTaveras/android_mobilefoundation_framework")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        distribution.set("repo")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("NorbertoTaveras")
+                        name.set("Norberto Taveras")
+                        url.set("https://github.com/NorbertoTaveras")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/NorbertoTaveras/android_mobilefoundation_framework")
+                    connection.set("scm:git:git://github.com/NorbertoTaveras/android_mobilefoundation_framework.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/NorbertoTaveras/android_mobilefoundation_framework.git")
                 }
             }
         }
@@ -108,39 +152,6 @@ subprojects {
                 }
             }
         }
-
-        afterEvaluate {
-            extensions.configure<PublishingExtension>("publishing") {
-                publications {
-                    create<MavenPublication>("release") {
-                        from(components["release"])
-
-                        groupId = project.group.toString()
-                        artifactId = "mobilefoundation-${project.name}"
-                        version = project.version.toString()
-
-                        pom {
-                            name.set("Mobile Foundation ${project.name}")
-                            description.set("Mobile Foundation SDK module ${project.name}.")
-                        }
-                    }
-                }
-            }
-
-            val signingKey = providers.gradleProperty("MAVEN_SIGNING_KEY")
-                .orElse(providers.environmentVariable("MAVEN_SIGNING_KEY"))
-                .orNull
-            val signingPassword = providers.gradleProperty("MAVEN_SIGNING_PASSWORD")
-                .orElse(providers.environmentVariable("MAVEN_SIGNING_PASSWORD"))
-                .orNull
-
-            if (!signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
-                extensions.configure<SigningExtension>("signing") {
-                    useInMemoryPgpKeys(signingKey, signingPassword)
-                    sign(extensions.getByType(PublishingExtension::class.java).publications["release"])
-                }
-            }
-        }
     }
 }
 
@@ -180,8 +191,10 @@ tasks.register("checkPublishingGroup") {
             }
 
             val publishing = sdkProject.extensions.getByType(PublishingExtension::class.java)
-            val releasePublication = publishing.publications.findByName("release") as? MavenPublication
-                ?: error("Expected :$moduleName to publish a Maven publication named release.")
+            val releasePublication = publishing.publications
+                .filterIsInstance<MavenPublication>()
+                .singleOrNull { it.artifactId == "mobilefoundation-$moduleName" }
+                ?: error("Expected :$moduleName to publish one Maven publication for mobilefoundation-$moduleName.")
 
             check(releasePublication.groupId == "com.norbertotaveras.mobilefoundation") {
                 "Expected :$moduleName publication groupId to be com.norbertotaveras.mobilefoundation."
@@ -342,8 +355,8 @@ tasks.register("checkApiCompatibility") {
     dependsOn(
         sdkModuleNames.flatMap { moduleName ->
             listOf(
-                ":$moduleName:generatePomFileForReleasePublication",
-                ":$moduleName:generateMetadataFileForReleasePublication",
+                ":$moduleName:generatePomFileForMavenPublication",
+                ":$moduleName:generateMetadataFileForMavenPublication",
             )
         },
     )
@@ -352,7 +365,7 @@ tasks.register("checkApiCompatibility") {
         sdkModuleNames.forEach { moduleName ->
             val sdkProject = project(":$moduleName")
             val publicationDirectory = sdkProject.layout.buildDirectory
-                .dir("publications/release")
+                .dir("publications/maven")
                 .get()
                 .asFile
             val pomFile = publicationDirectory.resolve("pom-default.xml")

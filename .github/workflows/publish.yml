@@ -1,0 +1,299 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+permissions:
+  contents: write
+  packages: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-release:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
+    outputs:
+      mobile-foundation-version: ${{ steps.version.outputs.mobile-foundation-version }}
+
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate release inputs
+        id: version
+        run: bash .github/scripts/validate-release-version.sh
+
+      - name: Set up JDK
+        uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build SDK modules
+        run: |
+          ./gradlew \
+            clean \
+            :sdk-core:build \
+            :logging:build \
+            :auth-core:build \
+            :auth-firebase:build \
+            :auth-google:build \
+            :auth-firebase-google:build \
+            :permissions:build \
+            :secure-storage:build \
+            :network-okhttp:build \
+            :remote-config:build \
+            :remote-config-firebase:build \
+            :feature-flags:build \
+            :notifications:build \
+            :notifications-firebase:build \
+            :media-picker:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Run SDK lint
+        run: |
+          ./gradlew \
+            :sdk-core:lint \
+            :logging:lint \
+            :auth-core:lint \
+            :auth-firebase:lint \
+            :auth-google:lint \
+            :auth-firebase-google:lint \
+            :permissions:lint \
+            :secure-storage:lint \
+            :network-okhttp:lint \
+            :remote-config:lint \
+            :remote-config-firebase:lint \
+            :feature-flags:lint \
+            :notifications:lint \
+            :notifications-firebase:lint \
+            :media-picker:lint \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Prepare local Maven release repository
+        run: rm -rf build/local-maven
+
+      - name: Publish local Maven release
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write sample app Firebase config
+        run: |
+          if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          else
+            bash .github/scripts/write-ci-google-services-json.sh app/google-services.json
+          fi
+
+      - name: Build sample app from local SDK artifacts
+        run: |
+          ./gradlew \
+            :app:build \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Build consumer smoke app
+        run: |
+          ./gradlew \
+            -p consumer-smoke \
+            :app:assembleDebug \
+            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Generate release notes
+        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
+
+      - name: Stage release assets
+        run: |
+          mkdir -p build/release-assets
+          find build/local-maven -type f \( -name '*.aar' -o -name '*.pom' -o -name '*.module' \) -exec cp {} build/release-assets/ \;
+
+      - name: Upload release validation artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-validation-${{ env.MOBILE_FOUNDATION_VERSION }}
+          path: |
+            build/release-notes.md
+            build/release-assets/*
+          if-no-files-found: error
+
+      - name: Write release validation summary
+        if: always()
+        run: |
+          {
+            echo "## Release validation"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, release notes, staged AAR/POM/module assets, sample app, and consumer smoke app."
+            echo "- No external publish happens until the protected maven-central environment approves the publish job."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    name: Publish Maven Central Release
+    needs: validate-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
+    environment: maven-central
+
+    env:
+      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-release.outputs.mobile-foundation-version }}
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Maven Central credentials
+        if: env.ORG_GRADLE_PROJECT_mavenCentralUsername == '' || env.ORG_GRADLE_PROJECT_mavenCentralPassword == '' || env.ORG_GRADLE_PROJECT_signingInMemoryKey == '' || env.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword == ''
+        run: |
+          echo "MAVEN_CENTRAL_USERNAME, MAVEN_CENTRAL_PASSWORD, MAVEN_SIGNING_KEY, and MAVEN_SIGNING_PASSWORD are required for Maven Central publishing."
+          exit 1
+
+      - name: Validate release inputs
+        run: bash .github/scripts/validate-release-version.sh
+
+      - name: Set up JDK
+        uses: actions/setup-java@d7793b545071e98d581d3bf084a51c3213318a07 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Publish and release to Maven Central
+        run: |
+          ./gradlew \
+            publishAndReleaseToMavenCentral \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Prepare local Maven release assets
+        run: |
+          rm -rf build/local-maven build/release-assets
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+          mkdir -p build/release-assets
+          find build/local-maven -type f \( -name '*.aar' -o -name '*.pom' -o -name '*.module' \) -exec cp {} build/release-assets/ \;
+
+      - name: Generate release notes
+        run: bash .github/scripts/write-release-notes.sh build/release-notes.md
+
+      - name: Create Git tag
+        run: |
+          git tag "v${MOBILE_FOUNDATION_VERSION}" "$GITHUB_SHA"
+          git push origin "v${MOBILE_FOUNDATION_VERSION}"
+
+      - name: Create GitHub release
+        run: |
+          gh release create "v${MOBILE_FOUNDATION_VERSION}" \
+            build/release-assets/* \
+            --target "$GITHUB_SHA" \
+            --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
+            --notes-file build/release-notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write release publish summary
+        if: always()
+        run: |
+          {
+            echo "## Maven Central publish"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Environment: maven-central"
+            echo "- Published production artifacts to Maven Central through Vanniktech."
+            echo "- Created Git tag and GitHub Release v${MOBILE_FOUNDATION_VERSION} with AAR/POM/module assets and generated notes."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish failure guidance
+        if: failure()
+        run: |
+          {
+            echo "## Maven Central troubleshooting"
+            echo
+            echo "- Confirm the maven-central environment approval was granted."
+            echo "- Confirm the Central Portal namespace is registered for com.norbertotaveras.mobilefoundation."
+            echo "- Confirm MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD are Central Portal user-token credentials."
+            echo "- Confirm MAVEN_SIGNING_KEY is an ASCII-armored private key and MAVEN_SIGNING_PASSWORD matches it."
+            echo "- Confirm v${MOBILE_FOUNDATION_VERSION} does not already exist."
+          } >> "$GITHUB_STEP_SUMMARY"
