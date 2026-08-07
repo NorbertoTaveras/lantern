@@ -1,6 +1,10 @@
 name: Workflow Lint
 
 on:
+  pull_request:
+    branches:
+      - develop
+      - "release/**"
   push:
     branches:
       - develop
@@ -19,7 +23,7 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
 
     env:
       ACTIONLINT_VERSION: 1.7.12

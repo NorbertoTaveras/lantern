@@ -1,6 +1,10 @@
 name: Android CI
 
 on:
+  pull_request:
+    branches:
+      - develop
+      - "release/**"
   push:
     branches:
       - develop
@@ -20,7 +24,7 @@ jobs:
     name: Android Validation
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
