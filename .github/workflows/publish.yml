@@ -150,16 +150,11 @@ jobs:
       - name: Generate release notes
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md
 
-      - name: Stage release assets
-        run: bash .github/scripts/stage-release-assets.sh build/local-maven build/release-assets
-
       - name: Upload release validation artifacts
         uses: actions/upload-artifact@v7
         with:
           name: release-validation-${{ env.MOBILE_FOUNDATION_VERSION }}
-          path: |
-            build/release-notes.md
-            build/release-assets/*
+          path: build/release-notes.md
           if-no-files-found: error
 
       - name: Write release validation summary
@@ -172,7 +167,7 @@ jobs:
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
-            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, release notes, staged AAR/POM/module assets, sample app, and consumer smoke app."
+            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, release notes, sample app, and consumer smoke app."
             echo "- No external publish happens until the protected maven-central environment approves the publish job."
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -241,15 +236,14 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Prepare local Maven release assets
+      - name: Prepare local Maven release metadata
         run: |
-          rm -rf build/local-maven build/release-assets
+          rm -rf build/local-maven
           ./gradlew \
             publishAllPublicationsToMobileFoundationLocalRepository \
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
-          bash .github/scripts/stage-release-assets.sh build/local-maven build/release-assets
 
       - name: Generate release notes
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md
@@ -262,7 +256,6 @@ jobs:
       - name: Create GitHub release
         run: |
           gh release create "v${MOBILE_FOUNDATION_VERSION}" \
-            build/release-assets/* \
             --target "$GITHUB_SHA" \
             --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
             --notes-file build/release-notes.md
@@ -279,7 +272,7 @@ jobs:
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Environment: maven-central"
             echo "- Published production artifacts to Maven Central through Vanniktech."
-            echo "- Created Git tag and GitHub Release v${MOBILE_FOUNDATION_VERSION} with AAR/POM/module assets and generated notes."
+            echo "- Created Git tag and GitHub Release v${MOBILE_FOUNDATION_VERSION} with generated notes. GitHub provides source zip and tar.gz archives automatically."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish failure guidance
