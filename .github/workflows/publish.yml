@@ -151,9 +151,7 @@ jobs:
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md
 
       - name: Stage release assets
-        run: |
-          mkdir -p build/release-assets
-          find build/local-maven -type f \( -name '*.aar' -o -name '*.pom' -o -name '*.module' \) -exec cp {} build/release-assets/ \;
+        run: bash .github/scripts/stage-release-assets.sh build/local-maven build/release-assets
 
       - name: Upload release validation artifacts
         uses: actions/upload-artifact@v7
@@ -251,8 +249,7 @@ jobs:
             -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
-          mkdir -p build/release-assets
-          find build/local-maven -type f \( -name '*.aar' -o -name '*.pom' -o -name '*.module' \) -exec cp {} build/release-assets/ \;
+          bash .github/scripts/stage-release-assets.sh build/local-maven build/release-assets
 
       - name: Generate release notes
         run: bash .github/scripts/write-release-notes.sh build/release-notes.md
