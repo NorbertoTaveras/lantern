@@ -19,19 +19,21 @@ concurrency:
   group: android-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+  GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
+  GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  MOBILE_FOUNDATION_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
+
 jobs:
-  android:
-    name: Android Validation
+  sdk-build:
+    name: Android CI / SDK Build
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
-      GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
-      GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-      MOBILE_FOUNDATION_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
 
     steps:
       - name: Check out repository
@@ -79,36 +81,6 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Run SDK lint
-        run: |
-          ./gradlew \
-            :sdk-core:lint \
-            :logging:lint \
-            :auth-core:lint \
-            :auth-firebase:lint \
-            :auth-google:lint \
-            :auth-firebase-google:lint \
-            :permissions:lint \
-            :secure-storage:lint \
-            :network-okhttp:lint \
-            :remote-config:lint \
-            :remote-config-firebase:lint \
-            :feature-flags:lint \
-            :notifications:lint \
-            :notifications-firebase:lint \
-            :media-picker:lint \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            --no-configuration-cache \
-            --max-workers=2
-
-      - name: Run SDK publishing readiness checks
-        run: |
-          ./gradlew \
-            :checkPublishingReadiness \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            --no-configuration-cache \
-            --max-workers=2
-
       - name: Prepare local Maven repository
         run: rm -rf build/local-maven
 
@@ -137,16 +109,7 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Build consumer smoke app
-        run: |
-          ./gradlew \
-            -p consumer-smoke \
-            :app:assembleDebug \
-            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            --no-configuration-cache \
-            --max-workers=2
-
-      - name: Write build summary
+      - name: Write SDK build summary
         if: always()
         run: |
           if [[ -n "$GOOGLE_SERVICES_JSON" ]]; then
@@ -156,13 +119,244 @@ jobs:
           fi
 
           {
-            echo "## Android CI"
+            echo "## Android CI / SDK Build"
             echo
             echo "- Status: ${{ job.status }}"
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Firebase config source: ${firebase_config_source}"
-            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, sample app, and consumer smoke app."
+            echo "- Validated SDK module builds, local Maven publication, and sample app build."
             echo "- Published artifacts only to local Maven for validation. This workflow does not publish externally."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  sdk-lint:
+    name: Android CI / SDK Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run SDK lint
+        run: |
+          ./gradlew \
+            :sdk-core:lint \
+            :logging:lint \
+            :auth-core:lint \
+            :auth-firebase:lint \
+            :auth-google:lint \
+            :auth-firebase-google:lint \
+            :permissions:lint \
+            :secure-storage:lint \
+            :network-okhttp:lint \
+            :remote-config:lint \
+            :remote-config-firebase:lint \
+            :feature-flags:lint \
+            :notifications:lint \
+            :notifications-firebase:lint \
+            :media-picker:lint \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write SDK lint summary
+        if: always()
+        run: |
+          {
+            echo "## Android CI / SDK Lint"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated Android lint for SDK library modules."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  api-check:
+    name: Android CI / API Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run SDK publishing readiness checks
+        run: |
+          ./gradlew \
+            :checkPublishingReadiness \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write API check summary
+        if: always()
+        run: |
+          {
+            echo "## Android CI / API Check"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated publishing readiness, including API checks."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  consumer-smoke:
+    name: Android CI / Consumer Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Prepare local Maven repository
+        run: rm -rf build/local-maven
+
+      - name: Publish SDK artifacts to local Maven
+        run: |
+          ./gradlew \
+            publishAllPublicationsToMobileFoundationLocalRepository \
+            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Build consumer smoke app
+        run: |
+          ./gradlew \
+            -p consumer-smoke \
+            :app:assembleDebug \
+            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write consumer smoke summary
+        if: always()
+        run: |
+          {
+            echo "## Android CI / Consumer Smoke"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated that an external consumer app can resolve and build against locally published SDK artifacts."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  android-validation:
+    name: Android Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: always()
+    needs:
+      - sdk-build
+      - sdk-lint
+      - api-check
+      - consumer-smoke
+
+    steps:
+      - name: Check Android CI results
+        run: |
+          failed=false
+
+          if [[ "${{ needs.sdk-build.result }}" != "success" ]]; then
+            echo "SDK Build finished with result: ${{ needs.sdk-build.result }}"
+            failed=true
+          fi
+
+          if [[ "${{ needs.sdk-lint.result }}" != "success" ]]; then
+            echo "SDK Lint finished with result: ${{ needs.sdk-lint.result }}"
+            failed=true
+          fi
+
+          if [[ "${{ needs.api-check.result }}" != "success" ]]; then
+            echo "API Check finished with result: ${{ needs.api-check.result }}"
+            failed=true
+          fi
+
+          if [[ "${{ needs.consumer-smoke.result }}" != "success" ]]; then
+            echo "Consumer Smoke finished with result: ${{ needs.consumer-smoke.result }}"
+            failed=true
+          fi
+
+          if [[ "$failed" == "true" ]]; then
+            exit 1
+          fi
+
+      - name: Write validation summary
+        if: always()
+        run: |
+          {
+            echo "## Android Validation"
+            echo
+            echo "- SDK Build: ${{ needs.sdk-build.result }}"
+            echo "- SDK Lint: ${{ needs.sdk-lint.result }}"
+            echo "- API Check: ${{ needs.api-check.result }}"
+            echo "- Consumer Smoke: ${{ needs.consumer-smoke.result }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
           } >> "$GITHUB_STEP_SUMMARY"
