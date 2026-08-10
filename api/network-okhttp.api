@@ -112,6 +112,63 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkCo
     descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState {
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState$Companion Companion;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState$Companion;
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState(boolean, boolean, java.util.Set<? extends com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport>);
+    descriptor: (ZZLjava/util/Set;)V
+
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState(boolean, boolean, java.util.Set, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (ZZLjava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+
+  public final boolean isAvailable();
+    descriptor: ()Z
+
+  public final boolean isValidated();
+    descriptor: ()Z
+
+  public final java.util.Set<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport> getTransports();
+    descriptor: ()Ljava/util/Set;
+
+  public final boolean isUsable();
+    descriptor: ()Z
+
+  public final boolean component1();
+    descriptor: ()Z
+
+  public final boolean component2();
+    descriptor: ()Z
+
+  public final java.util.Set<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport> component3();
+    descriptor: ()Ljava/util/Set;
+
+  public final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState copy(boolean, boolean, java.util.Set<? extends com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport>);
+    descriptor: (ZZLjava/util/Set;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+
+  public static com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState copy$default(com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState, boolean, boolean, java.util.Set, int, java.lang.Object);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;ZZLjava/util/Set;ILjava/lang/Object;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$getUnavailable$cp();
+    descriptor: ()Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+}
+
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState$Companion {
+  public final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState getUnavailable();
+    descriptor: ()Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkErrorCodes {
   public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkErrorCodes INSTANCE;
     descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkErrorCodes;
@@ -183,6 +240,14 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLo
 
   public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel> getEntries();
     descriptor: ()Lkotlin/enums/EnumEntries;
+}
+
+public interface com.norbertotaveras.mobilefoundation.network.okhttp.NetworkMonitor {
+  public abstract kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState> getConnectivity();
+    descriptor: ()Lkotlinx/coroutines/flow/Flow;
+
+  public abstract com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState currentState();
+    descriptor: ()Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
 }
 
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig {
@@ -265,6 +330,29 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRe
     descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport extends java.lang.Enum<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport> {
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Wifi;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Cellular;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Ethernet;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Bluetooth;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Vpn;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport Other;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+  public static com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport[] values();
+    descriptor: ()[Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+
+  public static com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport valueOf(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkTransport;
+
+  public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkTransport> getEntries();
+    descriptor: ()Lkotlin/enums/EnumEntries;
+}
+
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNetworkClientFactory {
   public com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNetworkClientFactory(com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConfig);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConfig;)V
@@ -328,6 +416,31 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.RetryInte
 public interface com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider {
   public abstract java.lang.String getAccessToken();
     descriptor: ()Ljava/lang/String;
+}
+
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.connectivity.AndroidNetworkMonitor implements com.norbertotaveras.mobilefoundation.network.okhttp.NetworkMonitor {
+  public com.norbertotaveras.mobilefoundation.network.okhttp.connectivity.AndroidNetworkMonitor(android.content.Context);
+    descriptor: (Landroid/content/Context;)V
+
+  public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState> getConnectivity();
+    descriptor: ()Lkotlinx/coroutines/flow/Flow;
+
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState currentState();
+    descriptor: ()Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+}
+
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.connectivity.AndroidNetworkMonitorKt {
+  public static final kotlinx.coroutines.flow.Flow access$connectivityStateChanges(android.net.ConnectivityManager);
+    descriptor: (Landroid/net/ConnectivityManager;)Lkotlinx/coroutines/flow/Flow;
+
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$currentConnectivityState(android.net.ConnectivityManager);
+    descriptor: (Landroid/net/ConnectivityManager;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$toNetworkConnectivityState(android.net.NetworkCapabilities);
+    descriptor: (Landroid/net/NetworkCapabilities;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
+
+  public static final android.net.NetworkRequest access$createNetworkRequest();
+    descriptor: ()Landroid/net/NetworkRequest;
 }
 
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.internal.DefaultHeadersInterceptor implements okhttp3.Interceptor {
