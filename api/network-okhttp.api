@@ -148,6 +148,43 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkEr
     descriptor: (Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkErrorMapper;ILjava/lang/Throwable;ILjava/lang/Object;)Lcom/norbertotaveras/mobilefoundation/core/SdkError;
 }
 
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor implements okhttp3.Interceptor {
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor$Companion Companion;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingInterceptor$Companion;
+  public static final java.lang.String REDACTED_VALUE;
+    descriptor: Ljava/lang/String;
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor(com.norbertotaveras.mobilefoundation.logging.SdkLogger, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel, java.util.Set<java.lang.String>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;Ljava/util/Set;)V
+
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor(com.norbertotaveras.mobilefoundation.logging.SdkLogger, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel, java.util.Set, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+
+  public okhttp3.Response intercept(okhttp3.Interceptor$Chain);
+    descriptor: (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor$Companion {
+  public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingInterceptor$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel extends java.lang.Enum<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel> {
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel None;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel Basic;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;
+  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel Headers;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;
+  public static com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel[] values();
+    descriptor: ()[Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;
+
+  public static com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel valueOf(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;
+
+  public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel> getEntries();
+    descriptor: ()Lkotlin/enums/EnumEntries;
+}
+
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig {
   public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig$Companion Companion;
     descriptor: Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkRetryConfig$Companion;
@@ -240,6 +277,12 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNet
 
   public static okhttp3.OkHttpClient create$default(com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNetworkClientFactory, com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig, java.util.List, java.util.List, int, java.lang.Object);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/network/okhttp/OkHttpNetworkClientFactory;Lcom/norbertotaveras/mobilefoundation/network/okhttp/TokenProvider;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkRetryConfig;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lokhttp3/OkHttpClient;
+
+  public final okhttp3.OkHttpClient createWithLogging(com.norbertotaveras.mobilefoundation.logging.SdkLogger, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel, com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig, java.util.List<? extends okhttp3.Interceptor>, java.util.List<? extends okhttp3.Interceptor>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;Lcom/norbertotaveras/mobilefoundation/network/okhttp/TokenProvider;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkRetryConfig;Ljava/util/List;Ljava/util/List;)Lokhttp3/OkHttpClient;
+
+  public static okhttp3.OkHttpClient createWithLogging$default(com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNetworkClientFactory, com.norbertotaveras.mobilefoundation.logging.SdkLogger, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkLoggingLevel, com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider, com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig, java.util.List, java.util.List, int, java.lang.Object);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/network/okhttp/OkHttpNetworkClientFactory;Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkLoggingLevel;Lcom/norbertotaveras/mobilefoundation/network/okhttp/TokenProvider;Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkRetryConfig;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lokhttp3/OkHttpClient;
 
   public com.norbertotaveras.mobilefoundation.network.okhttp.OkHttpNetworkClientFactory();
     descriptor: ()V

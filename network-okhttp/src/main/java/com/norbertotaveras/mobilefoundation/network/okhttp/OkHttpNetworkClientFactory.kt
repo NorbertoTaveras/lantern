@@ -1,6 +1,7 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
 import java.util.concurrent.TimeUnit
+import com.norbertotaveras.mobilefoundation.logging.SdkLogger
 import com.norbertotaveras.mobilefoundation.network.okhttp.internal.DefaultHeadersInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,6 +18,42 @@ class OkHttpNetworkClientFactory(
         retryConfig: NetworkRetryConfig? = null,
         interceptors: List<Interceptor> = emptyList(),
         networkInterceptors: List<Interceptor> = emptyList()
+    ): OkHttpClient {
+        return createInternal(
+            tokenProvider = tokenProvider,
+            retryConfig = retryConfig,
+            logger = null,
+            loggingLevel = NetworkLoggingLevel.None,
+            interceptors = interceptors,
+            networkInterceptors = networkInterceptors
+        )
+    }
+
+    fun createWithLogging(
+        logger: SdkLogger,
+        loggingLevel: NetworkLoggingLevel = NetworkLoggingLevel.Basic,
+        tokenProvider: TokenProvider? = null,
+        retryConfig: NetworkRetryConfig? = null,
+        interceptors: List<Interceptor> = emptyList(),
+        networkInterceptors: List<Interceptor> = emptyList()
+    ): OkHttpClient {
+        return createInternal(
+            tokenProvider = tokenProvider,
+            retryConfig = retryConfig,
+            logger = logger,
+            loggingLevel = loggingLevel,
+            interceptors = interceptors,
+            networkInterceptors = networkInterceptors
+        )
+    }
+
+    private fun createInternal(
+        tokenProvider: TokenProvider?,
+        retryConfig: NetworkRetryConfig?,
+        logger: SdkLogger?,
+        loggingLevel: NetworkLoggingLevel,
+        interceptors: List<Interceptor>,
+        networkInterceptors: List<Interceptor>
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(config.connectTimeoutMillis, TimeUnit.MILLISECONDS)
@@ -35,6 +72,9 @@ class OkHttpNetworkClientFactory(
                 }
                 if (retryConfig != null) {
                     addInterceptor(RetryInterceptor(retryConfig))
+                }
+                if (logger != null && loggingLevel != NetworkLoggingLevel.None) {
+                    addInterceptor(NetworkLoggingInterceptor(logger, loggingLevel))
                 }
                 interceptors.forEach(::addInterceptor)
                 networkInterceptors.forEach(::addNetworkInterceptor)
