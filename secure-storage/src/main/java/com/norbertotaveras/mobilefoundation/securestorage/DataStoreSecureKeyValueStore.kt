@@ -112,7 +112,7 @@ class DataStoreSecureKeyValueStore internal constructor(
     }
 
     private fun SecureStorageConfig.fileName(): String {
-        return "$namespace.preferences_pb"
+        return "${namespace.trim()}.preferences_pb"
     }
 
     private fun emptyValueError(): SdkError {
