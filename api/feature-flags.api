@@ -392,6 +392,23 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
     descriptor: ()Lkotlin/enums/EnumEntries;
 }
 
+public final class com.norbertotaveras.mobilefoundation.featureflags.RemoteConfigFeatureFlagProvider implements com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagProvider {
+  public com.norbertotaveras.mobilefoundation.featureflags.RemoteConfigFeatureFlagProvider(com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigProvider);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigProvider;)V
+
+  public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot> getUpdates();
+    descriptor: ()Lkotlinx/coroutines/flow/Flow;
+
+  public java.lang.Object evaluate(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagEvaluation>>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot>>);
+    descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object isEnabled(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.Boolean>>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class com.norbertotaveras.mobilefoundation.featureflags.StaticFeatureFlagProvider implements com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagProvider {
   public com.norbertotaveras.mobilefoundation.featureflags.StaticFeatureFlagProvider(java.util.Map<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagKey, ? extends com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagValue>);
     descriptor: (Ljava/util/Map;)V

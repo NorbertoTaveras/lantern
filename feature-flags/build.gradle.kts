@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
+    implementation(project(":remote-config"))
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
