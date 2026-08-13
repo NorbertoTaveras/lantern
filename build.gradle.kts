@@ -172,6 +172,7 @@ val sdkModuleNames = listOf(
     "notifications-firebase",
     "media-picker",
     "analytics",
+    "deep-links",
 )
 
 tasks.register("checkPublishingGroup") {
