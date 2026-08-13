@@ -22,6 +22,8 @@ android {
 }
 
 dependencies {
+    api(project(":deep-links"))
+
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
     implementation(libs.kotlinx.coroutines.core)
