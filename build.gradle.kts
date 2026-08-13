@@ -173,6 +173,7 @@ val sdkModuleNames = listOf(
     "media-picker",
     "analytics",
     "deep-links",
+    "background-work",
 )
 
 tasks.register("checkPublishingGroup") {
@@ -250,6 +251,9 @@ tasks.register("checkSdkArchitecture") {
                 "com.google.firebase",
                 "com.newrelic",
                 "com.datadog",
+            ),
+            "background-work" to listOf(
+                "androidx.work",
             ),
         )
 
