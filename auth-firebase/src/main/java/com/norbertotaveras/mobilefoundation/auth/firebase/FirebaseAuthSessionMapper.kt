@@ -5,7 +5,7 @@ import com.norbertotaveras.mobilefoundation.auth.core.AuthProviderType
 import com.norbertotaveras.mobilefoundation.auth.core.AuthSession
 import com.norbertotaveras.mobilefoundation.auth.core.UserProfile
 
-class FirebaseAuthSessionMapper {
+internal class FirebaseAuthSessionMapper {
 
     fun map(user: FirebaseUser): AuthSession {
         return AuthSession(

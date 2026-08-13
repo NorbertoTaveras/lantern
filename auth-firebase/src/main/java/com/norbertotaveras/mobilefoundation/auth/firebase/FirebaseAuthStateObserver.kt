@@ -6,7 +6,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-class FirebaseAuthStateObserver(
+internal class FirebaseAuthStateObserver(
     private val firebaseAuth: FirebaseAuth,
     private val sessionMapper: FirebaseAuthSessionMapper
 ) {

@@ -11,11 +11,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAuthProvider(
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
-    private val sessionMapper: FirebaseAuthSessionMapper = FirebaseAuthSessionMapper(),
-    private val errorMapper: FirebaseAuthErrorMapper = FirebaseAuthErrorMapper()
+class FirebaseAuthProvider private constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val sessionMapper: FirebaseAuthSessionMapper,
+    private val errorMapper: FirebaseAuthErrorMapper
 ) : AuthProvider {
+
+    constructor() : this(
+        firebaseAuth = FirebaseAuth.getInstance(),
+        sessionMapper = FirebaseAuthSessionMapper(),
+        errorMapper = FirebaseAuthErrorMapper()
+    )
+
+    constructor(firebaseAuth: FirebaseAuth) : this(
+        firebaseAuth = firebaseAuth,
+        sessionMapper = FirebaseAuthSessionMapper(),
+        errorMapper = FirebaseAuthErrorMapper()
+    )
 
     override suspend fun signIn(): SdkResult<AuthSession> {
         return signInAnonymously()
