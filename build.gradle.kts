@@ -174,6 +174,7 @@ val sdkModuleNames = listOf(
     "analytics",
     "deep-links",
     "background-work",
+    "app-versioning",
 )
 
 tasks.register("checkPublishingGroup") {
