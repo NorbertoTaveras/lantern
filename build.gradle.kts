@@ -172,6 +172,7 @@ val sdkModuleNames = listOf(
     "notifications-firebase",
     "media-picker",
     "analytics",
+    "analytics-firebase",
     "deep-links",
     "background-work",
     "app-versioning",
