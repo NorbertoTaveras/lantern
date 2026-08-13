@@ -11,11 +11,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
-class FirebaseMessagingTokenProvider internal constructor(
+class FirebaseMessagingTokenProvider private constructor(
     private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
     private val firebaseInstallations: FirebaseInstallations = FirebaseInstallations.getInstance(),
     private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
 ) : NotificationTokenProvider {
+
+    constructor() : this(
+        firebaseMessaging = FirebaseMessaging.getInstance(),
+        firebaseInstallations = FirebaseInstallations.getInstance()
+    )
 
     constructor(
         firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),

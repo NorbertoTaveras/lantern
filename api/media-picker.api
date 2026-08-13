@@ -326,12 +326,6 @@ public interface com.norbertotaveras.mobilefoundation.mediapicker.android.Androi
 }
 
 public final class com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker implements com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker {
-  public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher, com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerRequestMapper);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerRequestMapper;)V
-
-  public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher, com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerRequestMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerRequestMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-
   public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;)V
 

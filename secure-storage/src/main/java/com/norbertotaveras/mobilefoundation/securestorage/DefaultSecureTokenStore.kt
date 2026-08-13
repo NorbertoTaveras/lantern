@@ -3,7 +3,7 @@ package com.norbertotaveras.mobilefoundation.securestorage
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 import com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec
 
-class DefaultSecureTokenStore internal constructor(
+class DefaultSecureTokenStore private constructor(
     private val keyValueStore: SecureKeyValueStore,
     private val tokenCodec: SecureTokenCodec = SecureTokenCodec()
 ) : SecureTokenStore {

@@ -52,11 +52,8 @@ public final class com.norbertotaveras.mobilefoundation.notifications.firebase.F
 }
 
 public final class com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider implements com.norbertotaveras.mobilefoundation.notifications.NotificationTokenProvider {
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider(com.google.firebase.messaging.FirebaseMessaging, com.google.firebase.installations.FirebaseInstallations, com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingErrorMapper);
-    descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;Lcom/google/firebase/installations/FirebaseInstallations;Lcom/norbertotaveras/mobilefoundation/notifications/firebase/FirebaseMessagingErrorMapper;)V
-
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider(com.google.firebase.messaging.FirebaseMessaging, com.google.firebase.installations.FirebaseInstallations, com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingErrorMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;Lcom/google/firebase/installations/FirebaseInstallations;Lcom/norbertotaveras/mobilefoundation/notifications/firebase/FirebaseMessagingErrorMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider();
+    descriptor: ()V
 
   public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider(com.google.firebase.messaging.FirebaseMessaging, com.google.firebase.installations.FirebaseInstallations);
     descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;Lcom/google/firebase/installations/FirebaseInstallations;)V
@@ -72,17 +69,11 @@ public final class com.norbertotaveras.mobilefoundation.notifications.firebase.F
 
   public java.lang.Object deleteToken(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<kotlin.Unit>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTokenProvider();
-    descriptor: ()V
 }
 
 public final class com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager implements com.norbertotaveras.mobilefoundation.notifications.NotificationTopicManager {
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager(com.google.firebase.messaging.FirebaseMessaging, com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingErrorMapper);
-    descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;Lcom/norbertotaveras/mobilefoundation/notifications/firebase/FirebaseMessagingErrorMapper;)V
-
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager(com.google.firebase.messaging.FirebaseMessaging, com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingErrorMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;Lcom/norbertotaveras/mobilefoundation/notifications/firebase/FirebaseMessagingErrorMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager();
+    descriptor: ()V
 
   public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager(com.google.firebase.messaging.FirebaseMessaging);
     descriptor: (Lcom/google/firebase/messaging/FirebaseMessaging;)V
@@ -95,8 +86,5 @@ public final class com.norbertotaveras.mobilefoundation.notifications.firebase.F
 
   public java.lang.Object unsubscribe-w5e4Udg(java.lang.String, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<kotlin.Unit>>);
     descriptor: (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-
-  public com.norbertotaveras.mobilefoundation.notifications.firebase.FirebaseMessagingTopicManager();
-    descriptor: ()V
 }
 

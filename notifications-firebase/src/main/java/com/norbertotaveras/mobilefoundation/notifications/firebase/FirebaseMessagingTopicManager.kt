@@ -6,10 +6,14 @@ import com.norbertotaveras.mobilefoundation.notifications.NotificationTopic
 import com.norbertotaveras.mobilefoundation.notifications.NotificationTopicManager
 import kotlinx.coroutines.tasks.await
 
-class FirebaseMessagingTopicManager internal constructor(
+class FirebaseMessagingTopicManager private constructor(
     private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
     private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
 ) : NotificationTopicManager {
+
+    constructor() : this(
+        firebaseMessaging = FirebaseMessaging.getInstance()
+    )
 
     constructor(
         firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance()
