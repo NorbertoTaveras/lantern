@@ -8,4 +8,5 @@ object BackgroundWorkErrorCodes {
     const val ENQUEUE_FAILED = "background_work_enqueue_failed"
     const val CANCEL_FAILED = "background_work_cancel_failed"
     const val QUERY_FAILED = "background_work_query_failed"
+    const val WORKER_NOT_REGISTERED = "background_work_worker_not_registered"
 }

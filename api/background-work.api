@@ -81,6 +81,8 @@ public final class com.norbertotaveras.mobilefoundation.backgroundwork.Backgroun
     descriptor: Ljava/lang/String;
   public static final java.lang.String QUERY_FAILED;
     descriptor: Ljava/lang/String;
+  public static final java.lang.String WORKER_NOT_REGISTERED;
+    descriptor: Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkId {
@@ -411,6 +413,59 @@ public final class com.norbertotaveras.mobilefoundation.backgroundwork.NoOpBackg
 
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkInfo> observeWorkInfo-JnqMSts(java.lang.String);
     descriptor: (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler implements com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkScheduler {
+  public com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.mobilefoundation.logging.SdkLogger);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;)V
+
+  public com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map, com.norbertotaveras.mobilefoundation.logging.SdkLogger, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+
+  public com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.mobilefoundation.logging.SdkLogger);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;)V
+
+  public com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map, com.norbertotaveras.mobilefoundation.logging.SdkLogger, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+
+  public java.lang.Object enqueue(com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkRequest, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkId>>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/BackgroundWorkRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object cancel-9FY5_Gw(java.lang.String, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<kotlin.Unit>>);
+    descriptor: (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object getWorkInfo-9FY5_Gw(java.lang.String, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkInfo>>);
+    descriptor: (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkInfo> observeWorkInfo-JnqMSts(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+
+  public static final com.norbertotaveras.mobilefoundation.logging.SdkLogger access$getLogger$p(com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/WorkManagerBackgroundWorkScheduler;)Lcom/norbertotaveras/mobilefoundation/logging/SdkLogger;
+
+  public static final java.lang.Object access$await(com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler, com.google.common.util.concurrent.ListenableFuture, kotlin.coroutines.Continuation);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/WorkManagerBackgroundWorkScheduler;Lcom/google/common/util/concurrent/ListenableFuture;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+final class com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler$DirectExecutor implements java.util.concurrent.Executor {
+  public static final com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkScheduler$DirectExecutor INSTANCE;
+    descriptor: Lcom/norbertotaveras/mobilefoundation/backgroundwork/WorkManagerBackgroundWorkScheduler$DirectExecutor;
+  public void execute(java.lang.Runnable);
+    descriptor: (Ljava/lang/Runnable;)V
+}
+
+public final class com.norbertotaveras.mobilefoundation.backgroundwork.WorkManagerBackgroundWorkSchedulerKt {
+  public static final androidx.work.WorkRequest access$toWorkRequest(com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkRequest, java.lang.Class);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/BackgroundWorkRequest;Ljava/lang/Class;)Landroidx/work/WorkRequest;
+
+  public static final androidx.work.ExistingWorkPolicy access$toExistingWorkPolicy(com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkPolicy);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/BackgroundWorkPolicy;)Landroidx/work/ExistingWorkPolicy;
+
+  public static final androidx.work.ExistingPeriodicWorkPolicy access$toExistingPeriodicWorkPolicy(com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkPolicy);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/backgroundwork/BackgroundWorkPolicy;)Landroidx/work/ExistingPeriodicWorkPolicy;
+
+  public static final com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkInfo access$toBackgroundWorkInfo-SJMiVpg(androidx.work.WorkInfo, java.lang.String);
+    descriptor: (Landroidx/work/WorkInfo;Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/backgroundwork/BackgroundWorkInfo;
 }
 
 public final class com.norbertotaveras.mobilefoundation.backgroundwork.internal.BackgroundWorkRequestValidator {

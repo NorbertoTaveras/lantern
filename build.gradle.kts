@@ -253,9 +253,6 @@ tasks.register("checkSdkArchitecture") {
                 "com.newrelic",
                 "com.datadog",
             ),
-            "background-work" to listOf(
-                "androidx.work",
-            ),
         )
 
         sdkModuleNames.forEach { moduleName ->
