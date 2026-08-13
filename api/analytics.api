@@ -88,6 +88,9 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsEvent
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
 
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsEventName> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
+
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
@@ -149,6 +152,9 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserI
 
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserId> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
@@ -229,6 +235,9 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserP
 
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserPropertyName> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;

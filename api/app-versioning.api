@@ -173,6 +173,9 @@ public final class com.norbertotaveras.mobilefoundation.appversioning.AppVersion
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.appversioning.AppVersion> parse(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
+
   public int compareTo(java.lang.Object);
     descriptor: (Ljava/lang/Object;)I
 }

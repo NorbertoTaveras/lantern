@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.notifications.internal.NotificationT
 @JvmInline
 value class NotificationTopic private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<NotificationTopic> {
             return when (val result = NotificationTopicValidator.validate(value)) {
                 is SdkResult.Success -> SdkResult.Success(NotificationTopic(result.data))

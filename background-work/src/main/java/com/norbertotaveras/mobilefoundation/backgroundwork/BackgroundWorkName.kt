@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
 @JvmInline
 value class BackgroundWorkName private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<BackgroundWorkName> {
             return if (value.isBlank()) {
                 SdkResult.Failure(

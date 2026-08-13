@@ -26,6 +26,7 @@ data class AppVersion(
     }
 
     companion object {
+        @JvmStatic
         fun parse(value: String): SdkResult<AppVersion> {
             return AppVersionParser.parse(value)
         }

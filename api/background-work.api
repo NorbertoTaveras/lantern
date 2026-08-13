@@ -118,6 +118,9 @@ public final class com.norbertotaveras.mobilefoundation.backgroundwork.Backgroun
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
 
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkId> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
+
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
@@ -218,6 +221,9 @@ public final class com.norbertotaveras.mobilefoundation.backgroundwork.Backgroun
 
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.backgroundwork.BackgroundWorkName> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;

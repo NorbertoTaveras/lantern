@@ -146,6 +146,9 @@ public final class com.norbertotaveras.mobilefoundation.notifications.Notificati
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
 
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.notifications.NotificationChannelId> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
+
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
@@ -482,6 +485,9 @@ public final class com.norbertotaveras.mobilefoundation.notifications.Notificati
 
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.notifications.NotificationTopic> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;

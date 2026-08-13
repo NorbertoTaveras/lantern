@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.mediapicker.internal.MediaMimeTypeVa
 @JvmInline
 value class MediaMimeType private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<MediaMimeType> {
             return when (val result = MediaMimeTypeValidator.validate(value)) {
                 is SdkResult.Success -> SdkResult.Success(MediaMimeType(result.data))

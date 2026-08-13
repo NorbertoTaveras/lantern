@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
 @JvmInline
 value class AnalyticsEventName private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<AnalyticsEventName> {
             return when (val result = AnalyticsNameValidator.validateEventName(value)) {
                 is SdkResult.Success -> SdkResult.Success(AnalyticsEventName(result.data))
