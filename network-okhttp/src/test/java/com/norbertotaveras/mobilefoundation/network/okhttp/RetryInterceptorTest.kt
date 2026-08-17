@@ -7,8 +7,10 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -96,10 +98,50 @@ class RetryInterceptorTest {
         response.close()
     }
 
+    @Test
+    fun interceptRetriesIdempotentRequestsAfterIoFailure() {
+        val sleeper = RecordingSleeper()
+        val terminal = FailingThenSuccessInterceptor()
+        val client = retryingClient(
+            sleeper = sleeper,
+            terminal = terminal
+        )
+
+        val response = client.newCall(baseRequest).execute()
+
+        assertEquals(200, response.code)
+        assertEquals(2, terminal.attempts)
+        assertEquals(listOf(50L), sleeper.delays)
+        response.close()
+    }
+
+    @Test
+    fun interceptDoesNotRetryNonIdempotentRequestsAfterIoFailure() {
+        val sleeper = RecordingSleeper()
+        val terminal = FailingThenSuccessInterceptor()
+        val client = retryingClient(
+            sleeper = sleeper,
+            terminal = terminal
+        )
+        val request = baseRequest.newBuilder()
+            .post(ByteArray(0).toRequestBody())
+            .build()
+
+        assertThrows(IOException::class.java) {
+            client.newCall(request).execute()
+        }
+        assertEquals(1, terminal.attempts)
+        assertEquals(emptyList<Long>(), sleeper.delays)
+    }
+
     private fun retryingClient(
         sleeper: RetryInterceptor.Sleeper,
         maxDelayMillis: Long = 5_000,
-        retryAfter: String = "3"
+        retryAfter: String = "3",
+        terminal: Interceptor = QueuedResponseInterceptor(
+            response(statusCode = 503, retryAfter = retryAfter),
+            response(statusCode = 200)
+        )
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
@@ -113,12 +155,7 @@ class RetryInterceptorTest {
                     sleeper = sleeper
                 )
             )
-            .addInterceptor(
-                QueuedResponseInterceptor(
-                    response(statusCode = 503, retryAfter = retryAfter),
-                    response(statusCode = 200)
-                )
-            )
+            .addInterceptor(terminal)
             .build()
     }
 
@@ -137,6 +174,22 @@ class RetryInterceptorTest {
 
         override fun intercept(chain: Interceptor.Chain): Response {
             return responses.removeFirst()
+                .newBuilder()
+                .request(chain.request())
+                .build()
+        }
+    }
+
+    private class FailingThenSuccessInterceptor : Interceptor {
+        var attempts = 0
+
+        override fun intercept(chain: Interceptor.Chain): Response {
+            attempts += 1
+            if (attempts == 1) {
+                throw IOException("temporary")
+            }
+
+            return response(statusCode = 200)
                 .newBuilder()
                 .request(chain.request())
                 .build()
