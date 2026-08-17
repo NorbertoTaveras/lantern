@@ -74,11 +74,37 @@ class AuthHeaderInterceptorTest {
     }
 
     @Test
+    fun initAllowsValidAuthSchemeWithWhitespace() {
+        val recorder = RecordingTerminalInterceptor()
+        val client = clientWith(
+            AuthHeaderInterceptor(
+                tokenProvider = TokenProvider { "abc123" },
+                scheme = " Bearer "
+            ),
+            recorder
+        )
+
+        client.newCall(baseRequest).execute().close()
+
+        assertEquals("Bearer abc123", recorder.request?.header("Authorization"))
+    }
+
+    @Test
     fun initRejectsMalformedHeaderName() {
         assertThrows(IllegalArgumentException::class.java) {
             AuthHeaderInterceptor(
                 tokenProvider = TokenProvider { "abc123" },
                 headerName = "X Auth Token"
+            )
+        }
+    }
+
+    @Test
+    fun initRejectsMalformedAuthScheme() {
+        assertThrows(IllegalArgumentException::class.java) {
+            AuthHeaderInterceptor(
+                tokenProvider = TokenProvider { "abc123" },
+                scheme = "Bearer Token"
             )
         }
     }
