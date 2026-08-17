@@ -25,8 +25,16 @@ data class NetworkRetryConfig(
     fun delayForRetry(retryNumber: Int): Long {
         require(retryNumber >= 1) { "retryNumber must be greater than or equal to 1." }
 
-        val delay = initialDelayMillis * Math.pow(backoffMultiplier, (retryNumber - 1).toDouble())
-        return delay.toLong().coerceAtMost(maxDelayMillis)
+        if (initialDelayMillis == 0L) {
+            return 0L
+        }
+
+        val delay = initialDelayMillis.toDouble() * Math.pow(backoffMultiplier, (retryNumber - 1).toDouble())
+        if (delay.isInfinite() || delay.isNaN() || delay >= maxDelayMillis.toDouble()) {
+            return maxDelayMillis
+        }
+
+        return delay.toLong()
     }
 
     companion object {
