@@ -8,10 +8,13 @@ internal class DefaultHeadersInterceptor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val requestBuilder = chain.request().newBuilder()
+        val request = chain.request()
+        val requestBuilder = request.newBuilder()
 
         headers.forEach { (name, value) ->
-            requestBuilder.header(name, value)
+            if (request.header(name) == null) {
+                requestBuilder.header(name, value)
+            }
         }
 
         return chain.proceed(requestBuilder.build())
