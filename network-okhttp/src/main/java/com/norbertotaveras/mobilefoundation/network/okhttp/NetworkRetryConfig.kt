@@ -17,6 +17,9 @@ data class NetworkRetryConfig(
         require(initialDelayMillis >= 0) { "initialDelayMillis must be greater than or equal to 0." }
         require(maxDelayMillis >= initialDelayMillis) { "maxDelayMillis must be greater than or equal to initialDelayMillis." }
         require(backoffMultiplier >= 1.0) { "backoffMultiplier must be greater than or equal to 1.0." }
+        require(retryStatusCodes.all { it in HTTP_STATUS_CODE_RANGE }) {
+            "retryStatusCodes can only contain valid HTTP status codes."
+        }
     }
 
     fun delayForRetry(retryNumber: Int): Long {
@@ -32,5 +35,7 @@ data class NetworkRetryConfig(
         const val DEFAULT_MAX_DELAY_MILLIS = 2_000L
         const val DEFAULT_BACKOFF_MULTIPLIER = 2.0
         val DEFAULT_RETRY_STATUS_CODES = setOf(408, 429, 500, 502, 503, 504)
+
+        private val HTTP_STATUS_CODE_RANGE = 100..599
     }
 }
