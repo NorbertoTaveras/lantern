@@ -1,6 +1,13 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
 import java.io.IOException
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -29,5 +36,102 @@ class RetryInterceptorTest {
     @Test
     fun shouldRetrySkipsNonRetryableStatusCodes() {
         assertFalse(interceptor.shouldRetry(method = "GET", statusCode = 400))
+    }
+
+    @Test
+    fun interceptUsesRetryAfterDelaySecondsForRetryableResponses() {
+        val sleeper = RecordingSleeper()
+        val client = retryingClient(sleeper = sleeper)
+
+        val response = client.newCall(baseRequest).execute()
+
+        assertEquals(200, response.code)
+        assertEquals(listOf(3_000L), sleeper.delays)
+        response.close()
+    }
+
+    @Test
+    fun interceptCapsRetryAfterDelayToConfiguredMaxDelay() {
+        val sleeper = RecordingSleeper()
+        val client = retryingClient(
+            sleeper = sleeper,
+            maxDelayMillis = 750
+        )
+
+        val response = client.newCall(baseRequest).execute()
+
+        assertEquals(200, response.code)
+        assertEquals(listOf(750L), sleeper.delays)
+        response.close()
+    }
+
+    private fun retryingClient(
+        sleeper: RetryInterceptor.Sleeper,
+        maxDelayMillis: Long = 5_000
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(
+                RetryInterceptor(
+                    config = NetworkRetryConfig(
+                        maxRetries = 1,
+                        initialDelayMillis = 50,
+                        maxDelayMillis = maxDelayMillis,
+                        retryStatusCodes = setOf(503)
+                    ),
+                    sleeper = sleeper
+                )
+            )
+            .addInterceptor(
+                QueuedResponseInterceptor(
+                    response(statusCode = 503, retryAfter = "3"),
+                    response(statusCode = 200)
+                )
+            )
+            .build()
+    }
+
+    private class RecordingSleeper : RetryInterceptor.Sleeper {
+        val delays = mutableListOf<Long>()
+
+        override fun sleep(delayMillis: Long) {
+            delays += delayMillis
+        }
+    }
+
+    private class QueuedResponseInterceptor(
+        vararg responses: Response
+    ) : Interceptor {
+        private val responses = ArrayDeque(responses.toList())
+
+        override fun intercept(chain: Interceptor.Chain): Response {
+            return responses.removeFirst()
+                .newBuilder()
+                .request(chain.request())
+                .build()
+        }
+    }
+
+    private companion object {
+        val baseRequest: Request = Request.Builder()
+            .url("https://example.com")
+            .build()
+
+        fun response(
+            statusCode: Int,
+            retryAfter: String? = null
+        ): Response {
+            return Response.Builder()
+                .request(baseRequest)
+                .protocol(Protocol.HTTP_1_1)
+                .code(statusCode)
+                .message("OK")
+                .apply {
+                    if (retryAfter != null) {
+                        header("Retry-After", retryAfter)
+                    }
+                }
+                .body("".toResponseBody())
+                .build()
+        }
     }
 }

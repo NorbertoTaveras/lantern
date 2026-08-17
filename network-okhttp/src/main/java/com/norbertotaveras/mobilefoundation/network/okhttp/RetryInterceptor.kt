@@ -24,7 +24,11 @@ class RetryInterceptor(
                     return response
                 }
 
+                val retryDelayMillis = retryAfterDelayMillis(response) ?: config.delayForRetry(attempt + 1)
                 response.close()
+                attempt += 1
+                sleeper.sleep(retryDelayMillis)
+                continue
             } catch (exception: IOException) {
                 lastFailure = exception
                 if (!shouldRetry(request.method, exception) || attempt == config.maxRetries) {
@@ -45,6 +49,18 @@ class RetryInterceptor(
 
     internal fun shouldRetry(method: String, exception: IOException): Boolean {
         return method.isRetryableHttpMethod()
+    }
+
+    private fun retryAfterDelayMillis(response: Response): Long? {
+        val retryAfter = response.header("Retry-After")?.trim() ?: return null
+        val delaySeconds = retryAfter.toLongOrNull()?.takeIf { it >= 0 } ?: return null
+        val millisPerSecond = 1_000L
+
+        val delayMillis = delaySeconds
+            .coerceAtMost(Long.MAX_VALUE / millisPerSecond)
+            .times(millisPerSecond)
+
+        return delayMillis.coerceAtMost(config.maxDelayMillis)
     }
 
     interface Sleeper {
