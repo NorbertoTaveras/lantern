@@ -59,4 +59,23 @@ class SecureTokenCodecTest {
             (decoded as SdkResult.Failure).error.code
         )
     }
+
+    @Test
+    fun `decode returns read failure for blank token value`() {
+        val decoded = codec.decode(
+            """
+            {
+              "value": " ",
+              "type": "Bearer",
+              "metadata": {}
+            }
+            """.trimIndent()
+        )
+
+        assertTrue(decoded is SdkResult.Failure)
+        assertEquals(
+            SecureStorageErrorCodes.READ_FAILED,
+            (decoded as SdkResult.Failure).error.code
+        )
+    }
 }

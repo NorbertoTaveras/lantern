@@ -1,10 +1,18 @@
 package com.norbertotaveras.mobilefoundation.securestorage
 
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SecureTokenTest {
+
+    @Test
+    fun `init rejects blank token value`() {
+        assertThrows(IllegalArgumentException::class.java) {
+            SecureToken(value = " ")
+        }
+    }
 
     @Test
     fun `isExpired is false when token has no expiration`() {
