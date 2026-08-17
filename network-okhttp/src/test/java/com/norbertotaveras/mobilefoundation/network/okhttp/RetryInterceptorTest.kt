@@ -65,9 +65,41 @@ class RetryInterceptorTest {
         response.close()
     }
 
+    @Test
+    fun interceptUsesRetryAfterHttpDateForRetryableResponses() {
+        val sleeper = RecordingSleeper()
+        val client = retryingClient(
+            sleeper = sleeper,
+            maxDelayMillis = 750,
+            retryAfter = "Fri, 31 Dec 9999 23:59:59 GMT"
+        )
+
+        val response = client.newCall(baseRequest).execute()
+
+        assertEquals(200, response.code)
+        assertEquals(listOf(750L), sleeper.delays)
+        response.close()
+    }
+
+    @Test
+    fun interceptFallsBackToBackoffForInvalidRetryAfterHeader() {
+        val sleeper = RecordingSleeper()
+        val client = retryingClient(
+            sleeper = sleeper,
+            retryAfter = "not-a-date"
+        )
+
+        val response = client.newCall(baseRequest).execute()
+
+        assertEquals(200, response.code)
+        assertEquals(listOf(50L), sleeper.delays)
+        response.close()
+    }
+
     private fun retryingClient(
         sleeper: RetryInterceptor.Sleeper,
-        maxDelayMillis: Long = 5_000
+        maxDelayMillis: Long = 5_000,
+        retryAfter: String = "3"
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
@@ -83,7 +115,7 @@ class RetryInterceptorTest {
             )
             .addInterceptor(
                 QueuedResponseInterceptor(
-                    response(statusCode = 503, retryAfter = "3"),
+                    response(statusCode = 503, retryAfter = retryAfter),
                     response(statusCode = 200)
                 )
             )

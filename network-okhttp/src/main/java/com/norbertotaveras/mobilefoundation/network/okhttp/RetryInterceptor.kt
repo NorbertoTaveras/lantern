@@ -1,6 +1,10 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
 import java.io.IOException
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -53,14 +57,35 @@ class RetryInterceptor(
 
     private fun retryAfterDelayMillis(response: Response): Long? {
         val retryAfter = response.header("Retry-After")?.trim() ?: return null
-        val delaySeconds = retryAfter.toLongOrNull()?.takeIf { it >= 0 } ?: return null
         val millisPerSecond = 1_000L
+        val delaySeconds = retryAfter.toLongOrNull()?.takeIf { it >= 0 }
 
-        val delayMillis = delaySeconds
-            .coerceAtMost(Long.MAX_VALUE / millisPerSecond)
-            .times(millisPerSecond)
+        if (delaySeconds != null) {
+            val delayMillis = delaySeconds
+                .coerceAtMost(Long.MAX_VALUE / millisPerSecond)
+                .times(millisPerSecond)
 
+            return delayMillis.coerceAtMost(config.maxDelayMillis)
+        }
+
+        val delayMillis = retryAfterHttpDateDelayMillis(retryAfter) ?: return null
         return delayMillis.coerceAtMost(config.maxDelayMillis)
+    }
+
+    private fun retryAfterHttpDateDelayMillis(retryAfter: String): Long? {
+        val retryAtMillis = try {
+            SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
+                .apply {
+                    isLenient = false
+                    timeZone = TimeZone.getTimeZone("GMT")
+                }
+                .parse(retryAfter)
+                ?.time
+        } catch (exception: ParseException) {
+            null
+        } ?: return null
+
+        return (retryAtMillis - System.currentTimeMillis()).coerceAtLeast(0L)
     }
 
     interface Sleeper {
