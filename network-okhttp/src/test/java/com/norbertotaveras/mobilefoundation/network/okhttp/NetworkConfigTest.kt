@@ -25,4 +25,11 @@ class NetworkConfigTest {
             NetworkConfig(defaultHeaders = mapOf("X Trace Id" to "value"))
         }
     }
+
+    @Test
+    fun initRejectsHeaderValuesWithControlCharacters() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkConfig(defaultHeaders = mapOf("X-Trace-Id" to "first\nsecond"))
+        }
+    }
 }

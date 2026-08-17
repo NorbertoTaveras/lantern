@@ -24,6 +24,9 @@ data class NetworkConfig(
         require(defaultHeaders.keys.all { it.isValidHeaderName() }) {
             "defaultHeaders can only contain valid HTTP header names."
         }
+        require(defaultHeaders.values.all { it.isValidHeaderValue() }) {
+            "defaultHeaders cannot contain invalid HTTP header values."
+        }
     }
 
     companion object {
@@ -37,5 +40,11 @@ data class NetworkConfig(
 
     private fun String.isValidHeaderName(): Boolean {
         return headerNamePattern.matches(this)
+    }
+
+    private fun String.isValidHeaderValue(): Boolean {
+        return all { character ->
+            character == '\t' || !character.isISOControl()
+        }
     }
 }
