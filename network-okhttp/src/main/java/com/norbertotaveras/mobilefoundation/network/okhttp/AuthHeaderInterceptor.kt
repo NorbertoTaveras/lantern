@@ -17,6 +17,7 @@ class AuthHeaderInterceptor(
 
     init {
         require(headerName.isNotBlank()) { "headerName cannot be blank." }
+        require(headerName.isValidHeaderName()) { "headerName must be a valid HTTP header name." }
         require(scheme.isNotBlank()) { "scheme cannot be blank." }
     }
 
@@ -42,5 +43,11 @@ class AuthHeaderInterceptor(
     companion object {
         const val DEFAULT_AUTH_HEADER = "Authorization"
         const val DEFAULT_AUTH_SCHEME = "Bearer"
+
+        private val headerNamePattern = Regex("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
+    }
+
+    private fun String.isValidHeaderName(): Boolean {
+        return headerNamePattern.matches(this)
     }
 }

@@ -18,4 +18,11 @@ class NetworkConfigTest {
             NetworkConfig(defaultHeaders = mapOf(" " to "value"))
         }
     }
+
+    @Test
+    fun initRejectsMalformedHeaderNames() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkConfig(defaultHeaders = mapOf("X Trace Id" to "value"))
+        }
+    }
 }

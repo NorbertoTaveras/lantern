@@ -7,6 +7,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class AuthHeaderInterceptorTest {
@@ -70,6 +71,16 @@ class AuthHeaderInterceptorTest {
         client.newCall(request).execute().close()
 
         assertEquals("Bearer abc123", recorder.request?.header("Authorization"))
+    }
+
+    @Test
+    fun initRejectsMalformedHeaderName() {
+        assertThrows(IllegalArgumentException::class.java) {
+            AuthHeaderInterceptor(
+                tokenProvider = TokenProvider { "abc123" },
+                headerName = "X Auth Token"
+            )
+        }
     }
 
     private fun interface TokenProvider : com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider
