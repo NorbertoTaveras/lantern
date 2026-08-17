@@ -6,6 +6,10 @@ data class SecureToken(
     val expiresAtEpochMillis: Long? = null,
     val metadata: Map<String, String> = emptyMap()
 ) {
+    init {
+        require(value.isNotBlank()) { "Secure token value cannot be blank." }
+    }
+
     fun isExpired(currentTimeMillis: Long): Boolean {
         return expiresAtEpochMillis?.let { currentTimeMillis >= it } ?: false
     }

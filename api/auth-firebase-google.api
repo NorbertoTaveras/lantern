@@ -49,16 +49,20 @@ public final class com.norbertotaveras.mobilefoundation.auth.firebasegoogle.Fire
     descriptor: Ljava/lang/String;
   public static final java.lang.String FIREBASE_SIGN_IN_FAILED;
     descriptor: Ljava/lang/String;
+  public static final java.lang.String SIGN_OUT_FAILED;
+    descriptor: Ljava/lang/String;
+  public static final java.lang.String SESSION_LOOKUP_FAILED;
+    descriptor: Ljava/lang/String;
   public static final java.lang.String SESSION_NOT_FOUND;
     descriptor: Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider implements com.norbertotaveras.mobilefoundation.auth.core.AuthProvider {
-  public com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider(android.content.Context, com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthConfig, com.google.firebase.auth.FirebaseAuth, com.norbertotaveras.mobilefoundation.auth.google.GoogleAuthProvider, com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthSessionMapper, com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthErrorMapper);
-    descriptor: (Landroid/content/Context;Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthConfig;Lcom/google/firebase/auth/FirebaseAuth;Lcom/norbertotaveras/mobilefoundation/auth/google/GoogleAuthProvider;Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthSessionMapper;Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthErrorMapper;)V
+  public com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider(android.content.Context, com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthConfig);
+    descriptor: (Landroid/content/Context;Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthConfig;)V
 
-  public com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider(android.content.Context, com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthConfig, com.google.firebase.auth.FirebaseAuth, com.norbertotaveras.mobilefoundation.auth.google.GoogleAuthProvider, com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthSessionMapper, com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthErrorMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Landroid/content/Context;Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthConfig;Lcom/google/firebase/auth/FirebaseAuth;Lcom/norbertotaveras/mobilefoundation/auth/google/GoogleAuthProvider;Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthSessionMapper;Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthErrorMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider(android.content.Context, com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthConfig, com.google.firebase.auth.FirebaseAuth, com.norbertotaveras.mobilefoundation.auth.google.GoogleAuthProvider);
+    descriptor: (Landroid/content/Context;Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthConfig;Lcom/google/firebase/auth/FirebaseAuth;Lcom/norbertotaveras/mobilefoundation/auth/google/GoogleAuthProvider;)V
 
   public java.lang.Object signIn(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.auth.core.AuthSession>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -71,5 +75,8 @@ public final class com.norbertotaveras.mobilefoundation.auth.firebasegoogle.Fire
 
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.auth.core.AuthState> observeAuthState();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
+
+  public static final com.google.firebase.auth.FirebaseAuth access$getFirebaseAuth$p(com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthProvider;)Lcom/google/firebase/auth/FirebaseAuth;
 }
 

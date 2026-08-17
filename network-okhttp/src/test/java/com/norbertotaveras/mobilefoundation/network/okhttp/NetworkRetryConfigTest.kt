@@ -1,6 +1,7 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class NetworkRetryConfigTest {
@@ -16,5 +17,12 @@ class NetworkRetryConfigTest {
         assertEquals(100, config.delayForRetry(1))
         assertEquals(200, config.delayForRetry(2))
         assertEquals(250, config.delayForRetry(3))
+    }
+
+    @Test
+    fun initRejectsInvalidRetryStatusCodes() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkRetryConfig(retryStatusCodes = setOf(99, 503))
+        }
     }
 }

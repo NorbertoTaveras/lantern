@@ -66,6 +66,9 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
   public final com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagDefaults plus(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagDefaults);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlagDefaults;)Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlagDefaults;
 
+  public final com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigDefaults toRemoteConfigDefaults();
+    descriptor: ()Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigDefaults;
+
   public final java.util.Map<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagKey, com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagValue> component1();
     descriptor: ()Ljava/util/Map;
 
@@ -187,6 +190,9 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
 
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
+
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagKey> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
@@ -390,6 +396,23 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
 
   public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagValueSource> getEntries();
     descriptor: ()Lkotlin/enums/EnumEntries;
+}
+
+public final class com.norbertotaveras.mobilefoundation.featureflags.RemoteConfigFeatureFlagProvider implements com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagProvider {
+  public com.norbertotaveras.mobilefoundation.featureflags.RemoteConfigFeatureFlagProvider(com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigProvider);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigProvider;)V
+
+  public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot> getUpdates();
+    descriptor: ()Lkotlinx/coroutines/flow/Flow;
+
+  public java.lang.Object evaluate(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagEvaluation>>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot>>);
+    descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object isEnabled(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.Boolean>>);
+    descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com.norbertotaveras.mobilefoundation.featureflags.StaticFeatureFlagProvider implements com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagProvider {

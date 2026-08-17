@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.norbertotaveras.mobilefoundation.core.SdkError
 
-class FirebaseAuthErrorMapper {
+internal class FirebaseAuthErrorMapper {
     fun map(throwable: Throwable): SdkError {
         return when (throwable) {
             is FirebaseAuthInvalidCredentialsException -> {

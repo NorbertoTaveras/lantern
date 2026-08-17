@@ -56,11 +56,8 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.firebase.Fi
 }
 
 public final class com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider implements com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigProvider {
-  public com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider(com.google.firebase.remoteconfig.FirebaseRemoteConfig, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProviderConfig, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigValueMapper, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigErrorMapper);
-    descriptor: (Lcom/google/firebase/remoteconfig/FirebaseRemoteConfig;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigProviderConfig;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigValueMapper;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigErrorMapper;)V
-
-  public com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider(com.google.firebase.remoteconfig.FirebaseRemoteConfig, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProviderConfig, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigValueMapper, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigErrorMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lcom/google/firebase/remoteconfig/FirebaseRemoteConfig;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigProviderConfig;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigValueMapper;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigErrorMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider();
+    descriptor: ()V
 
   public com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider(com.google.firebase.remoteconfig.FirebaseRemoteConfig, com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProviderConfig);
     descriptor: (Lcom/google/firebase/remoteconfig/FirebaseRemoteConfig;Lcom/norbertotaveras/mobilefoundation/remoteconfig/firebase/FirebaseRemoteConfigProviderConfig;)V
@@ -91,9 +88,6 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.firebase.Fi
 
   public java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigSnapshot>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-
-  public com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProvider();
-    descriptor: ()V
 }
 
 public final class com.norbertotaveras.mobilefoundation.remoteconfig.firebase.FirebaseRemoteConfigProviderConfig {

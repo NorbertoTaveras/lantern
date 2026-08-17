@@ -34,6 +34,9 @@ public final class com.norbertotaveras.mobilefoundation.mediapicker.MediaMimeTyp
   public static final boolean equals-impl0(java.lang.String, java.lang.String);
     descriptor: (Ljava/lang/String;Ljava/lang/String;)Z
 
+  public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.mediapicker.MediaMimeType> from(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
+
   public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
@@ -326,12 +329,6 @@ public interface com.norbertotaveras.mobilefoundation.mediapicker.android.Androi
 }
 
 public final class com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker implements com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker {
-  public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher, com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerRequestMapper);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerRequestMapper;)V
-
-  public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher, com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerRequestMapper, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerRequestMapper;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-
   public com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerLauncher);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerLauncher;)V
 

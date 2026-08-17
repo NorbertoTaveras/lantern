@@ -7,7 +7,7 @@ import com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerErrorCodes
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult
 
-class AndroidPhotoPickerMediaPicker internal constructor(
+class AndroidPhotoPickerMediaPicker private constructor(
     private val launcher: AndroidPhotoPickerLauncher,
     private val requestMapper: AndroidPhotoPickerRequestMapper = AndroidPhotoPickerRequestMapper()
 ) : MediaPicker {

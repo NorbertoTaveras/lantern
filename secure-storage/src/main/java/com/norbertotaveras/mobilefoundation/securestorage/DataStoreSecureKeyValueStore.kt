@@ -17,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 
-class DataStoreSecureKeyValueStore internal constructor(
+class DataStoreSecureKeyValueStore private constructor(
     context: Context,
     private val config: SecureStorageConfig = SecureStorageConfig(),
     dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider,

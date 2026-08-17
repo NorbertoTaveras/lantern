@@ -17,7 +17,9 @@ class AuthHeaderInterceptor(
 
     init {
         require(headerName.isNotBlank()) { "headerName cannot be blank." }
+        require(headerName.isValidHeaderName()) { "headerName must be a valid HTTP header name." }
         require(scheme.isNotBlank()) { "scheme cannot be blank." }
+        require(scheme.trim().isValidAuthScheme()) { "scheme must be a valid HTTP auth scheme." }
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -42,5 +44,16 @@ class AuthHeaderInterceptor(
     companion object {
         const val DEFAULT_AUTH_HEADER = "Authorization"
         const val DEFAULT_AUTH_SCHEME = "Bearer"
+
+        private val headerNamePattern = Regex("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
+        private val authSchemePattern = Regex("^[A-Za-z][A-Za-z0-9+.-]*$")
+    }
+
+    private fun String.isValidHeaderName(): Boolean {
+        return headerNamePattern.matches(this)
+    }
+
+    private fun String.isValidAuthScheme(): Boolean {
+        return authSchemePattern.matches(this)
     }
 }

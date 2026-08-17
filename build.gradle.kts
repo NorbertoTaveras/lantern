@@ -171,6 +171,11 @@ val sdkModuleNames = listOf(
     "notifications",
     "notifications-firebase",
     "media-picker",
+    "analytics",
+    "analytics-firebase",
+    "deep-links",
+    "background-work",
+    "app-versioning",
 )
 
 tasks.register("checkPublishingGroup") {
@@ -243,6 +248,11 @@ tasks.register("checkSdkArchitecture") {
             ),
             "notifications" to listOf(
                 "com.google.firebase",
+            ),
+            "analytics" to listOf(
+                "com.google.firebase",
+                "com.newrelic",
+                "com.datadog",
             ),
         )
 

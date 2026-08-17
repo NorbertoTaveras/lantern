@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.securestorage.internal.StorageKeyVal
 @JvmInline
 value class SecureStorageKey private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<SecureStorageKey> {
             return when (val result = StorageKeyValidator.validate(value)) {
                 is SdkResult.Success -> SdkResult.Success(SecureStorageKey(result.data))

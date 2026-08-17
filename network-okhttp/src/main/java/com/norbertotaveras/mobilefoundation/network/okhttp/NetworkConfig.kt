@@ -21,6 +21,12 @@ data class NetworkConfig(
         require(writeTimeoutMillis >= 0) { "writeTimeoutMillis must be greater than or equal to 0." }
         require(callTimeoutMillis >= 0) { "callTimeoutMillis must be greater than or equal to 0." }
         require(defaultHeaders.keys.none { it.isBlank() }) { "defaultHeaders cannot contain blank header names." }
+        require(defaultHeaders.keys.all { it.isValidHeaderName() }) {
+            "defaultHeaders can only contain valid HTTP header names."
+        }
+        require(defaultHeaders.values.all { it.isValidHeaderValue() }) {
+            "defaultHeaders cannot contain invalid HTTP header values."
+        }
     }
 
     companion object {
@@ -28,5 +34,17 @@ data class NetworkConfig(
         const val DEFAULT_READ_TIMEOUT_MILLIS = 30_000L
         const val DEFAULT_WRITE_TIMEOUT_MILLIS = 30_000L
         const val DEFAULT_CALL_TIMEOUT_MILLIS = 0L
+
+        private val headerNamePattern = Regex("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
+    }
+
+    private fun String.isValidHeaderName(): Boolean {
+        return headerNamePattern.matches(this)
+    }
+
+    private fun String.isValidHeaderValue(): Boolean {
+        return all { character ->
+            character == '\t' || !character.isISOControl()
+        }
     }
 }

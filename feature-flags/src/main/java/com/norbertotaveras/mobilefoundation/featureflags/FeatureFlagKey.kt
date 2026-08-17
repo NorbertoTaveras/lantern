@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.featureflags.internal.FeatureFlagKey
 @JvmInline
 value class FeatureFlagKey private constructor(val value: String) {
     companion object {
+        @JvmStatic
         fun from(value: String): SdkResult<FeatureFlagKey> {
             return when (val result = FeatureFlagKeyValidator.validate(value)) {
                 is SdkResult.Success -> SdkResult.Success(FeatureFlagKey(result.data))

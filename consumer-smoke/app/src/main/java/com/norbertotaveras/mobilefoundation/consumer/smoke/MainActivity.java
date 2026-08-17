@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.norbertotaveras.mobilefoundation.auth.core.AuthProviderType;
 import com.norbertotaveras.mobilefoundation.auth.core.AuthSession;
-import com.norbertotaveras.mobilefoundation.core.Enviroment;
+import com.norbertotaveras.mobilefoundation.core.Environment;
 import com.norbertotaveras.mobilefoundation.core.SdkConfig;
 import com.norbertotaveras.mobilefoundation.core.SdkResult;
 import com.norbertotaveras.mobilefoundation.logging.NoOpSdkLogger;
@@ -15,7 +15,7 @@ public final class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SdkConfig config = new SdkConfig(Enviroment.Development, true);
+        SdkConfig config = new SdkConfig(Environment.Development, true);
         NoOpSdkLogger logger = new NoOpSdkLogger();
         AuthSession session = new AuthSession(
             "consumer-smoke",

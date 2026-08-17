@@ -6,7 +6,7 @@ import com.norbertotaveras.mobilefoundation.permissions.internal.AndroidVersionP
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionChecker
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionMapper
 
-class AndroidPermissionManager internal constructor(
+class AndroidPermissionManager private constructor(
     context: Context,
     private val requestLauncher: PermissionRequestLauncher? = null,
     private val rationaleProvider: PermissionRationaleProvider = PermissionRationaleProvider { false },

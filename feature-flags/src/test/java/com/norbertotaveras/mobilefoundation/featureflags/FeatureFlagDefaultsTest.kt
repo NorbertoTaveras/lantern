@@ -1,5 +1,7 @@
 package com.norbertotaveras.mobilefoundation.featureflags
 
+import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigKey
+import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigValue
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -26,5 +28,36 @@ class FeatureFlagDefaultsTest {
         val override = FeatureFlagDefaults(mapOf(key to FeatureFlagValue.BooleanValue(true)))
 
         assertEquals(FeatureFlagValue.BooleanValue(true), (base + override).values[key])
+    }
+
+    @Test
+    fun toRemoteConfigDefaultsMapsFeatureFlagValues() {
+        val defaults = FeatureFlagDefaults(
+            values = mapOf(
+                FeatureFlagKey.unsafe("welcome_enabled") to FeatureFlagValue.BooleanValue(true),
+                FeatureFlagKey.unsafe("paywall_variant") to FeatureFlagValue.StringValue("control"),
+                FeatureFlagKey.unsafe("checkout_limit") to FeatureFlagValue.LongValue(5L),
+                FeatureFlagKey.unsafe("discount_rate") to FeatureFlagValue.DoubleValue(0.25)
+            )
+        )
+
+        val remoteDefaults = defaults.toRemoteConfigDefaults()
+
+        assertEquals(
+            RemoteConfigValue.BooleanValue(true),
+            remoteDefaults.values[RemoteConfigKey.unsafe("welcome_enabled")]
+        )
+        assertEquals(
+            RemoteConfigValue.StringValue("control"),
+            remoteDefaults.values[RemoteConfigKey.unsafe("paywall_variant")]
+        )
+        assertEquals(
+            RemoteConfigValue.LongValue(5L),
+            remoteDefaults.values[RemoteConfigKey.unsafe("checkout_limit")]
+        )
+        assertEquals(
+            RemoteConfigValue.DoubleValue(0.25),
+            remoteDefaults.values[RemoteConfigKey.unsafe("discount_rate")]
+        )
     }
 }
