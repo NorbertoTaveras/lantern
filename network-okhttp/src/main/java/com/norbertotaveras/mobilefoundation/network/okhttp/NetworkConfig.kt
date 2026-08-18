@@ -1,5 +1,7 @@
 package com.norbertotaveras.mobilefoundation.network.okhttp
 
+import java.util.Locale
+
 /**
  * Base configuration used when creating Mobile Foundation OkHttp clients.
  *
@@ -23,6 +25,9 @@ data class NetworkConfig(
         require(defaultHeaders.keys.none { it.isBlank() }) { "defaultHeaders cannot contain blank header names." }
         require(defaultHeaders.keys.all { it.isValidHeaderName() }) {
             "defaultHeaders can only contain valid HTTP header names."
+        }
+        require(defaultHeaders.keys.distinctBy { it.lowercase(Locale.US) }.size == defaultHeaders.size) {
+            "defaultHeaders cannot contain duplicate header names."
         }
         require(defaultHeaders.values.all { it.isValidHeaderValue() }) {
             "defaultHeaders cannot contain invalid HTTP header values."

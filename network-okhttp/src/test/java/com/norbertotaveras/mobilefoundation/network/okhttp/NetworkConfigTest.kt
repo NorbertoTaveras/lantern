@@ -27,6 +27,13 @@ class NetworkConfigTest {
     }
 
     @Test
+    fun initRejectsDuplicateHeaderNamesIgnoringCase() {
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkConfig(defaultHeaders = mapOf("X-Trace-Id" to "first", "x-trace-id" to "second"))
+        }
+    }
+
+    @Test
     fun initRejectsHeaderValuesWithControlCharacters() {
         assertThrows(IllegalArgumentException::class.java) {
             NetworkConfig(defaultHeaders = mapOf("X-Trace-Id" to "first\nsecond"))
