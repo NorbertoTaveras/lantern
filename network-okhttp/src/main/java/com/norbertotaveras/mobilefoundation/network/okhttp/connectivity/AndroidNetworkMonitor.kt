@@ -52,10 +52,16 @@ private fun ConnectivityManager.connectivityStateChanges(): Flow<NetworkConnecti
         }
 
         trySend(currentConnectivityState())
-        registerNetworkCallback(createNetworkRequest(), callback)
+        val callbackRegistered = runCatching {
+            registerNetworkCallback(createNetworkRequest(), callback)
+        }.isSuccess
 
         awaitClose {
-            unregisterNetworkCallback(callback)
+            if (callbackRegistered) {
+                runCatching {
+                    unregisterNetworkCallback(callback)
+                }
+            }
         }
     }.distinctUntilChanged()
 }
