@@ -25,6 +25,22 @@ class NetworkLoggingInterceptorTest {
     }
 
     @Test
+    fun interceptDoesNotLogWhenLoggingIsDisabled() {
+        val logger = RecordingLogger()
+        val request = baseRequest.newBuilder()
+            .header("Authorization", "Bearer secret")
+            .build()
+        val client = clientWith(NetworkLoggingInterceptor(logger, NetworkLoggingLevel.None))
+
+        client.newCall(request).execute().close()
+
+        assertTrue(logger.debugMessages.isEmpty())
+        assertTrue(logger.infoMessages.isEmpty())
+        assertTrue(logger.warningMessages.isEmpty())
+        assertTrue(logger.errorMessages.isEmpty())
+    }
+
+    @Test
     fun interceptRedactsSensitiveHeaders() {
         val logger = RecordingLogger()
         val request = baseRequest.newBuilder()
@@ -91,6 +107,8 @@ class NetworkLoggingInterceptorTest {
     private class RecordingLogger : SdkLogger {
         val debugMessages = mutableListOf<String>()
         val infoMessages = mutableListOf<String>()
+        val warningMessages = mutableListOf<String>()
+        val errorMessages = mutableListOf<String>()
 
         override fun debug(message: String) {
             debugMessages += message
@@ -100,9 +118,13 @@ class NetworkLoggingInterceptorTest {
             infoMessages += message
         }
 
-        override fun warning(message: String, throwable: Throwable?) = Unit
+        override fun warning(message: String, throwable: Throwable?) {
+            warningMessages += message
+        }
 
-        override fun error(message: String, throwable: Throwable?) = Unit
+        override fun error(message: String, throwable: Throwable?) {
+            errorMessages += message
+        }
     }
 
     private companion object {
