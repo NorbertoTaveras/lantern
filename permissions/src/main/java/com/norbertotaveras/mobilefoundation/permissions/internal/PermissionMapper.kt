@@ -61,13 +61,19 @@ internal class PermissionMapper private constructor(
             )
         }
 
-        val allGranted = resolution.manifestPermissions.all { manifestPermission ->
-            grantResults?.get(manifestPermission) ?: isGranted(manifestPermission)
+        val deniedPermissions = resolution.manifestPermissions.filter { manifestPermission ->
+            !(grantResults?.get(manifestPermission) ?: isGranted(manifestPermission))
+        }
+        val status = when {
+            deniedPermissions.isEmpty() -> PermissionStatus.Granted
+            grantResults != null && deniedPermissions.any { !rationaleProvider.shouldShowRationale(it) } ->
+                PermissionStatus.PermanentlyDenied
+            else -> PermissionStatus.Denied
         }
 
         return PermissionState(
             permission = resolution.permission,
-            status = if (allGranted) PermissionStatus.Granted else PermissionStatus.Denied,
+            status = status,
             shouldShowRationale = shouldShowRationale
         )
     }

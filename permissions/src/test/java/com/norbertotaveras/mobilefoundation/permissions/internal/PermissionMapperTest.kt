@@ -91,6 +91,40 @@ class PermissionMapperTest {
     }
 
     @Test
+    fun `denied grant result without rationale returns permanently denied`() {
+        val mapper = PermissionMapper(
+            isGranted = { false },
+            isDeclared = { true },
+            shouldShowRationale = { false }
+        )
+
+        val state = mapper.toState(
+            resolution = cameraResolution,
+            grantResults = mapOf(android.Manifest.permission.CAMERA to false)
+        )
+
+        assertEquals(PermissionStatus.PermanentlyDenied, state.status)
+        assertFalse(state.shouldShowRationale)
+    }
+
+    @Test
+    fun `denied grant result with rationale returns denied`() {
+        val mapper = PermissionMapper(
+            isGranted = { false },
+            isDeclared = { true },
+            shouldShowRationale = { true }
+        )
+
+        val state = mapper.toState(
+            resolution = cameraResolution,
+            grantResults = mapOf(android.Manifest.permission.CAMERA to false)
+        )
+
+        assertEquals(PermissionStatus.Denied, state.status)
+        assertTrue(state.shouldShowRationale)
+    }
+
+    @Test
     fun `any denied manifest permission makes multi-permission state denied`() {
         val mapper = PermissionMapper(
             isGranted = { permission ->
