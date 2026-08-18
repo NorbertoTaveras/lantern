@@ -26,6 +26,14 @@ class NetworkErrorMapperTest {
     }
 
     @Test
+    fun mapUsesDefaultMessageWhenThrowableMessageIsBlank() {
+        val error = mapper.map(RuntimeException(""))
+
+        assertEquals(NetworkErrorCodes.UNKNOWN, error.code)
+        assertEquals("Network request failed.", error.message)
+    }
+
+    @Test
     fun retryExhaustedIncludesAttemptMetadata() {
         val error = mapper.retryExhausted(attempts = 3)
 

@@ -23,7 +23,7 @@ class NetworkErrorMapper {
 
         return SdkError(
             code = code,
-            message = throwable.localizedMessage ?: "Network request failed.",
+            message = throwable.localizedMessage.takeUnless { it.isNullOrBlank() } ?: "Network request failed.",
             cause = throwable
         )
     }
