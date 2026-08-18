@@ -65,6 +65,26 @@ class OkHttpNetworkClientFactoryTest {
         assertEquals(NoOpInterceptor, client.interceptors[3])
     }
 
+    @Test
+    fun createWithLoggingSkipsLoggingInterceptorWhenDisabled() {
+        val client = OkHttpNetworkClientFactory().createWithLogging(
+            logger = NoOpLogger,
+            loggingLevel = NetworkLoggingLevel.None,
+            interceptors = listOf(NoOpInterceptor)
+        )
+
+        assertEquals(listOf(NoOpInterceptor), client.interceptors)
+    }
+
+    @Test
+    fun createAddsCallerNetworkInterceptors() {
+        val client = OkHttpNetworkClientFactory().create(
+            networkInterceptors = listOf(NoOpInterceptor)
+        )
+
+        assertEquals(listOf(NoOpInterceptor), client.networkInterceptors)
+    }
+
     private fun interface TokenProvider : com.norbertotaveras.mobilefoundation.network.okhttp.TokenProvider
 
     private object NoOpLogger : com.norbertotaveras.mobilefoundation.logging.SdkLogger {
