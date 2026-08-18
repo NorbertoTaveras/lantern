@@ -34,8 +34,13 @@ class AuthHeaderInterceptor(
             return chain.proceed(request)
         }
 
+        val authorizationHeaderValue = "${scheme.trim()} $accessToken"
+        if (!authorizationHeaderValue.isValidHeaderValue()) {
+            return chain.proceed(request)
+        }
+
         val authorizedRequest = request.newBuilder()
-            .header(headerName, "${scheme.trim()} $accessToken")
+            .header(headerName, authorizationHeaderValue)
             .build()
 
         return chain.proceed(authorizedRequest)
@@ -55,5 +60,11 @@ class AuthHeaderInterceptor(
 
     private fun String.isValidAuthScheme(): Boolean {
         return authSchemePattern.matches(this)
+    }
+
+    private fun String.isValidHeaderValue(): Boolean {
+        return all { character ->
+            character == '\t' || !character.isISOControl()
+        }
     }
 }

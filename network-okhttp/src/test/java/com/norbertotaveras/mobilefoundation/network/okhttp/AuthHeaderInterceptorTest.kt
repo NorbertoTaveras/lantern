@@ -39,6 +39,19 @@ class AuthHeaderInterceptorTest {
     }
 
     @Test
+    fun interceptSkipsHeaderWhenTokenContainsControlCharacters() {
+        val recorder = RecordingTerminalInterceptor()
+        val client = clientWith(
+            AuthHeaderInterceptor(tokenProvider = TokenProvider { "abc\n123" }),
+            recorder
+        )
+
+        client.newCall(baseRequest).execute().close()
+
+        assertNull(recorder.request?.header("Authorization"))
+    }
+
+    @Test
     fun interceptPreservesExistingHeaderByDefault() {
         val request = baseRequest.newBuilder()
             .header("Authorization", "Basic existing")
