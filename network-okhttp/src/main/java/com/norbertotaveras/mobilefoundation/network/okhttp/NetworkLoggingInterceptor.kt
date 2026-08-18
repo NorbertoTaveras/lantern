@@ -16,6 +16,15 @@ class NetworkLoggingInterceptor(
     private val redactedHeaders: Set<String> = DEFAULT_REDACTED_HEADERS
 ) : Interceptor {
 
+    init {
+        require(redactedHeaders.none { it.isBlank() }) {
+            "redactedHeaders cannot contain blank header names."
+        }
+        require(redactedHeaders.all { it.isValidHeaderName() }) {
+            "redactedHeaders can only contain valid HTTP header names."
+        }
+    }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         if (level == NetworkLoggingLevel.None) {
             return chain.proceed(chain.request())
@@ -56,6 +65,10 @@ class NetworkLoggingInterceptor(
         }
     }
 
+    private fun String.isValidHeaderName(): Boolean {
+        return headerNamePattern.matches(this)
+    }
+
     companion object {
         const val REDACTED_VALUE = "[redacted]"
 
@@ -66,5 +79,7 @@ class NetworkLoggingInterceptor(
             "Set-Cookie",
             "X-Api-Key"
         ).mapTo(mutableSetOf()) { it.lowercase(Locale.US) }
+
+        private val headerNamePattern = Regex("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
     }
 }
