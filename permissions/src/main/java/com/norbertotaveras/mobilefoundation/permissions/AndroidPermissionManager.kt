@@ -6,6 +6,7 @@ import com.norbertotaveras.mobilefoundation.permissions.internal.AndroidVersionP
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionChecker
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionMapper
 import com.norbertotaveras.mobilefoundation.permissions.internal.ResolvedPermission
+import kotlin.coroutines.cancellation.CancellationException
 
 class AndroidPermissionManager private constructor(
     context: Context,
@@ -63,6 +64,8 @@ class AndroidPermissionManager private constructor(
 
         val grantResults = try {
             launcher.request(requestablePermissions)
+        } catch (exception: CancellationException) {
+            throw exception
         } catch (exception: Exception) {
             return PermissionResult(
                 states = resolutions.associate { it.permission to mapper.toState(it) },
