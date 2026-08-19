@@ -66,7 +66,9 @@ internal class PermissionMapper private constructor(
         }
         val status = when {
             deniedPermissions.isEmpty() -> PermissionStatus.Granted
-            grantResults != null && deniedPermissions.any { !rationaleProvider.shouldShowRationale(it) } ->
+            grantResults != null && deniedPermissions.any { manifestPermission ->
+                grantResults[manifestPermission] == false && !rationaleProvider.shouldShowRationale(manifestPermission)
+            } ->
                 PermissionStatus.PermanentlyDenied
             else -> PermissionStatus.Denied
         }

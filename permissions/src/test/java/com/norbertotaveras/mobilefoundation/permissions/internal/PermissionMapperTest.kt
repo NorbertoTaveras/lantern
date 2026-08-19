@@ -125,6 +125,23 @@ class PermissionMapperTest {
     }
 
     @Test
+    fun `missing grant result does not infer permanently denied`() {
+        val mapper = PermissionMapper(
+            isGranted = { false },
+            isDeclared = { true },
+            shouldShowRationale = { false }
+        )
+
+        val state = mapper.toState(
+            resolution = cameraResolution,
+            grantResults = emptyMap()
+        )
+
+        assertEquals(PermissionStatus.Denied, state.status)
+        assertFalse(state.shouldShowRationale)
+    }
+
+    @Test
     fun `any denied manifest permission makes multi-permission state denied`() {
         val mapper = PermissionMapper(
             isGranted = { permission ->
