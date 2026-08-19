@@ -5,6 +5,7 @@ import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.permissions.internal.AndroidVersionPermissionResolver
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionChecker
 import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionMapper
+import com.norbertotaveras.mobilefoundation.permissions.internal.ResolvedPermission
 
 class AndroidPermissionManager private constructor(
     context: Context,
@@ -32,7 +33,7 @@ class AndroidPermissionManager private constructor(
     }
 
     override fun checkMultiple(permissions: List<SdkPermission>): Map<SdkPermission, PermissionState> {
-        return permissions.associateWith { check(it) }
+        return normalizePermissions(permissions).associateWith { check(it) }
     }
 
     override suspend fun request(permission: SdkPermission): PermissionResult {
@@ -40,10 +41,8 @@ class AndroidPermissionManager private constructor(
     }
 
     override suspend fun requestMultiple(permissions: List<SdkPermission>): PermissionResult {
-        val resolutions = permissions.map(resolver::resolve)
-        val requestablePermissions = resolutions
-            .flatMap { it.manifestPermissions }
-            .distinct()
+        val resolutions = normalizePermissions(permissions).map(resolver::resolve)
+        val requestablePermissions = requestableManifestPermissions(resolutions)
 
         if (requestablePermissions.isEmpty()) {
             return PermissionResult(
@@ -72,5 +71,15 @@ class AndroidPermissionManager private constructor(
                 )
             }
         )
+    }
+
+    private fun normalizePermissions(permissions: List<SdkPermission>): List<SdkPermission> {
+        return permissions.distinct()
+    }
+
+    private fun requestableManifestPermissions(resolutions: List<ResolvedPermission>): List<String> {
+        return resolutions
+            .flatMap { it.manifestPermissions }
+            .distinct()
     }
 }
