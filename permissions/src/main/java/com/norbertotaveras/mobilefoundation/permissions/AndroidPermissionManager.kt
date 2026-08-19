@@ -61,7 +61,19 @@ class AndroidPermissionManager private constructor(
             )
         }
 
-        val grantResults = launcher.request(requestablePermissions)
+        val grantResults = try {
+            launcher.request(requestablePermissions)
+        } catch (exception: Exception) {
+            return PermissionResult(
+                states = resolutions.associate { it.permission to mapper.toState(it) },
+                error = SdkError(
+                    code = PermissionErrorCodes.UNKNOWN,
+                    message = exception.localizedMessage.takeUnless { it.isNullOrBlank() }
+                        ?: "Permission request failed.",
+                    cause = exception
+                )
+            )
+        }
 
         return PermissionResult(
             states = resolutions.associate { resolution ->
