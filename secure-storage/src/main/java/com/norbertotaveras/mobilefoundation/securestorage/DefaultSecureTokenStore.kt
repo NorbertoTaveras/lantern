@@ -3,11 +3,19 @@ package com.norbertotaveras.mobilefoundation.securestorage
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 import com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec
 
+/**
+ * Default [SecureTokenStore] implementation backed by a [SecureKeyValueStore].
+ *
+ * Tokens are encoded as structured strings before persistence and decoded when read back.
+ */
 class DefaultSecureTokenStore private constructor(
     private val keyValueStore: SecureKeyValueStore,
     private val tokenCodec: SecureTokenCodec = SecureTokenCodec()
 ) : SecureTokenStore {
 
+    /**
+     * Creates a token store using [keyValueStore] for persistence.
+     */
     constructor(
         keyValueStore: SecureKeyValueStore
     ) : this(

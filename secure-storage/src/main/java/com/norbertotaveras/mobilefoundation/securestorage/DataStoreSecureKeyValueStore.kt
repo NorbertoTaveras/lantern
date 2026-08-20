@@ -17,6 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 
+/**
+ * DataStore-backed [SecureKeyValueStore] implementation.
+ *
+ * This implementation stores values in the app process using AndroidX Preferences DataStore.
+ * Callers provide Firebase, auth, or app-specific secrets through the public store API; the SDK
+ * does not own app credentials or configuration files.
+ */
 class DataStoreSecureKeyValueStore private constructor(
     context: Context,
     private val config: SecureStorageConfig = SecureStorageConfig(),
@@ -25,6 +32,9 @@ class DataStoreSecureKeyValueStore private constructor(
     private val errorMapper: SecureStorageErrorMapper = SecureStorageErrorMapper()
 ) : SecureKeyValueStore {
 
+    /**
+     * Creates a DataStore-backed key-value store using [context.applicationContext].
+     */
     constructor(
         context: Context,
         config: SecureStorageConfig = SecureStorageConfig(),

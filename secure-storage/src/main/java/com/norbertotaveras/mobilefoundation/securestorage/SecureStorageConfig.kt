@@ -1,7 +1,23 @@
 package com.norbertotaveras.mobilefoundation.securestorage
 
+/**
+ * Configuration for the default secure storage implementation.
+ *
+ * [namespace] determines the storage file owned by this SDK store. Use a stable namespace per
+ * logical store so unrelated app data is not cleared together. [allowEmptyValues] controls
+ * whether empty strings can be persisted through [SecureKeyValueStore.putString].
+ */
 data class SecureStorageConfig(
+    /**
+     * Stable storage namespace used to derive the DataStore file name.
+     *
+     * Namespaces are trimmed, must be non-blank, and may contain letters, numbers, periods,
+     * underscores, and hyphens.
+     */
     val namespace: String = DEFAULT_NAMESPACE,
+    /**
+     * Whether [SecureKeyValueStore.putString] accepts empty string values.
+     */
     val allowEmptyValues: Boolean = true
 ) {
     init {
@@ -16,6 +32,9 @@ data class SecureStorageConfig(
     }
 
     companion object {
+        /**
+         * Default namespace used when a store does not need app-specific separation.
+         */
         const val DEFAULT_NAMESPACE = "mobile_foundation_secure_storage"
 
         private const val MAX_NAMESPACE_LENGTH = 80
