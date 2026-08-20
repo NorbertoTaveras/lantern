@@ -1,5 +1,11 @@
 # Mobile Foundation SDK
 
+[![Android CI](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
+![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
+![Maven Central](https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg)
+
 Mobile Foundation SDK is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
 
 The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, typed models, and explicit provider boundaries. Apps can depend on only the features they need, while keeping vendor-specific integrations such as Firebase, Google, OkHttp, and WorkManager isolated from provider-neutral contracts.
@@ -16,6 +22,8 @@ The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, t
 ## Status
 
 Mobile Foundation SDK is pre-1.0. The project is being prepared for public Maven Central publishing, so APIs should be treated as early release APIs until the first stable version is published.
+
+The Maven Central badge will be replaced with the published artifact version after the first public release.
 
 ## Requirements
 
