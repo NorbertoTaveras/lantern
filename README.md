@@ -410,20 +410,9 @@ The repository includes a Compose sample app in the `app` module. It demonstrate
 - SDK APIs favor explicit interfaces, typed models, coroutines, Flow, and `SdkResult`.
 - SDK modules do not hardcode secrets or app-specific runtime config.
 
-## Publishing Model
+## Versioning
 
-Production releases are published as Maven artifacts with:
-
-- Group ID: `com.norbertotaveras.mobilefoundation`
-- Artifact ID: `mobilefoundation-{module-name}`
-- Version from the release version
-- Android release AAR
-- Sources artifact
-- Generated docs artifact
-- POM metadata
-- Signing when release credentials are available
-
-Release branches use the `release/{version}` format. Snapshot versions are reserved for development builds and must end in `-SNAPSHOT`.
+Stable releases are published to Maven Central using semantic versioning. Until the SDK reaches `1.0.0`, minor versions may include API changes as the public contracts are finalized.
 
 ## License
 
