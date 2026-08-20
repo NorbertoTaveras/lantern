@@ -25,6 +25,10 @@ Mobile Foundation SDK is pre-1.0. The project is being prepared for public Maven
 
 The Maven Central badge will be replaced with the published artifact version after the first public release.
 
+## Documentation
+
+The public documentation source lives in [docs](docs/index.md) and is prepared for GitHub Pages publishing with Material for MkDocs.
+
 ## Requirements
 
 - Android min SDK: 24.
