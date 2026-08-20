@@ -11,28 +11,43 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
+/**
+ * [AuthProvider] implementation backed by Firebase Authentication.
+ */
 class FirebaseAuthProvider private constructor(
     private val firebaseAuth: FirebaseAuth,
     private val sessionMapper: FirebaseAuthSessionMapper,
     private val errorMapper: FirebaseAuthErrorMapper
 ) : AuthProvider {
 
+    /**
+     * Creates a provider using [FirebaseAuth.getInstance].
+     */
     constructor() : this(
         firebaseAuth = FirebaseAuth.getInstance(),
         sessionMapper = FirebaseAuthSessionMapper(),
         errorMapper = FirebaseAuthErrorMapper()
     )
 
+    /**
+     * Creates a provider using an injected [FirebaseAuth] instance.
+     */
     constructor(firebaseAuth: FirebaseAuth) : this(
         firebaseAuth = firebaseAuth,
         sessionMapper = FirebaseAuthSessionMapper(),
         errorMapper = FirebaseAuthErrorMapper()
     )
 
+    /**
+     * Signs in anonymously.
+     */
     override suspend fun signIn(): SdkResult<AuthSession> {
         return signInAnonymously()
     }
 
+    /**
+     * Starts Firebase anonymous sign-in and returns the normalized session.
+     */
     suspend fun signInAnonymously(): SdkResult<AuthSession> {
         return try {
             val result = firebaseAuth.signInAnonymously().await()
@@ -53,6 +68,9 @@ class FirebaseAuthProvider private constructor(
         }
     }
 
+    /**
+     * Signs in with Firebase email/password authentication.
+     */
     suspend fun signInWithEmailAndPassword(
         email: String,
         password: String
@@ -76,6 +94,9 @@ class FirebaseAuthProvider private constructor(
         }
     }
 
+    /**
+     * Creates a Firebase email/password account and returns the normalized session.
+     */
     suspend fun createUserWithEmailAndPassword(
         email: String,
         password: String

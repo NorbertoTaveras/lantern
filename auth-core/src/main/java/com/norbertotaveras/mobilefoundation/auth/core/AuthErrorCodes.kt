@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.core
 
+/**
+ * Stable provider-neutral error codes returned by auth APIs.
+ */
 object AuthErrorCodes {
     const val UNKNOWN = "auth_unknown"
     const val USER_CANCELLED = "auth_user_cancelled"

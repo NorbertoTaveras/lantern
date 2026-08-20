@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.core
 
+/**
+ * Provider-neutral user profile associated with an auth session.
+ */
 data class UserProfile(
     val userId: String,
     val email: String? = null,

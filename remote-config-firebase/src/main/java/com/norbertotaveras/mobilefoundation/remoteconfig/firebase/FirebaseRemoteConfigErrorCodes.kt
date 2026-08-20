@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.remoteconfig.firebase
 
+/**
+ * Stable error codes returned by Firebase Remote Config integration.
+ */
 object FirebaseRemoteConfigErrorCodes {
     const val UNKNOWN = "firebase_remote_config_unknown"
     const val FETCH_FAILED = "firebase_remote_config_fetch_failed"

@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.core
 
+/**
+ * Optional token data associated with an [AuthSession].
+ */
 data class AuthToken(
     val idToken: String? = null,
     val accessToken: String? = null,

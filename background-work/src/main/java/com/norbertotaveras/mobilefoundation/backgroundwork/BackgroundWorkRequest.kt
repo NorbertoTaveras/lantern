@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.backgroundwork
 
+/**
+ * Provider-neutral request to enqueue background work.
+ */
 data class BackgroundWorkRequest(
     val name: BackgroundWorkName,
     val type: BackgroundWorkType,

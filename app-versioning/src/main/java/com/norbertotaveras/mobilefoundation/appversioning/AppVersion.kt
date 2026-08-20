@@ -3,6 +3,9 @@ package com.norbertotaveras.mobilefoundation.appversioning
 import com.norbertotaveras.mobilefoundation.appversioning.internal.AppVersionParser
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * Semantic app version with optional qualifier.
+ */
 data class AppVersion(
     val major: Int,
     val minor: Int,
@@ -16,6 +19,9 @@ data class AppVersion(
         require(qualifier?.isNotBlank() ?: true) { "Version qualifier cannot be blank." }
     }
 
+    /**
+     * Compares major, minor, and patch values. Qualifiers do not affect ordering.
+     */
     override fun compareTo(other: AppVersion): Int {
         return compareValuesBy(this, other, AppVersion::major, AppVersion::minor, AppVersion::patch)
     }
@@ -26,6 +32,9 @@ data class AppVersion(
     }
 
     companion object {
+        /**
+         * Parses a version string in `major.minor.patch` or `major.minor.patch-qualifier` form.
+         */
         @JvmStatic
         fun parse(value: String): SdkResult<AppVersion> {
             return AppVersionParser.parse(value)

@@ -6,15 +6,24 @@ import com.norbertotaveras.mobilefoundation.notifications.NotificationTopic
 import com.norbertotaveras.mobilefoundation.notifications.NotificationTopicManager
 import kotlinx.coroutines.tasks.await
 
+/**
+ * [NotificationTopicManager] implementation backed by Firebase Messaging topics.
+ */
 class FirebaseMessagingTopicManager private constructor(
     private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
     private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
 ) : NotificationTopicManager {
 
+    /**
+     * Creates a Firebase Messaging topic manager with the default Firebase instance.
+     */
     constructor() : this(
         firebaseMessaging = FirebaseMessaging.getInstance()
     )
 
+    /**
+     * Creates a Firebase Messaging topic manager with an injectable Firebase instance.
+     */
     constructor(
         firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance()
     ) : this(

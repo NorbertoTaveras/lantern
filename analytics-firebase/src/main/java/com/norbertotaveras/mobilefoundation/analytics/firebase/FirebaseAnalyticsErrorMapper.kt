@@ -2,6 +2,9 @@ package com.norbertotaveras.mobilefoundation.analytics.firebase
 
 import com.norbertotaveras.mobilefoundation.core.SdkError
 
+/**
+ * Maps Firebase Analytics failures into SDK errors.
+ */
 object FirebaseAnalyticsErrorMapper {
     fun trackFailure(cause: Throwable): SdkError {
         return SdkError(

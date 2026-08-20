@@ -3,6 +3,9 @@ package com.norbertotaveras.mobilefoundation.remoteconfig.firebase
 import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigDefaults
 import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigValue
 
+/**
+ * Converts SDK remote config defaults into Firebase-supported default values.
+ */
 fun RemoteConfigDefaults.toFirebaseDefaults(): Map<String, Any> {
     return values.mapKeys { (key, _) -> key.value }
         .mapValues { (_, value) ->

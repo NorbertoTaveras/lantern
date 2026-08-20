@@ -10,11 +10,17 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
 import com.norbertotaveras.mobilefoundation.logging.NoOpSdkLogger
 import com.norbertotaveras.mobilefoundation.logging.SdkLogger
 
+/**
+ * [AnalyticsProvider] implementation backed by Firebase Analytics.
+ */
 class FirebaseAnalyticsProvider(
     private val firebaseAnalytics: FirebaseAnalytics,
     private val logger: SdkLogger = NoOpSdkLogger()
 ) : AnalyticsProvider {
 
+    /**
+     * Creates a Firebase Analytics provider from [context].
+     */
     constructor(
         context: Context,
         logger: SdkLogger = NoOpSdkLogger()

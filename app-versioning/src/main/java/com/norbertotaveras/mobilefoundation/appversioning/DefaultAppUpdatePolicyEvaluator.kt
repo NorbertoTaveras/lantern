@@ -3,6 +3,9 @@ package com.norbertotaveras.mobilefoundation.appversioning
 import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * Default [AppUpdatePolicyEvaluator] implementation.
+ */
 class DefaultAppUpdatePolicyEvaluator : AppUpdatePolicyEvaluator {
     override fun evaluate(
         currentVersion: AppVersion,

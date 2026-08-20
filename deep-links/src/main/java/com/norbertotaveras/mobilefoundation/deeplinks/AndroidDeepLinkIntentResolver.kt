@@ -4,9 +4,15 @@ import android.content.Intent
 import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * Resolves Android [Intent] data URIs into SDK deep-link models.
+ */
 class AndroidDeepLinkIntentResolver(
     private val parser: DeepLinkParser = DefaultDeepLinkParser()
 ) : DeepLinkIntentResolver {
+    /**
+     * Parses [intent.dataString] into a [DeepLink].
+     */
     override fun resolve(intent: Intent): SdkResult<DeepLink> {
         val value = intent.dataString
         if (value.isNullOrBlank()) {

@@ -3,6 +3,9 @@ package com.norbertotaveras.mobilefoundation.remoteconfig.firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigSettings
 
+/**
+ * Converts SDK remote config settings into Firebase Remote Config settings.
+ */
 fun RemoteConfigSettings.toFirebase(): FirebaseRemoteConfigSettings {
     return FirebaseRemoteConfigSettings.Builder()
         .setMinimumFetchIntervalInSeconds(minimumFetchIntervalMillis / MILLIS_PER_SECOND)

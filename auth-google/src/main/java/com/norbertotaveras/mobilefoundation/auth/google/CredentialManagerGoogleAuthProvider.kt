@@ -11,12 +11,21 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.norbertotaveras.mobilefoundation.core.SdkError
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * [GoogleAuthProvider] implementation backed by Android Credential Manager.
+ */
 class CredentialManagerGoogleAuthProvider private constructor(
     private val errorMapper: GoogleAuthErrorMapper = GoogleAuthErrorMapper()
 ) : GoogleAuthProvider {
 
+    /**
+     * Creates a Credential Manager Google auth provider.
+     */
     constructor() : this(GoogleAuthErrorMapper())
 
+    /**
+     * Launches Google sign-in and returns a Google ID token credential.
+     */
     override suspend fun signIn(
         context: Context,
         config: GoogleAuthConfig
@@ -68,6 +77,9 @@ class CredentialManagerGoogleAuthProvider private constructor(
         }
     }
 
+    /**
+     * Clears Credential Manager credential state for sign-out.
+     */
     override suspend fun signOut(context: Context): SdkResult<Unit> {
         return try {
             val credentialManager = CredentialManager.create(context)

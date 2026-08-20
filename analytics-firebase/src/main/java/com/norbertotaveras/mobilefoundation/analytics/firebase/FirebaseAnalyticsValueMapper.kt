@@ -3,7 +3,13 @@ package com.norbertotaveras.mobilefoundation.analytics.firebase
 import android.os.Bundle
 import com.norbertotaveras.mobilefoundation.analytics.AnalyticsValue
 
+/**
+ * Maps SDK analytics values to Firebase Analytics supported values.
+ */
 object FirebaseAnalyticsValueMapper {
+    /**
+     * Converts event parameters into a Firebase [Bundle].
+     */
     fun toBundle(parameters: Map<String, AnalyticsValue>): Bundle {
         return Bundle().apply {
             parameters.forEach { (key, value) ->
@@ -17,6 +23,9 @@ object FirebaseAnalyticsValueMapper {
         }
     }
 
+    /**
+     * Converts a typed SDK value into a Firebase user property string.
+     */
     fun toUserPropertyValue(value: AnalyticsValue): String {
         return when (value) {
             is AnalyticsValue.BooleanValue -> value.value.toString()

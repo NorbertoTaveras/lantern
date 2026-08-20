@@ -18,6 +18,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
+/**
+ * [AuthProvider] that signs in with Google and exchanges the ID token with Firebase Auth.
+ */
 class FirebaseGoogleAuthProvider private constructor(
     private val context: Context,
     private val config: FirebaseGoogleAuthConfig,
@@ -27,6 +30,9 @@ class FirebaseGoogleAuthProvider private constructor(
     privateMarker: Unit
 ) : AuthProvider {
 
+    /**
+     * Creates a Firebase + Google provider using default Firebase and Credential Manager instances.
+     */
     constructor(
         context: Context,
         config: FirebaseGoogleAuthConfig
@@ -38,6 +44,9 @@ class FirebaseGoogleAuthProvider private constructor(
         privateMarker = Unit
     )
 
+    /**
+     * Creates a Firebase + Google provider with injectable Firebase and Google dependencies.
+     */
     constructor(
         context: Context,
         config: FirebaseGoogleAuthConfig,

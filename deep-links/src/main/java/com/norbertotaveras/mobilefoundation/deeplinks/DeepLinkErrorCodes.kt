@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.deeplinks
 
+/**
+ * Stable error codes returned by deep-link APIs.
+ */
 object DeepLinkErrorCodes {
     const val INVALID_URI = "deep_link_invalid_uri"
     const val INVALID_SCHEME = "deep_link_invalid_scheme"

@@ -8,6 +8,9 @@ import com.norbertotaveras.mobilefoundation.permissions.internal.PermissionMappe
 import com.norbertotaveras.mobilefoundation.permissions.internal.ResolvedPermission
 import kotlin.coroutines.cancellation.CancellationException
 
+/**
+ * Android runtime permission manager backed by platform permission checks and an app-provided launcher.
+ */
 class AndroidPermissionManager private constructor(
     context: Context,
     private val requestLauncher: PermissionRequestLauncher? = null,
@@ -15,6 +18,9 @@ class AndroidPermissionManager private constructor(
     private val resolver: AndroidVersionPermissionResolver = AndroidVersionPermissionResolver()
 ) : PermissionManager {
 
+    /**
+     * Creates a permission manager using [context.applicationContext] for permission checks.
+     */
     constructor(
         context: Context,
         requestLauncher: PermissionRequestLauncher? = null,

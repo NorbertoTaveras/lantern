@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
+/**
+ * [RemoteConfigProvider] implementation backed by Firebase Remote Config.
+ */
 class FirebaseRemoteConfigProvider private constructor(
     private val firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance(),
     private val config: FirebaseRemoteConfigProviderConfig = FirebaseRemoteConfigProviderConfig(),
@@ -24,11 +27,17 @@ class FirebaseRemoteConfigProvider private constructor(
     private val errorMapper: FirebaseRemoteConfigErrorMapper = FirebaseRemoteConfigErrorMapper()
 ) : RemoteConfigProvider {
 
+    /**
+     * Creates a Firebase Remote Config provider with default Firebase instance and settings.
+     */
     constructor() : this(
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance(),
         config = FirebaseRemoteConfigProviderConfig()
     )
 
+    /**
+     * Creates a Firebase Remote Config provider with injectable Firebase dependencies.
+     */
     constructor(
         firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance(),
         config: FirebaseRemoteConfigProviderConfig = FirebaseRemoteConfigProviderConfig()
@@ -43,6 +52,9 @@ class FirebaseRemoteConfigProvider private constructor(
 
     override val updates: Flow<RemoteConfigSnapshot> = snapshotState.asStateFlow()
 
+    /**
+     * Applies configured Firebase Remote Config settings.
+     */
     suspend fun applySettings(): SdkResult<Unit> {
         return try {
             firebaseRemoteConfig.setConfigSettingsAsync(config.settings.toFirebase()).await()

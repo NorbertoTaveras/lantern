@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.core
 
+/**
+ * Normalized authenticated session.
+ */
 data class AuthSession(
     val userId: String,
     val provider: AuthProviderType,

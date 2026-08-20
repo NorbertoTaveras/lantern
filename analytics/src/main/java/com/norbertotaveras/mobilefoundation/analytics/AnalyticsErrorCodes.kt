@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.analytics
 
+/**
+ * Stable provider-neutral error codes returned by analytics APIs.
+ */
 object AnalyticsErrorCodes {
     const val INVALID_EVENT_NAME = "analytics_invalid_event_name"
     const val INVALID_PROPERTY_NAME = "analytics_invalid_property_name"

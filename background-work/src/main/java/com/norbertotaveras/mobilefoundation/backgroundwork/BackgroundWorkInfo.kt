@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.backgroundwork
 
+/**
+ * Current state and data for scheduled background work.
+ */
 data class BackgroundWorkInfo(
     val id: BackgroundWorkId,
     val name: BackgroundWorkName,

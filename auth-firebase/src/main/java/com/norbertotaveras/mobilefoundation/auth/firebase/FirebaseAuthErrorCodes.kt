@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.firebase
 
+/**
+ * Stable error codes returned by Firebase Auth integration.
+ */
 object FirebaseAuthErrorCodes {
     const val UNKNOWN = "firebase_auth_unknown"
     const val SESSION_NOT_FOUND = "firebase_auth_session_not_found"

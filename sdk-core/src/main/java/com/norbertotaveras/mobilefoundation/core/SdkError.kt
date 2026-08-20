@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.core
 
+/**
+ * Provider-neutral error returned by SDK APIs.
+ */
 data class SdkError(
     val code: String,
     val message: String,

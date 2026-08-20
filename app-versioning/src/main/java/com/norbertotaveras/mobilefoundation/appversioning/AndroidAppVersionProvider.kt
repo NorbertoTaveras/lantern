@@ -8,12 +8,18 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
 import com.norbertotaveras.mobilefoundation.logging.NoOpSdkLogger
 import com.norbertotaveras.mobilefoundation.logging.SdkLogger
 
+/**
+ * [AppVersionProvider] that reads the current app version from Android package info.
+ */
 class AndroidAppVersionProvider(
     context: Context,
     private val logger: SdkLogger = NoOpSdkLogger()
 ) : AppVersionProvider {
     private val appContext = context.applicationContext
 
+    /**
+     * Returns the current app version parsed from `versionName`.
+     */
     override suspend fun getCurrentVersion(): SdkResult<AppVersion> {
         val packageName = appContext.packageName
         val packageInfo = try {

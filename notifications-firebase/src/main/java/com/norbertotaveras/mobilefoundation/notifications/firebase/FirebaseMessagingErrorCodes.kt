@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.notifications.firebase
 
+/**
+ * Stable error codes returned by Firebase Messaging integration.
+ */
 object FirebaseMessagingErrorCodes {
     const val UNKNOWN = "firebase_messaging_unknown"
     const val TOKEN_UNAVAILABLE = "firebase_messaging_token_unavailable"

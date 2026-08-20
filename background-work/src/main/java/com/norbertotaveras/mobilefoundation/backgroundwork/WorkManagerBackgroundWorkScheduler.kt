@@ -27,12 +27,18 @@ import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 
+/**
+ * [BackgroundWorkScheduler] implementation backed by AndroidX WorkManager.
+ */
 class WorkManagerBackgroundWorkScheduler(
     private val workManager: WorkManager,
     private val workerClasses: Map<BackgroundWorkName, Class<out ListenableWorker>>,
     private val logger: SdkLogger = NoOpSdkLogger()
 ) : BackgroundWorkScheduler {
 
+    /**
+     * Creates a scheduler from [context] and a map of work names to WorkManager workers.
+     */
     constructor(
         context: Context,
         workerClasses: Map<BackgroundWorkName, Class<out ListenableWorker>>,

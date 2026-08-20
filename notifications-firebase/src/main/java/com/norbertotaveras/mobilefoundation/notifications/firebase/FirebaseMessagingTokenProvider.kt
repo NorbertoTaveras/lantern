@@ -11,17 +11,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
+/**
+ * [NotificationTokenProvider] implementation backed by Firebase Messaging.
+ */
 class FirebaseMessagingTokenProvider private constructor(
     private val firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
     private val firebaseInstallations: FirebaseInstallations = FirebaseInstallations.getInstance(),
     private val errorMapper: FirebaseMessagingErrorMapper = FirebaseMessagingErrorMapper()
 ) : NotificationTokenProvider {
 
+    /**
+     * Creates a Firebase Messaging token provider with default Firebase instances.
+     */
     constructor() : this(
         firebaseMessaging = FirebaseMessaging.getInstance(),
         firebaseInstallations = FirebaseInstallations.getInstance()
     )
 
+    /**
+     * Creates a Firebase Messaging token provider with injectable Firebase dependencies.
+     */
     constructor(
         firebaseMessaging: FirebaseMessaging = FirebaseMessaging.getInstance(),
         firebaseInstallations: FirebaseInstallations = FirebaseInstallations.getInstance()

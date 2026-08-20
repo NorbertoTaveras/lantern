@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.analytics.firebase
 
+/**
+ * Stable error codes returned by Firebase Analytics integration.
+ */
 object FirebaseAnalyticsErrorCodes {
     const val TRACK_FAILED = "firebase_analytics_track_failed"
     const val USER_ID_FAILED = "firebase_analytics_user_id_failed"

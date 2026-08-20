@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+/**
+ * Android [NetworkMonitor] implementation backed by [ConnectivityManager].
+ */
 class AndroidNetworkMonitor(
     context: Context
 ) : NetworkMonitor {

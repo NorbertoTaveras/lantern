@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.backgroundwork
 
+/**
+ * Stable error codes returned by background-work APIs.
+ */
 object BackgroundWorkErrorCodes {
     const val INVALID_WORK_ID = "background_work_invalid_work_id"
     const val INVALID_WORK_NAME = "background_work_invalid_work_name"

@@ -3,9 +3,15 @@ package com.norbertotaveras.mobilefoundation.analytics
 import com.norbertotaveras.mobilefoundation.analytics.internal.AnalyticsNameValidator
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * Validated analytics event name.
+ */
 @JvmInline
 value class AnalyticsEventName private constructor(val value: String) {
     companion object {
+        /**
+         * Creates an [AnalyticsEventName] after trimming and validating [value].
+         */
         @JvmStatic
         fun from(value: String): SdkResult<AnalyticsEventName> {
             return when (val result = AnalyticsNameValidator.validateEventName(value)) {
@@ -14,6 +20,9 @@ value class AnalyticsEventName private constructor(val value: String) {
             }
         }
 
+        /**
+         * Creates an [AnalyticsEventName] without validation for trusted constants.
+         */
         fun unsafe(value: String): AnalyticsEventName {
             return AnalyticsEventName(value)
         }

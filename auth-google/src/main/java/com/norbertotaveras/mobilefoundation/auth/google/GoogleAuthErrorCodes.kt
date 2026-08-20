@@ -1,5 +1,8 @@
 package com.norbertotaveras.mobilefoundation.auth.google
 
+/**
+ * Stable error codes returned by Google auth integration.
+ */
 object GoogleAuthErrorCodes {
     const val UNKNOWN = "google_auth_unknown"
     const val USER_CANCELLED = "google_auth_user_cancelled"

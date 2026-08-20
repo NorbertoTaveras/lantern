@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 
+/**
+ * In-memory scheduler useful for tests, demos, and hosts without WorkManager.
+ */
 class NoOpBackgroundWorkScheduler : BackgroundWorkScheduler {
     private val workInfo = MutableStateFlow<Map<BackgroundWorkName, BackgroundWorkInfo>>(emptyMap())
 
