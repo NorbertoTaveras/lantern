@@ -7,11 +7,19 @@ import com.norbertotaveras.mobilefoundation.mediapicker.MediaPicker
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerErrorCodes
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult
 
+/**
+ * [MediaPicker] implementation backed by Android Photo Picker.
+ *
+ * The consuming app owns Activity Result registration through [AndroidPhotoPickerLauncher].
+ */
 class AndroidPhotoPickerMediaPicker private constructor(
     private val launcher: AndroidPhotoPickerLauncher,
     private val requestMapper: AndroidPhotoPickerRequestMapper = AndroidPhotoPickerRequestMapper()
 ) : MediaPicker {
 
+    /**
+     * Creates a picker using an app-provided [launcher].
+     */
     constructor(
         launcher: AndroidPhotoPickerLauncher
     ) : this(

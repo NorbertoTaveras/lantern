@@ -6,8 +6,14 @@ import com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult
 import com.norbertotaveras.mobilefoundation.mediapicker.MediaType
 import com.norbertotaveras.mobilefoundation.mediapicker.PickedMediaItem
 
+/**
+ * Maps Android Photo Picker URI results into provider-neutral picker results.
+ */
 class AndroidPhotoPickerResultMapper {
 
+    /**
+     * Maps a single picker [uri], returning [MediaPickerResult.Cancelled] when it is `null`.
+     */
     fun mapSingle(
         uri: Uri?,
         request: MediaPickRequest
@@ -15,6 +21,9 @@ class AndroidPhotoPickerResultMapper {
         return uri?.let { mapUris(listOf(it), request) } ?: MediaPickerResult.Cancelled
     }
 
+    /**
+     * Maps multiple picker [uris], returning [MediaPickerResult.Cancelled] when the list is empty.
+     */
     fun mapMultiple(
         uris: List<Uri>,
         request: MediaPickRequest

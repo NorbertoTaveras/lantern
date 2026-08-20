@@ -13,6 +13,11 @@ class OkHttpNetworkClientFactory(
     private val config: NetworkConfig = NetworkConfig()
 ) {
 
+    /**
+     * Creates an [OkHttpClient] with configured timeouts, headers, auth, retry, and custom interceptors.
+     *
+     * Interceptors are added after Mobile Foundation default headers, auth, and retry interceptors.
+     */
     fun create(
         tokenProvider: TokenProvider? = null,
         retryConfig: NetworkRetryConfig? = null,
@@ -29,6 +34,12 @@ class OkHttpNetworkClientFactory(
         )
     }
 
+    /**
+     * Creates an [OkHttpClient] with SDK network logging enabled.
+     *
+     * Request and response bodies are not logged. Sensitive headers are redacted by
+     * [NetworkLoggingInterceptor].
+     */
     fun createWithLogging(
         logger: SdkLogger,
         loggingLevel: NetworkLoggingLevel = NetworkLoggingLevel.Basic,

@@ -5,6 +5,9 @@ import com.norbertotaveras.mobilefoundation.deeplinks.DeepLink
 import com.norbertotaveras.mobilefoundation.deeplinks.DeepLinkParser
 import com.norbertotaveras.mobilefoundation.deeplinks.DefaultDeepLinkParser
 
+/**
+ * Default resolver that parses [NotificationPayload.deepLink] with the SDK deep-link parser.
+ */
 class DefaultNotificationDeepLinkResolver(
     private val parser: DeepLinkParser = DefaultDeepLinkParser()
 ) : NotificationDeepLinkResolver {

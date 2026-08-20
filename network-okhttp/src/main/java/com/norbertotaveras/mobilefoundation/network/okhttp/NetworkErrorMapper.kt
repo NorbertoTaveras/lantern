@@ -12,6 +12,9 @@ import okhttp3.Response
  */
 class NetworkErrorMapper {
 
+    /**
+     * Maps a thrown network failure into an [SdkError].
+     */
     fun map(throwable: Throwable): SdkError {
         val code = when (throwable) {
             is SocketTimeoutException -> NetworkErrorCodes.TIMEOUT
@@ -28,6 +31,9 @@ class NetworkErrorMapper {
         )
     }
 
+    /**
+     * Maps an HTTP response failure into an [SdkError] with status and URL metadata.
+     */
     fun mapHttp(response: Response): SdkError {
         return SdkError(
             code = NetworkErrorCodes.HTTP_ERROR,
@@ -39,6 +45,9 @@ class NetworkErrorMapper {
         )
     }
 
+    /**
+     * Creates an error for exhausted retry attempts.
+     */
     fun retryExhausted(attempts: Int, cause: Throwable? = null): SdkError {
         return SdkError(
             code = NetworkErrorCodes.RETRY_EXHAUSTED,

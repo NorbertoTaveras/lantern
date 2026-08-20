@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+/**
+ * In-memory [FeatureFlagProvider] useful for tests, demos, and local-only flag sets.
+ */
 class StaticFeatureFlagProvider(
     initialValues: Map<FeatureFlagKey, FeatureFlagValue> = emptyMap()
 ) : FeatureFlagProvider {
@@ -12,6 +15,9 @@ class StaticFeatureFlagProvider(
 
     override val updates: Flow<FeatureFlagSnapshot> = snapshotState.asStateFlow()
 
+    /**
+     * Replaces the active in-memory values and emits a new snapshot.
+     */
     fun update(values: Map<FeatureFlagKey, FeatureFlagValue>) {
         snapshotState.value = FeatureFlagSnapshot(values)
     }

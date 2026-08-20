@@ -9,6 +9,9 @@ import okhttp3.Response
 
 /**
  * Logs request and response metadata without logging bodies.
+ *
+ * Use [NetworkLoggingLevel.Headers] only when header-level diagnostics are needed; sensitive
+ * header names are redacted before being sent to [logger].
  */
 class NetworkLoggingInterceptor(
     private val logger: SdkLogger,

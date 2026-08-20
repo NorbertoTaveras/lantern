@@ -6,6 +6,11 @@ import com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Feature flag provider backed by [RemoteConfigProvider].
+ *
+ * Remote config keys are matched to feature flag keys by their raw string value.
+ */
 class RemoteConfigFeatureFlagProvider(
     private val remoteConfigProvider: RemoteConfigProvider
 ) : FeatureFlagProvider {

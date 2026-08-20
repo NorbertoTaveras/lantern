@@ -10,6 +10,9 @@ import okhttp3.Response
 
 /**
  * Retries idempotent requests after transient HTTP statuses or IO failures.
+ *
+ * The interceptor honors valid `Retry-After` response headers and otherwise uses
+ * [NetworkRetryConfig.delayForRetry]. Non-idempotent request methods are never retried.
  */
 class RetryInterceptor(
     private val config: NetworkRetryConfig = NetworkRetryConfig(),
@@ -88,6 +91,11 @@ class RetryInterceptor(
         return (retryAtMillis - System.currentTimeMillis()).coerceAtLeast(0L)
     }
 
+    /**
+     * Sleeps between retry attempts.
+     *
+     * This is injectable so tests and custom hosts can avoid blocking threads directly.
+     */
     interface Sleeper {
         fun sleep(delayMillis: Long)
     }

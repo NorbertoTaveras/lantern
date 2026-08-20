@@ -2,6 +2,9 @@ package com.norbertotaveras.mobilefoundation.notifications
 
 import com.norbertotaveras.mobilefoundation.core.SdkResult
 
+/**
+ * Default parser for common notification data payload keys.
+ */
 class DefaultNotificationPayloadParser : NotificationPayloadParser {
     override fun parse(data: Map<String, String>): SdkResult<NotificationPayload> {
         val title = data.firstValue(TITLE_KEYS)

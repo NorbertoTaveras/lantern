@@ -8,13 +8,37 @@ import java.util.Locale
  * Timeout values are in milliseconds. A timeout value of 0 uses OkHttp's no-timeout behavior.
  */
 data class NetworkConfig(
+    /**
+     * TCP connection timeout in milliseconds.
+     */
     val connectTimeoutMillis: Long = DEFAULT_CONNECT_TIMEOUT_MILLIS,
+    /**
+     * Response body read timeout in milliseconds.
+     */
     val readTimeoutMillis: Long = DEFAULT_READ_TIMEOUT_MILLIS,
+    /**
+     * Request body write timeout in milliseconds.
+     */
     val writeTimeoutMillis: Long = DEFAULT_WRITE_TIMEOUT_MILLIS,
+    /**
+     * Full-call timeout in milliseconds. The default of 0 disables the call timeout.
+     */
     val callTimeoutMillis: Long = DEFAULT_CALL_TIMEOUT_MILLIS,
+    /**
+     * Headers applied to every request unless another interceptor replaces them later.
+     */
     val defaultHeaders: Map<String, String> = emptyMap(),
+    /**
+     * Whether OkHttp follows HTTP redirects.
+     */
     val followRedirects: Boolean = true,
+    /**
+     * Whether OkHttp follows redirects between HTTP and HTTPS.
+     */
     val followSslRedirects: Boolean = true,
+    /**
+     * Whether OkHttp retries connection-level failures.
+     */
     val retryOnConnectionFailure: Boolean = true
 ) {
     init {
@@ -35,9 +59,21 @@ data class NetworkConfig(
     }
 
     companion object {
+        /**
+         * Default TCP connection timeout.
+         */
         const val DEFAULT_CONNECT_TIMEOUT_MILLIS = 10_000L
+        /**
+         * Default response body read timeout.
+         */
         const val DEFAULT_READ_TIMEOUT_MILLIS = 30_000L
+        /**
+         * Default request body write timeout.
+         */
         const val DEFAULT_WRITE_TIMEOUT_MILLIS = 30_000L
+        /**
+         * Default full-call timeout. A value of 0 means no timeout.
+         */
         const val DEFAULT_CALL_TIMEOUT_MILLIS = 0L
 
         private val headerNamePattern = Regex("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
