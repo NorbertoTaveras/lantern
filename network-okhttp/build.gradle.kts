@@ -25,7 +25,7 @@ dependencies {
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.okhttp)
+    api(libs.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

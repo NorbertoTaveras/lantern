@@ -44,4 +44,9 @@ dependencies {
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications:${mobileFoundationVersion.get()}")
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications-firebase:${mobileFoundationVersion.get()}")
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-media-picker:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-firebase:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-deep-links:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-background-work:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-app-versioning:${mobileFoundationVersion.get()}")
 }
