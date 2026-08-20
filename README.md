@@ -3,7 +3,7 @@
 [![Android CI](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
-![Min SDK](https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2FNorbertoTaveras%2Fandroid_mobilefoundation_framework%2Fdevelop%2Fsdk-core%2Fbuild.gradle.kts&search=minSdk%5Cs%2A%3D%5Cs%2A%28%5Cd%2B%29&replace=%241&label=min%20SDK&color=3DDC84)
+![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
 ![Maven Central](https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg)
 
 Mobile Foundation SDK is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
