@@ -24,6 +24,32 @@ val request = MediaPickRequest(
 val result = mediaPicker.pick(request)
 ```
 
+Handle the result as an SDK value:
+
+```kotlin
+when (val result = mediaPicker.pick(request)) {
+    is SdkResult.Success -> {
+        val pickerResult = result.data
+        if (pickerResult.hasSelection) {
+            val selectedItems = pickerResult.items
+        }
+    }
+    is SdkResult.Failure -> {
+        val error = result.error
+    }
+}
+```
+
+For multiple selection, provide `MediaSelectionMode.Multiple` and a positive item limit:
+
+```kotlin
+val request = MediaPickRequest(
+    mediaTypes = setOf(MediaType.Image, MediaType.Video),
+    selectionMode = MediaSelectionMode.Multiple,
+    maxItems = 5
+)
+```
+
 ## Android Photo Picker
 
 The Android implementation uses app-provided launcher wiring:
