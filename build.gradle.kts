@@ -241,6 +241,41 @@ tasks.register<Copy>("generatePublicApiDocs") {
     into(generatedApiDocsDirectory)
 }
 
+tasks.register("checkGeneratedApiDocs") {
+    group = "verification"
+    description = "Checks generated API reference docs and public docs links."
+    dependsOn("generatePublicApiDocs")
+
+    doLast {
+        val generatedApiDirectory = generatedApiDocsDirectory.asFile
+        val generatedIndexFile = generatedApiDirectory.resolve("index.html")
+        check(generatedIndexFile.isFile) {
+            "Expected generated API reference index at ${generatedIndexFile.path}."
+        }
+
+        val generatedHtmlFiles = generatedApiDirectory
+            .walkTopDown()
+            .filter { it.isFile && it.extension == "html" }
+            .toList()
+        check(generatedHtmlFiles.isNotEmpty()) {
+            "Expected generated API reference HTML files under ${generatedApiDirectory.path}."
+        }
+
+        val generatedHtml = generatedHtmlFiles.joinToString(separator = "\n") { it.readText() }
+        val sourceLinkPattern = Regex(
+            """https://github\.com/NorbertoTaveras/android_mobilefoundation_framework/blob/[^"]+/[^"]+\.kt#L\d+"""
+        )
+        check(sourceLinkPattern.containsMatchIn(generatedHtml)) {
+            "Expected generated API reference docs to include GitHub source links with #L line anchors."
+        }
+
+        val apiReferencePage = layout.projectDirectory.file("docs/api-reference.md").asFile
+        check(apiReferencePage.readText().contains("generated/api/index.html")) {
+            "Expected docs/api-reference.md to link to generated/api/index.html."
+        }
+    }
+}
+
 tasks.register("checkPublishingGroup") {
     group = "verification"
     description = "Checks SDK Maven publication coordinates before CI publishing."

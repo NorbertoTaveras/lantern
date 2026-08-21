@@ -338,7 +338,7 @@ jobs:
       - name: Generate API reference docs
         run: |
           ./gradlew \
-            :generatePublicApiDocs \
+            :checkGeneratedApiDocs \
             -PMOBILE_FOUNDATION_SOURCE_REF="${GITHUB_SHA}" \
             --no-configuration-cache \
             --max-workers=2
