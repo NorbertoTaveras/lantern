@@ -6,6 +6,7 @@ build/
 local.properties
 AGENTS.md
 dev-docs/
+docs/generated/
 
 # Log/OS Files
 *.log

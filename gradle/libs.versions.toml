@@ -14,6 +14,7 @@ kotlinxSerializationJson = "1.11.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 kotlin = "2.4.10"
+dokka = "2.2.0"
 composeBom = "2026.02.01"
 appcompat = "1.6.1"
 lifecycleViewmodelCompose = "2.11.0"
@@ -71,3 +72,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 android-library = { id = "com.android.library", version.ref = "agp" }
 google-services = { id = "com.google.gms.google-services", version = "4.5.0" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechMavenPublish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

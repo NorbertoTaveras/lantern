@@ -11,7 +11,7 @@ class AndroidDeepLinkIntentResolver(
     private val parser: DeepLinkParser = DefaultDeepLinkParser()
 ) : DeepLinkIntentResolver {
     /**
-     * Parses [intent.dataString] into a [DeepLink].
+     * Parses `intent.dataString` into a [DeepLink].
      */
     override fun resolve(intent: Intent): SdkResult<DeepLink> {
         val value = intent.dataString

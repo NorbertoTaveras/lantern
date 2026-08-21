@@ -8,6 +8,9 @@ on:
     paths:
       - "docs/**"
       - "mkdocs.yml"
+      - "gradle/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
       - ".github/workflows/publish-docs.yml"
   push:
     branches:
@@ -16,6 +19,9 @@ on:
     paths:
       - "docs/**"
       - "mkdocs.yml"
+      - "gradle/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
       - ".github/workflows/publish-docs.yml"
   workflow_dispatch:
 
@@ -38,6 +44,32 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Generate API reference docs
+        run: |
+          ./gradlew \
+            :generatePublicApiDocs \
+            --no-configuration-cache \
+            --max-workers=2
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -69,6 +101,7 @@ jobs:
             echo "- Status: ${{ job.status }}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
+            echo "- Generated SDK API reference docs with Dokka."
             echo "- Built the Material for MkDocs documentation site from docs/."
           } >> "$GITHUB_STEP_SUMMARY"
 

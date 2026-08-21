@@ -33,7 +33,7 @@ class DataStoreSecureKeyValueStore private constructor(
 ) : SecureKeyValueStore {
 
     /**
-     * Creates a DataStore-backed key-value store using [context.applicationContext].
+     * Creates a DataStore-backed key-value store using `context.applicationContext`.
      */
     constructor(
         context: Context,

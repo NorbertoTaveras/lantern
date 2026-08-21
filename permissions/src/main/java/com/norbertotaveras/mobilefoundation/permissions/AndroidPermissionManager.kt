@@ -19,7 +19,7 @@ class AndroidPermissionManager private constructor(
 ) : PermissionManager {
 
     /**
-     * Creates a permission manager using [context.applicationContext] for permission checks.
+     * Creates a permission manager using `context.applicationContext` for permission checks.
      */
     constructor(
         context: Context,

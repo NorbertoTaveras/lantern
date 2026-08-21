@@ -8,6 +8,7 @@ import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.GradleException
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.jetbrains.dokka.gradle.DokkaExtension
 import java.util.Properties
 import java.util.jar.JarFile
 
@@ -23,6 +24,9 @@ fun localProperty(name: String) = providers.provider {
     localProperties.getProperty(name)
 }
 
+val mobileFoundationVersion = providers.gradleProperty("MOBILE_FOUNDATION_VERSION")
+    .orElse("0.1.0-SNAPSHOT")
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -31,13 +35,12 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.dokka)
 }
 
 subprojects {
     group = "com.norbertotaveras.mobilefoundation"
-    version = providers.gradleProperty("MOBILE_FOUNDATION_VERSION")
-        .orElse("0.1.0-SNAPSHOT")
-        .get()
+    version = mobileFoundationVersion.get()
 
     plugins.withId("com.android.application") {
         extensions.configure<ApplicationExtension>("android") {
@@ -54,6 +57,7 @@ subprojects {
 
     plugins.withId("com.android.library") {
         apply(plugin = "com.vanniktech.maven.publish")
+        apply(plugin = "org.jetbrains.dokka")
 
         extensions.configure<LibraryExtension>("android") {
             lint {
@@ -152,6 +156,16 @@ subprojects {
                 }
             }
         }
+
+        extensions.configure<DokkaExtension>("dokka") {
+            dokkaPublications.html {
+                moduleName.set("Mobile Foundation ${project.name}")
+                moduleVersion.set(project.version.toString())
+                suppressObviousFunctions.set(true)
+                suppressInheritedMembers.set(true)
+                failOnWarning.set(false)
+            }
+        }
     }
 }
 
@@ -177,6 +191,39 @@ val sdkModuleNames = listOf(
     "background-work",
     "app-versioning",
 )
+
+dependencies {
+    sdkModuleNames.forEach { moduleName ->
+        dokka(project(":$moduleName"))
+    }
+}
+
+extensions.configure<DokkaExtension>("dokka") {
+    dokkaPublications.html {
+        moduleName.set("Mobile Foundation SDK")
+        moduleVersion.set(mobileFoundationVersion)
+        outputDirectory.set(layout.buildDirectory.dir("dokka/public-api"))
+        suppressObviousFunctions.set(true)
+        suppressInheritedMembers.set(true)
+        failOnWarning.set(false)
+    }
+}
+
+val generatedApiDocsDirectory = layout.projectDirectory.dir("docs/generated/api")
+
+tasks.register<Delete>("cleanGeneratedApiDocs") {
+    group = "documentation"
+    description = "Removes generated API reference documentation from the public docs tree."
+    delete(generatedApiDocsDirectory)
+}
+
+tasks.register<Copy>("generatePublicApiDocs") {
+    group = "documentation"
+    description = "Generates public SDK API reference documentation for the docs website."
+    dependsOn("cleanGeneratedApiDocs", ":dokkaGeneratePublicationHtml")
+    from(layout.buildDirectory.dir("dokka/public-api"))
+    into(generatedApiDocsDirectory)
+}
 
 tasks.register("checkPublishingGroup") {
     group = "verification"

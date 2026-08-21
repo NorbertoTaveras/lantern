@@ -1,10 +1,12 @@
 # API Reference
 
-Mobile Foundation SDK API details currently live in source KDoc and module documentation.
+Mobile Foundation SDK publishes generated API reference documentation from source KDoc.
 
-!!! info "Generated API docs are planned"
-    Public generated API reference docs are not published yet. Until generated reference docs are
-    available, use this documentation site together with source KDoc in the GitHub repository.
+!!! tip "Generated from source"
+    The generated reference is built with Dokka during the docs publishing workflow. It should be
+    used together with the conceptual module guides on this site.
+
+[Open Generated API Reference](generated/api/index.html){ .md-button .md-button--primary }
 
 ## Where To Start
 
@@ -41,18 +43,18 @@ The SDK is organized into focused modules:
 
 Each detailed module page lists its purpose, artifact, setup notes, usage examples, and boundaries.
 
-## Future Generated Reference
+## Generated Reference Scope
 
-Generated API docs should eventually provide:
+Generated API docs provide:
 
 - Package-level navigation.
 - Class and interface reference pages.
 - Public constructor and function signatures.
 - KDoc rendered from source.
 - Module grouping.
-- Links back to source.
+- Links across SDK modules.
 
-The generated reference should complement, not replace, the conceptual docs on this site.
+The generated reference complements, but does not replace, the conceptual docs on this site.
 
 ## What Belongs In Conceptual Docs
 
@@ -64,4 +66,4 @@ Keep setup and workflow guidance in this documentation site:
 - How to upgrade versions.
 - Which errors and states app code should expect.
 
-Keep exhaustive signatures and member-level details in generated API reference docs once they exist.
+Keep exhaustive signatures and member-level details in generated API reference docs.
