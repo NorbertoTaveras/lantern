@@ -2,7 +2,7 @@
 
 <p>
   <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://img.shields.io/badge/Android%20CI-active-success.svg" />
+    <img alt="Android CI" src="https://img.shields.io/badge/Android%20CI-configured-blue.svg" />
   </a>
   <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml">
     <img alt="Docs" src="https://img.shields.io/badge/docs-live-success.svg" />
@@ -19,6 +19,7 @@ It gives Android apps a consistent SDK layer for authentication, logging, permis
 
 [:material-rocket-launch: Get Started](getting-started.md){ .md-button .md-button--primary }
 [:material-view-module: Browse Modules](modules.md){ .md-button }
+[:material-package-variant-closed: Artifacts](artifacts.md){ .md-button }
 [:material-github: View Source](https://github.com/NorbertoTaveras/android_mobilefoundation_framework){ .md-button }
 
 !!! warning "Pre-1.0 SDK"
@@ -80,6 +81,7 @@ Public releases are intended for Maven Central. The Maven Central badge will be 
 | Page | Purpose |
 | --- | --- |
 | [Getting Started](getting-started.md) | Installation, requirements, dependency selection, and first result handling. |
+| [Artifacts](artifacts.md) | Maven group, artifact names, and copy-ready dependency snippets. |
 | [Core Patterns](core-patterns.md) | `SdkResult`, `SdkError`, logging, coroutines, Flow, and provider boundaries. |
 | [Module Guide](modules.md) | All SDK modules and links to detailed module pages. |
 | [Authentication](authentication.md) | Firebase Auth, Google sign-in, and Firebase + Google setup. |
