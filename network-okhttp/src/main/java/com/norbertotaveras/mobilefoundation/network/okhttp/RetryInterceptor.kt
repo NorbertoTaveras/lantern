@@ -97,6 +97,9 @@ class RetryInterceptor(
      * This is injectable so tests and custom hosts can avoid blocking threads directly.
      */
     interface Sleeper {
+        /**
+         * Waits for [delayMillis] before the next retry attempt.
+         */
         fun sleep(delayMillis: Long)
     }
 
