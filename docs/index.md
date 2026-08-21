@@ -1,9 +1,6 @@
 # Mobile Foundation SDK
 
 <p>
-  <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://img.shields.io/badge/Android%20CI-configured-blue.svg" />
-  </a>
   <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml">
     <img alt="Docs" src="https://img.shields.io/badge/docs-live-success.svg" />
   </a>
@@ -65,15 +62,14 @@ For feature-specific setup, start with the [Module Guide](modules.md) or jump in
 
 </div>
 
-## Current Status
+## Release Status
 
 Public releases are intended for Maven Central. The Maven Central badge will be replaced with the published artifact version after the first public release.
 
 | Area | Status |
 | --- | --- |
 | Public docs | Live through GitHub Pages |
-| CI validation | Android CI and docs publishing workflows |
-| Release publishing | Prepared for Maven Central |
+| Stable artifacts | Pending first Maven Central release |
 | Version line | Pre-1.0 |
 
 ## Documentation Structure
@@ -83,12 +79,12 @@ Public releases are intended for Maven Central. The Maven Central badge will be 
 | [Getting Started](getting-started.md) | Installation, requirements, dependency selection, and first result handling. |
 | [Artifacts](artifacts.md) | Maven group, artifact names, and copy-ready dependency snippets. |
 | [Versioning And Migration](versioning-migration.md) | Version policy, upgrade guidance, and migration-note expectations. |
-| [API Reference](api-reference.md) | Current source/KDoc guidance and future generated API reference expectations. |
+| [API Reference](api-reference.md) | Generated Dokka API reference and links to module guides. |
 | [Core Patterns](core-patterns.md) | `SdkResult`, `SdkError`, logging, coroutines, Flow, and provider boundaries. |
 | [Module Guide](modules.md) | All SDK modules and links to detailed module pages. |
 | [Authentication](authentication.md) | Firebase Auth, Google sign-in, and Firebase + Google setup. |
 | [Integrations](integrations.md) | Permissions, storage, networking, config, notifications, analytics, deep links, work, and versioning. |
-| [Publishing](publishing.md) | Public release and Maven Central expectations. |
+| [Releases](publishing.md) | Public release model, Maven coordinates, and release-note expectations. |
 
 ## Design Principles
 

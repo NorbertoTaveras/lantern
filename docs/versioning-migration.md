@@ -75,31 +75,6 @@ When a breaking change is released, the release notes should include:
 - Before and after examples when useful.
 - Required app-side migration steps.
 
-## Migration Note Template
-
-Use this structure when reading or writing migration notes:
-
-```text
-Version: 0.2.0
-Affected modules: auth-google, auth-firebase-google
-Change type: Breaking
-
-What changed:
-- ...
-
-Why:
-- ...
-
-Before:
-- ...
-
-After:
-- ...
-
-Required app changes:
-- ...
-```
-
 ## Provider Setup Changes
 
 Provider setup is owned by the consuming app. If a release changes Firebase, Google, notification, analytics, or Android permission setup expectations, those requirements should be called out in the affected module docs and release notes.

@@ -595,7 +595,7 @@ tasks.register("checkSdkDependencyAllowlist") {
             "remote-config" to setOf("sdk-core", "logging"),
             "remote-config-firebase" to setOf("sdk-core", "logging", "remote-config"),
             "feature-flags" to setOf("sdk-core", "logging", "remote-config"),
-            "notifications" to setOf("sdk-core", "logging", "deep-links"),
+            "notifications" to setOf("sdk-core", "logging", "deep-links", "permissions"),
             "notifications-firebase" to setOf("sdk-core", "logging", "notifications"),
             "media-picker" to setOf("sdk-core", "logging"),
             "analytics" to setOf("sdk-core", "logging"),
@@ -801,6 +801,7 @@ fun publicClassNames(jarFile: File): List<String> {
             .filterNot { it.startsWith("META-INF/") }
             .filterNot { it.endsWith("/R.class") || it.contains("/R$") }
             .filterNot { it.endsWith("/BuildConfig.class") }
+            .filterNot { it.contains("/internal/") }
             .filterNot { it.endsWith("\$WhenMappings.class") }
             .filterNot { it.substringAfterLast('/').matches(Regex(""".+\$.*\$\d+\.class""")) }
             .map { it.removeSuffix(".class").replace('/', '.') }
@@ -837,6 +838,7 @@ fun sdkApiSignature(
         val normalizedOutput = output
             .lines()
             .filterNot { it.startsWith("Compiled from ") }
+            .filterNot { it.contains(" access$") }
             .joinToString(separator = "\n")
             .trim()
 

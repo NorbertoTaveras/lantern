@@ -90,7 +90,6 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
   public com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagDefaults();
     descriptor: ()V
 
-  public static final com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagDefaults access$getEmpty$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlagDefaults;
 }
 
@@ -194,7 +193,6 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagKey> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -225,7 +223,6 @@ public interface com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagPr
   public abstract java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-  public static java.lang.Object access$isEnabled$jd(com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagProvider, com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag, kotlin.coroutines.Continuation);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlagProvider;Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
@@ -264,7 +261,6 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.FeatureFlag
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-  public static final com.norbertotaveras.mobilefoundation.featureflags.FeatureFlagSnapshot access$getEmpty$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/featureflags/FeatureFlagSnapshot;
 }
 
@@ -439,12 +435,5 @@ public final class com.norbertotaveras.mobilefoundation.featureflags.StaticFeatu
 
   public com.norbertotaveras.mobilefoundation.featureflags.StaticFeatureFlagProvider();
     descriptor: ()V
-}
-
-public final class com.norbertotaveras.mobilefoundation.featureflags.internal.FeatureFlagKeyValidator {
-  public static final com.norbertotaveras.mobilefoundation.featureflags.internal.FeatureFlagKeyValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/featureflags/internal/FeatureFlagKeyValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validate(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

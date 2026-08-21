@@ -1,10 +1,9 @@
-# Publishing
+# Releases
 
 Stable Mobile Foundation SDK releases are intended to be consumed from Maven Central.
 
-!!! info "Consumer-facing publishing model"
-    Consumers should treat Maven Central as the source of stable SDK binaries. Internal repository
-    branch names, CI jobs, and release automation are not required to consume the SDK.
+!!! info "Stable artifacts"
+    Consumers should treat Maven Central as the source of stable SDK binaries.
 
 ## Release Versioning
 

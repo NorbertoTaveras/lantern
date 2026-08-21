@@ -76,7 +76,6 @@ public final class com.norbertotaveras.mobilefoundation.auth.firebasegoogle.Fire
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.auth.core.AuthState> observeAuthState();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
 
-  public static final com.google.firebase.auth.FirebaseAuth access$getFirebaseAuth$p(com.norbertotaveras.mobilefoundation.auth.firebasegoogle.FirebaseGoogleAuthProvider);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebasegoogle/FirebaseGoogleAuthProvider;)Lcom/google/firebase/auth/FirebaseAuth;
 }
 

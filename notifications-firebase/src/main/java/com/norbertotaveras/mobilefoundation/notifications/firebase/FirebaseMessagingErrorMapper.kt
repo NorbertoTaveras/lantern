@@ -21,7 +21,7 @@ internal class FirebaseMessagingErrorMapper {
     ) {
         GetToken(
             errorCode = FirebaseMessagingErrorCodes.TOKEN_UNAVAILABLE,
-            fallbackMessage = "Unable to register Firebase Messaging and retrieve the installation id."
+            fallbackMessage = "Unable to register Firebase Messaging and retrieve the FCM token."
         ),
         DeleteToken(
             errorCode = FirebaseMessagingErrorCodes.UNREGISTER_FAILED,

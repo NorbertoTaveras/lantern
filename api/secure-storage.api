@@ -20,13 +20,10 @@ public final class com.norbertotaveras.mobilefoundation.securestorage.DataStoreS
   public java.lang.Object clear(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<kotlin.Unit>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-  public static final androidx.datastore.core.DataStore access$getDataStore$p(com.norbertotaveras.mobilefoundation.securestorage.DataStoreSecureKeyValueStore);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/DataStoreSecureKeyValueStore;)Landroidx/datastore/core/DataStore;
 
-  public static final androidx.datastore.preferences.core.Preferences$Key access$preferenceKey-_x5bB0I(com.norbertotaveras.mobilefoundation.securestorage.DataStoreSecureKeyValueStore, java.lang.String);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/DataStoreSecureKeyValueStore;Ljava/lang/String;)Landroidx/datastore/preferences/core/Preferences$Key;
 
-  public static final java.lang.Object access$runStorageOperation(com.norbertotaveras.mobilefoundation.securestorage.DataStoreSecureKeyValueStore, com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation, java.lang.String, kotlin.jvm.functions.Function1, kotlin.coroutines.Continuation);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/DataStoreSecureKeyValueStore;Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
@@ -161,7 +158,6 @@ public final class com.norbertotaveras.mobilefoundation.securestorage.SecureStor
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.securestorage.SecureStorageKey> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -257,153 +253,5 @@ public final class com.norbertotaveras.mobilefoundation.securestorage.SecureToke
 
   public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.securestorage.SecureTokenType> getEntries();
     descriptor: ()Lkotlin/enums/EnumEntries;
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper {
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkError map(com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation, java.lang.Throwable);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;Ljava/lang/Throwable;)Lcom/norbertotaveras/mobilefoundation/core/SdkError;
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation extends java.lang.Enum<com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation> {
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation Read;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation Write;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation Remove;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation Clear;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-  public final java.lang.String getErrorCode();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.String getFallbackMessage();
-    descriptor: ()Ljava/lang/String;
-
-  public static com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation[] values();
-    descriptor: ()[Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-
-  public static com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation valueOf(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureStorageErrorMapper$Operation;
-
-  public static kotlin.enums.EnumEntries<com.norbertotaveras.mobilefoundation.securestorage.internal.SecureStorageErrorMapper$Operation> getEntries();
-    descriptor: ()Lkotlin/enums/EnumEntries;
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec {
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec(kotlinx.serialization.json.Json);
-    descriptor: (Lkotlinx/serialization/json/Json;)V
-
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec(kotlinx.serialization.json.Json, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lkotlinx/serialization/json/Json;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> encode(com.norbertotaveras.mobilefoundation.securestorage.SecureToken);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/SecureToken;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.securestorage.SecureToken> decode(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCodec();
-    descriptor: ()V
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload {
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload$Companion Companion;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload$Companion;
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload(java.lang.String, java.lang.String, java.lang.Long, java.util.Map<java.lang.String, java.lang.String>);
-    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/util/Map;)V
-
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload(java.lang.String, java.lang.String, java.lang.Long, java.util.Map, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-
-  public final java.lang.String getValue();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.String getType();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.Long getExpiresAtEpochMillis();
-    descriptor: ()Ljava/lang/Long;
-
-  public final java.util.Map<java.lang.String, java.lang.String> getMetadata();
-    descriptor: ()Ljava/util/Map;
-
-  public final java.lang.String component1();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.String component2();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.Long component3();
-    descriptor: ()Ljava/lang/Long;
-
-  public final java.util.Map<java.lang.String, java.lang.String> component4();
-    descriptor: ()Ljava/util/Map;
-
-  public final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload copy(java.lang.String, java.lang.String, java.lang.Long, java.util.Map<java.lang.String, java.lang.String>);
-    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/util/Map;)Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;
-
-  public static com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload copy$default(com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload, java.lang.String, java.lang.String, java.lang.Long, java.util.Map, int, java.lang.Object);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/util/Map;ILjava/lang/Object;)Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;
-
-  public java.lang.String toString();
-    descriptor: ()Ljava/lang/String;
-
-  public int hashCode();
-    descriptor: ()I
-
-  public boolean equals(java.lang.Object);
-    descriptor: (Ljava/lang/Object;)Z
-
-  public static final void write$Self$secure_storage(com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload, kotlinx.serialization.encoding.CompositeEncoder, kotlinx.serialization.descriptors.SerialDescriptor);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
-
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload(int, java.lang.String, java.lang.String, java.lang.Long, java.util.Map, kotlinx.serialization.internal.SerializationConstructorMarker);
-    descriptor: (ILjava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/util/Map;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
-
-  public static final kotlin.Lazy[] access$get$childSerializers$cp();
-    descriptor: ()[Lkotlin/Lazy;
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload$$serializer implements kotlinx.serialization.internal.GeneratedSerializer<com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload> {
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload$$serializer INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload$$serializer;
-  public final void serialize(kotlinx.serialization.encoding.Encoder, com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload);
-    descriptor: (Lkotlinx/serialization/encoding/Encoder;Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;)V
-
-  public final com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload deserialize(kotlinx.serialization.encoding.Decoder);
-    descriptor: (Lkotlinx/serialization/encoding/Decoder;)Lcom/norbertotaveras/mobilefoundation/securestorage/internal/SecureTokenPayload;
-
-  public final kotlinx.serialization.descriptors.SerialDescriptor getDescriptor();
-    descriptor: ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-
-  public final kotlinx.serialization.KSerializer<?>[] childSerializers();
-    descriptor: ()[Lkotlinx/serialization/KSerializer;
-
-  public kotlinx.serialization.KSerializer<?>[] typeParametersSerializers();
-    descriptor: ()[Lkotlinx/serialization/KSerializer;
-
-  public void serialize(kotlinx.serialization.encoding.Encoder, java.lang.Object);
-    descriptor: (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-
-  public java.lang.Object deserialize(kotlinx.serialization.encoding.Decoder);
-    descriptor: (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload$Companion {
-  public final kotlinx.serialization.KSerializer<com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload> serializer();
-    descriptor: ()Lkotlinx/serialization/KSerializer;
-
-  public com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenPayload$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
-public final class com.norbertotaveras.mobilefoundation.securestorage.internal.StorageKeyValidator {
-  public static final com.norbertotaveras.mobilefoundation.securestorage.internal.StorageKeyValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/securestorage/internal/StorageKeyValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validate(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

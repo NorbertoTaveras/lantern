@@ -91,7 +91,6 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsEvent
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsEventName> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -156,7 +155,6 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserI
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserId> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -239,7 +237,6 @@ public final class com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserP
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserPropertyName> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -376,18 +373,5 @@ public final class com.norbertotaveras.mobilefoundation.analytics.NoOpAnalyticsP
 
   public java.lang.Object reset(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<kotlin.Unit>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com.norbertotaveras.mobilefoundation.analytics.internal.AnalyticsNameValidator {
-  public static final com.norbertotaveras.mobilefoundation.analytics.internal.AnalyticsNameValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/analytics/internal/AnalyticsNameValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validateEventName(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validatePropertyName(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validateUserId(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

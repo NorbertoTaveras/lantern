@@ -1,6 +1,6 @@
 # Secure Storage
 
-`secure-storage` provides validated keys, key-value storage, and token storage.
+`secure-storage` provides validated keys, key-value storage contracts, token storage, and a DataStore-backed app-local implementation.
 
 ```kotlin
 implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-storage:$mobileFoundationVersion")
@@ -11,7 +11,7 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-sto
 - Validating storage keys before persistence.
 - Reading and writing string values through `SecureKeyValueStore`.
 - Saving, reading, removing, and clearing tokens through `SecureTokenStore`.
-- Using a DataStore-backed default implementation.
+- Using a DataStore-backed default implementation for app-local persistence.
 
 ## Key-Value Storage
 
@@ -53,7 +53,9 @@ val store = DataStoreSecureKeyValueStore(
 
 ## Security Note
 
-The current DataStore implementation stores app-local values and is designed to be paired with app-specific encryption policy when required.
+The provided DataStore implementation is not encrypted by default. It stores app-local values through AndroidX Preferences DataStore and is designed as a foundation implementation that can be paired with app-owned encryption policy.
+
+For highly sensitive secrets, encrypt values before writing them, provide an encrypted `SecureKeyValueStore` implementation, or use a platform-backed secret store that matches your app's threat model.
 
 ## Boundaries
 

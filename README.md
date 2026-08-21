@@ -2,6 +2,7 @@
 
 [![Android CI](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml)
 [![Docs](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml)
+[![API Reference](https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg)](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
 ![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
@@ -28,7 +29,16 @@ The Maven Central badge will be replaced with the published artifact version aft
 
 ## Documentation
 
-The public documentation source lives in [docs](docs/index.md) and is prepared for GitHub Pages publishing at [norbertotaveras.github.io/android_mobilefoundation_framework](https://norbertotaveras.github.io/android_mobilefoundation_framework/).
+Read the public docs at [norbertotaveras.github.io/android_mobilefoundation_framework](https://norbertotaveras.github.io/android_mobilefoundation_framework/).
+
+Useful starting points:
+
+- [Getting Started](https://norbertotaveras.github.io/android_mobilefoundation_framework/getting-started/)
+- [Module Guide](https://norbertotaveras.github.io/android_mobilefoundation_framework/modules/)
+- [API Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
+- [Generated Dokka Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/generated/api/)
+
+The documentation source lives in [docs](docs/index.md). The generated Dokka reference is produced during the docs publishing workflow and is not committed as source.
 
 ## Requirements
 
@@ -90,7 +100,7 @@ Most apps should not install every module. Start with the provider-neutral modul
 | Google sign-in | `auth-google` | Android Credential Manager Google sign-in and Google ID token retrieval. |
 | Firebase + Google auth | `auth-firebase-google` | Google sign-in followed by Firebase credential exchange. |
 | Permissions | `permissions` | Android-version-aware permission checks, requests, rationale, and denied-state modeling. |
-| Secure storage | `secure-storage` | Validated secure storage keys, key-value storage, and token storage. |
+| Secure storage | `secure-storage` | Validated storage keys, key-value storage contracts, token storage, and a DataStore-backed app-local implementation. |
 | Networking | `network-okhttp` | OkHttp factory, auth header interceptor, default headers, retry, logging, and error mapping. |
 | Remote config | `remote-config`, `remote-config-firebase` | Provider-neutral remote config contracts plus Firebase Remote Config implementation. |
 | Feature flags | `feature-flags` | Typed feature flags with static and remote-config-backed providers. |
@@ -226,7 +236,7 @@ if (keyResult is SdkResult.Success) {
 }
 ```
 
-Use `SecureTokenStore` for token-specific storage flows and `SecureKeyValueStore` for general app values. The current DataStore implementation is intentionally app-local and can be paired with app-specific encryption policy.
+Use `SecureTokenStore` for token-specific storage flows and `SecureKeyValueStore` for general app values. The provided DataStore implementation is app-local storage, not encryption by default. Apps that store highly sensitive values should wrap values with an app-owned encryption policy or provide an encrypted `SecureKeyValueStore` implementation.
 
 ## Networking
 

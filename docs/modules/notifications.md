@@ -41,6 +41,36 @@ val tokenProvider = FirebaseMessagingTokenProvider()
 val token = tokenProvider.getToken()
 ```
 
+## Android Notification Channels
+
+```kotlin
+val channelManager = AndroidNotificationChannelManager(context)
+
+channelManager.createChannel(
+    NotificationChannelConfig(
+        id = NotificationChannelId.unsafe("product_updates"),
+        name = "Product updates",
+        description = "Product news and account updates.",
+        importance = NotificationChannelImportance.Default
+    )
+)
+```
+
+On Android versions before Oreo, channel operations complete successfully without creating platform
+channels because notification channels are not supported there.
+
+## Notification Permission
+
+```kotlin
+val notificationPermissionManager = AndroidNotificationPermissionManager(permissionManager)
+
+val currentState = notificationPermissionManager.check()
+val requestResult = notificationPermissionManager.request()
+```
+
+The `permissionManager` is provided by the `permissions` module and owns the app-provided runtime
+permission launcher.
+
 ## Topics
 
 ```kotlin

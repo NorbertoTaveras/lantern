@@ -47,11 +47,12 @@ class FirebaseMessagingTokenProvider private constructor(
     override suspend fun getToken(): SdkResult<NotificationToken> {
         return try {
             firebaseMessaging.register().await()
+            val installationId = firebaseInstallations.id.await()
             val token = NotificationToken(
-                value = firebaseInstallations.id.await(),
+                value = firebaseMessaging.token.await(),
                 provider = NotificationTokenProviderType.FirebaseCloudMessaging,
                 createdAtMillis = System.currentTimeMillis(),
-                metadata = mapOf("identifier_type" to "firebase_installation_id")
+                metadata = mapOf("firebase_installation_id" to installationId)
             )
             tokenState.value = token
             SdkResult.Success(token)

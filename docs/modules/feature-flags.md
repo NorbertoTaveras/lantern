@@ -16,26 +16,74 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-fl
 ## Static Flags
 
 ```kotlin
+val newHomeFlag = FeatureFlag(
+    key = FeatureFlagKey.unsafe("new_home"),
+    defaultValue = FeatureFlagValue.BooleanValue(false)
+)
+
 val provider = StaticFeatureFlagProvider(
-    defaults = FeatureFlagDefaults(
-        flags = mapOf(
-            FeatureFlagKey.unsafe("new_home") to FeatureFlagValue.BooleanValue(false)
-        )
+    initialValues = mapOf(
+        newHomeFlag.key to FeatureFlagValue.BooleanValue(true)
+    )
+)
+
+when (val result = provider.evaluate(newHomeFlag)) {
+    is SdkResult.Success -> {
+        val evaluation = result.data
+        val enabled = evaluation.isEnabled()
+    }
+    is SdkResult.Failure -> {
+        val error = result.error
+    }
+}
+```
+
+Static providers can also be updated at runtime for local demos or tests:
+
+```kotlin
+provider.update(
+    values = mapOf(
+        newHomeFlag.key to FeatureFlagValue.BooleanValue(false)
     )
 )
 ```
+
+## Defaults
+
+```kotlin
+val defaults = FeatureFlagDefaults(
+    values = mapOf(
+        FeatureFlagKey.unsafe("new_home") to FeatureFlagValue.BooleanValue(false),
+        FeatureFlagKey.unsafe("paywall_variant") to FeatureFlagValue.StringValue("control")
+    )
+)
+
+val remoteDefaults = defaults.toRemoteConfigDefaults()
+```
+
+Use defaults when the app needs one source of fallback values that can be shared with remote config setup.
 
 ## Remote Config Flags
 
 ```kotlin
 val featureFlagProvider = RemoteConfigFeatureFlagProvider(remoteConfigProvider)
 
-val enabled = featureFlagProvider.isEnabled(
+val enabledResult = featureFlagProvider.isEnabled(
     FeatureFlag(
         key = FeatureFlagKey.unsafe("new_home"),
         defaultValue = FeatureFlagValue.BooleanValue(false)
     )
 )
+
+val snapshotResult = featureFlagProvider.getSnapshot()
+```
+
+## Observing Updates
+
+```kotlin
+featureFlagProvider.updates.collect { snapshot ->
+    val values = snapshot.values
+}
 ```
 
 ## Boundaries

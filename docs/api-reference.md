@@ -3,8 +3,8 @@
 Mobile Foundation SDK publishes generated API reference documentation from source KDoc.
 
 !!! tip "Generated from source"
-    The generated reference is built with Dokka during the docs publishing workflow. It should be
-    used together with the conceptual module guides on this site.
+    The generated reference is built from source KDoc. Use it together with the conceptual module
+    guides on this site.
 
 [Open Generated API Reference](generated/api/index.html){ .md-button .md-button--primary }
 
@@ -18,19 +18,6 @@ Use these pages first:
 - [Authentication](authentication.md) for auth-specific setup and usage.
 - [Integrations](integrations.md) for app foundation modules.
 
-## Source KDoc
-
-Public SDK classes, interfaces, value types, and provider implementations should carry concise KDoc where it clarifies:
-
-- Purpose.
-- Expected usage.
-- Ownership boundaries.
-- Provider setup requirements.
-- Cancellation or Flow behavior.
-- Error handling behavior.
-
-KDoc should explain public APIs without restating obvious Kotlin syntax.
-
 ## Current API Surface
 
 The SDK is organized into focused modules:
@@ -42,28 +29,3 @@ The SDK is organized into focused modules:
 | App foundation | `permissions`, `secure-storage`, `network-okhttp`, `remote-config`, `feature-flags`, `notifications`, `media-picker`, `analytics`, `deep-links`, `background-work`, `app-versioning` |
 
 Each detailed module page lists its purpose, artifact, setup notes, usage examples, and boundaries.
-
-## Generated Reference Scope
-
-Generated API docs provide:
-
-- Package-level navigation.
-- Class and interface reference pages.
-- Public constructor and function signatures.
-- KDoc rendered from source.
-- Module grouping.
-- Links across SDK modules.
-
-The generated reference complements, but does not replace, the conceptual docs on this site.
-
-## What Belongs In Conceptual Docs
-
-Keep setup and workflow guidance in this documentation site:
-
-- Which module to install.
-- Which provider setup belongs in the app.
-- How modules fit together.
-- How to upgrade versions.
-- Which errors and states app code should expect.
-
-Keep exhaustive signatures and member-level details in generated API reference docs.

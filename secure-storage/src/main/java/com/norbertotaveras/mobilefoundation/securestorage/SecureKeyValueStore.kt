@@ -5,8 +5,9 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
 /**
  * Stores small string values behind validated [SecureStorageKey] instances.
  *
- * Implementations own the persistence backend and should report failures through [SdkResult]
- * instead of throwing for normal read, write, remove, or clear operations.
+ * Implementations own the persistence backend, encryption policy, and secret-handling guarantees.
+ * They should report failures through [SdkResult] instead of throwing for normal read, write,
+ * remove, or clear operations.
  */
 interface SecureKeyValueStore {
     /**

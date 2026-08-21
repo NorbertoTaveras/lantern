@@ -30,7 +30,7 @@ if (keyResult is SdkResult.Success) {
 }
 ```
 
-Use `SecureTokenStore` for token-specific flows and `SecureKeyValueStore` for general app values.
+Use `SecureTokenStore` for token-specific flows and `SecureKeyValueStore` for general app values. The provided DataStore store is app-local persistence and is not encrypted by default, so sensitive values should be encrypted by the app or written through an encrypted store implementation.
 
 ## Networking
 

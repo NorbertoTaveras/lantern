@@ -23,6 +23,7 @@ android {
 
 dependencies {
     api(project(":deep-links"))
+    api(project(":permissions"))
 
     implementation(project(":sdk-core"))
     implementation(project(":logging"))

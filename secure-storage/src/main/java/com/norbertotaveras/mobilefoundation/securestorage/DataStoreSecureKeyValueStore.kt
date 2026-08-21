@@ -20,7 +20,10 @@ import kotlinx.coroutines.flow.first
 /**
  * DataStore-backed [SecureKeyValueStore] implementation.
  *
- * This implementation stores values in the app process using AndroidX Preferences DataStore.
+ * This implementation stores app-local values using AndroidX Preferences DataStore. Values are
+ * not encrypted by this implementation, so callers should encrypt highly sensitive values before
+ * writing them or provide an encrypted [SecureKeyValueStore] implementation.
+ *
  * Callers provide Firebase, auth, or app-specific secrets through the public store API; the SDK
  * does not own app credentials or configuration files.
  */

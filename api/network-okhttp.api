@@ -157,7 +157,6 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkCo
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$getUnavailable$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
 }
 
@@ -318,7 +317,6 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRe
   public com.norbertotaveras.mobilefoundation.network.okhttp.NetworkRetryConfig();
     descriptor: ()V
 
-  public static final java.util.Set access$getDEFAULT_RETRY_STATUS_CODES$cp();
     descriptor: ()Ljava/util/Set;
 }
 
@@ -409,7 +407,6 @@ final class com.norbertotaveras.mobilefoundation.network.okhttp.RetryInterceptor
 }
 
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.RetryInterceptorKt {
-  public static final boolean access$isRetryableHttpMethod(java.lang.String);
     descriptor: (Ljava/lang/String;)Z
 }
 
@@ -430,24 +427,12 @@ public final class com.norbertotaveras.mobilefoundation.network.okhttp.connectiv
 }
 
 public final class com.norbertotaveras.mobilefoundation.network.okhttp.connectivity.AndroidNetworkMonitorKt {
-  public static final kotlinx.coroutines.flow.Flow access$connectivityStateChanges(android.net.ConnectivityManager);
     descriptor: (Landroid/net/ConnectivityManager;)Lkotlinx/coroutines/flow/Flow;
 
-  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$currentConnectivityState(android.net.ConnectivityManager);
     descriptor: (Landroid/net/ConnectivityManager;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
 
-  public static final com.norbertotaveras.mobilefoundation.network.okhttp.NetworkConnectivityState access$toNetworkConnectivityState(android.net.NetworkCapabilities);
     descriptor: (Landroid/net/NetworkCapabilities;)Lcom/norbertotaveras/mobilefoundation/network/okhttp/NetworkConnectivityState;
 
-  public static final android.net.NetworkRequest access$createNetworkRequest();
     descriptor: ()Landroid/net/NetworkRequest;
-}
-
-public final class com.norbertotaveras.mobilefoundation.network.okhttp.internal.DefaultHeadersInterceptor implements okhttp3.Interceptor {
-  public com.norbertotaveras.mobilefoundation.network.okhttp.internal.DefaultHeadersInterceptor(java.util.Map<java.lang.String, java.lang.String>);
-    descriptor: (Ljava/util/Map;)V
-
-  public okhttp3.Response intercept(okhttp3.Interceptor$Chain);
-    descriptor: (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
 }
 

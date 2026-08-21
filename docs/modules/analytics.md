@@ -29,13 +29,15 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-
 ```kotlin
 val analyticsProvider: AnalyticsProvider = FirebaseAnalyticsProvider(context)
 
-analyticsProvider.track(
+val trackResult = analyticsProvider.track(
     AnalyticsEvent(
         name = AnalyticsEventName.unsafe("screen_view"),
         parameters = mapOf("screen" to AnalyticsValue.StringValue("home"))
     )
 )
 ```
+
+Handle `SdkResult.Failure` near your app logging layer when providers reject event names or values.
 
 ## User State
 
@@ -47,6 +49,13 @@ analyticsProvider.setUserProperty(
         value = AnalyticsValue.StringValue("pro")
     )
 )
+```
+
+Clear user state when the app signs out:
+
+```kotlin
+analyticsProvider.setUserId(null)
+analyticsProvider.reset()
 ```
 
 ## Disabled Analytics
