@@ -551,6 +551,117 @@ tasks.register("checkSdkAndroidMetadata") {
     }
 }
 
+tasks.register("checkSdkDependencyAllowlist") {
+    group = "verification"
+    description = "Checks SDK modules only depend on allowed project modules and external groups."
+
+    doLast {
+        val dependencyConfigurationNames = setOf(
+            "api",
+            "implementation",
+            "compileOnly",
+            "runtimeOnly",
+        )
+        val commonExternalGroups = setOf(
+            "org.jetbrains.kotlin",
+            "org.jetbrains.kotlinx",
+        )
+        val allowedProjectDependencies = mapOf(
+            "sdk-core" to emptySet<String>(),
+            "logging" to setOf("sdk-core"),
+            "auth-core" to setOf("sdk-core", "logging"),
+            "auth-firebase" to setOf("sdk-core", "logging", "auth-core"),
+            "auth-google" to setOf("sdk-core", "logging"),
+            "auth-firebase-google" to setOf("sdk-core", "logging", "auth-core", "auth-google", "auth-firebase"),
+            "permissions" to setOf("sdk-core", "logging"),
+            "secure-storage" to setOf("sdk-core", "logging"),
+            "network-okhttp" to setOf("sdk-core", "logging"),
+            "remote-config" to setOf("sdk-core", "logging"),
+            "remote-config-firebase" to setOf("sdk-core", "logging", "remote-config"),
+            "feature-flags" to setOf("sdk-core", "logging", "remote-config"),
+            "notifications" to setOf("sdk-core", "logging", "deep-links"),
+            "notifications-firebase" to setOf("sdk-core", "logging", "notifications"),
+            "media-picker" to setOf("sdk-core", "logging"),
+            "analytics" to setOf("sdk-core", "logging"),
+            "analytics-firebase" to setOf("sdk-core", "logging", "analytics"),
+            "deep-links" to setOf("sdk-core", "logging"),
+            "background-work" to setOf("sdk-core", "logging"),
+            "app-versioning" to setOf("sdk-core", "logging"),
+        )
+        val allowedExternalGroups = mapOf(
+            "sdk-core" to commonExternalGroups,
+            "logging" to commonExternalGroups,
+            "auth-core" to commonExternalGroups,
+            "auth-firebase" to commonExternalGroups + setOf("com.google.firebase"),
+            "auth-google" to commonExternalGroups + setOf(
+                "androidx.credentials",
+                "com.google.android.libraries.identity.googleid",
+            ),
+            "auth-firebase-google" to commonExternalGroups + setOf("com.google.firebase"),
+            "permissions" to commonExternalGroups + setOf("androidx.core"),
+            "secure-storage" to commonExternalGroups + setOf(
+                "androidx.datastore",
+                "androidx.datastore.preferences",
+            ),
+            "network-okhttp" to commonExternalGroups + setOf("com.squareup.okhttp3"),
+            "remote-config" to commonExternalGroups,
+            "remote-config-firebase" to commonExternalGroups + setOf("com.google.firebase"),
+            "feature-flags" to commonExternalGroups,
+            "notifications" to commonExternalGroups,
+            "notifications-firebase" to commonExternalGroups + setOf("com.google.firebase"),
+            "media-picker" to commonExternalGroups + setOf("androidx.activity"),
+            "analytics" to commonExternalGroups,
+            "analytics-firebase" to commonExternalGroups + setOf("com.google.firebase"),
+            "deep-links" to commonExternalGroups,
+            "background-work" to commonExternalGroups + setOf("androidx.work"),
+            "app-versioning" to commonExternalGroups,
+        )
+        val failures = mutableListOf<String>()
+
+        sdkModuleNames.forEach { moduleName ->
+            val sdkProject = project(":$moduleName")
+            val allowedProjects = allowedProjectDependencies[moduleName]
+                ?: error("Missing project dependency allowlist for :$moduleName.")
+            val allowedGroups = allowedExternalGroups[moduleName]
+                ?: error("Missing external dependency allowlist for :$moduleName.")
+            val dependencies = sdkProject.configurations
+                .matching { it.name in dependencyConfigurationNames }
+                .flatMap { it.dependencies }
+
+            dependencies.filterIsInstance<ProjectDependency>().forEach { dependency ->
+                val dependencyModuleName = dependency.path.removePrefix(":")
+                if (dependencyModuleName !in allowedProjects) {
+                    failures += ":$moduleName must not depend on project ${dependency.path}."
+                }
+            }
+
+            dependencies
+                .filterNot { it is ProjectDependency }
+                .forEach { dependency ->
+                    val dependencyGroup = dependency.group.orEmpty()
+                    if (dependencyGroup.isBlank()) {
+                        failures += ":$moduleName has dependency ${dependency.name} without a group."
+                        return@forEach
+                    }
+
+                    if (dependencyGroup !in allowedGroups) {
+                        failures += ":$moduleName must not depend on ${dependency.group}:${dependency.name}."
+                    }
+                }
+        }
+
+        if (failures.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("SDK dependency allowlist check failed.")
+                    failures.forEach { appendLine("- $it") }
+                    appendLine("Keep each SDK module limited to the project modules and provider libraries it owns.")
+                }
+            )
+        }
+    }
+}
+
 tasks.register("checkConsumerShrinkerRules") {
     group = "verification"
     description = "Checks SDK consumer shrinker rules stay scoped and production-safe."
@@ -800,6 +911,7 @@ tasks.register("checkPublishingReadiness") {
         "checkPublishingGroup",
         "checkSdkArchitecture",
         "checkSdkAndroidMetadata",
+        "checkSdkDependencyAllowlist",
         "checkConsumerShrinkerRules",
         "checkApiCompatibility",
     )
