@@ -26,6 +26,14 @@ Firebase configuration belongs to the consuming app:
 - Enable the Firebase Authentication providers your app uses.
 - Register debug and release signing fingerprints where required.
 
+!!! info "App-owned Firebase setup"
+    The SDK module does not ship Firebase project files or secrets. Keep `google-services.json`,
+    Firebase app registration, package names, and signing fingerprints in the consuming app.
+
+!!! tip "Authentication provider setup"
+    Anonymous sign-in requires the Anonymous provider to be enabled in Firebase Authentication.
+    Email/password flows require the Email/Password provider to be enabled.
+
 ## Basic Usage
 
 ```kotlin

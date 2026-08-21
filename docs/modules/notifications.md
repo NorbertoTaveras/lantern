@@ -17,6 +17,16 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notificati
 - Checking notification permission state.
 - Reading Firebase Messaging tokens and topic operations.
 
+!!! info "Firebase Messaging setup"
+    `notifications-firebase` expects Firebase Messaging to be configured by the consuming app.
+    Keep `google-services.json`, Firebase project setup, notification icons/channels, and Android
+    notification permission UI in the app.
+
+!!! tip "Android notification permission"
+    On Android 13 and newer, notification delivery depends on the app requesting
+    `POST_NOTIFICATIONS`. The SDK models notification permission state, but the app owns the
+    lifecycle-aware permission request.
+
 ## Payload Parsing
 
 ```kotlin

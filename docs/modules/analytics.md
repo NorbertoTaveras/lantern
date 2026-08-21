@@ -15,6 +15,15 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-
 - Resetting analytics state.
 - Swapping provider implementations behind `AnalyticsProvider`.
 
+!!! info "Firebase Analytics setup"
+    `analytics-firebase` expects Firebase Analytics to be configured by the consuming app. Keep
+    `google-services.json`, Firebase app registration, analytics collection policy, and consent
+    decisions in the app.
+
+!!! warning "Privacy and naming are app policy"
+    The SDK provides typed event plumbing. Your app still owns analytics event naming, user consent,
+    privacy review, and the decision about which identifiers or properties are safe to send.
+
 ## Basic Usage
 
 ```kotlin

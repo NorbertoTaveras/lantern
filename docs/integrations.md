@@ -55,6 +55,11 @@ val client = OkHttpNetworkClientFactory(
 
 Use `remote-config` for provider-neutral config access and `remote-config-firebase` for Firebase-backed values.
 
+!!! info "Firebase Remote Config setup"
+    Firebase Remote Config values, defaults, fetch settings, and `google-services.json` belong to
+    the consuming app and Firebase project. The SDK provides provider contracts and a Firebase-backed
+    implementation.
+
 ```kotlin
 val remoteConfigProvider: RemoteConfigProvider = FirebaseRemoteConfigProvider()
 
@@ -87,6 +92,11 @@ val enabled = featureFlagProvider.isEnabled(
 
 `notifications` provides provider-neutral notification models. `notifications-firebase` adds Firebase Messaging support.
 
+!!! info "Firebase Messaging setup"
+    Firebase Messaging requires app-level Firebase configuration, notification channel/icon policy,
+    and runtime notification permission handling. The SDK does not display notifications or request
+    permission UI by itself.
+
 ```kotlin
 val parser = DefaultNotificationPayloadParser()
 val payload = parser.parse(data = remoteMessage.data)
@@ -111,6 +121,10 @@ val result = mediaPicker.pick(request)
 ## Analytics
 
 `analytics` defines provider-neutral tracking. `analytics-firebase` sends events to Firebase Analytics.
+
+!!! warning "Analytics setup and privacy"
+    Firebase Analytics initialization, collection policy, consent handling, event taxonomy, and user
+    property privacy review are app responsibilities.
 
 ```kotlin
 val analyticsProvider: AnalyticsProvider = FirebaseAnalyticsProvider(context)

@@ -43,6 +43,11 @@ firebaseAuth.signOut()
 
 Firebase configuration stays in the app module. Add `google-services.json` to the consuming app, enable the Firebase providers you need, and register your app signing fingerprints in Firebase.
 
+!!! info "Firebase setup belongs to the app"
+    Keep `google-services.json`, Firebase provider enablement, app registration, package names,
+    and SHA fingerprints in the consuming app. SDK auth modules should not contain Firebase project
+    files or secrets.
+
 ## Google Sign-In
 
 Use `auth-google` when your app needs Google sign-in through Android Credential Manager.
@@ -62,6 +67,11 @@ val result = googleAuthProvider.signIn(
 
 Use the Web OAuth client ID as `serverClientId`. Android OAuth client IDs identify the app package and signing certificate, while the Web client ID is used to request the ID token.
 
+!!! warning "Use the Web OAuth client ID"
+    For Google sign-in, `serverClientId` should be the Web OAuth client ID from your Google/Firebase
+    project. If the Android client, package name, or SHA fingerprints do not match the app build,
+    sign-in can fail after account selection.
+
 ## Firebase + Google
 
 Use `auth-firebase-google` when Google sign-in should authenticate with Firebase.
@@ -80,6 +90,11 @@ val result = provider.signIn()
 ```
 
 The bridge module signs in with Google, retrieves the Google ID token, creates a Firebase credential, signs into Firebase Auth, and returns a normalized `AuthSession`.
+
+!!! tip "Checklist for Firebase + Google"
+    Enable Google in Firebase Authentication, register debug and release SHA fingerprints, keep
+    `google-services.json` in the app module, and pass the Web OAuth client ID to
+    `FirebaseGoogleAuthConfig`.
 
 ## Sign-Out
 

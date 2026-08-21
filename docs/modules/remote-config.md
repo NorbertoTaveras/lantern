@@ -15,6 +15,11 @@ implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-con
 - Reading a config snapshot.
 - Keeping app code dependent on `RemoteConfigProvider` instead of Firebase directly.
 
+!!! info "Firebase Remote Config setup"
+    `remote-config-firebase` expects Firebase to be initialized by the consuming app. Add
+    `google-services.json` to the app module, apply the Google Services plugin in the app, and
+    configure Remote Config defaults, fetch intervals, and console values in your Firebase project.
+
 ## Basic Usage
 
 ```kotlin

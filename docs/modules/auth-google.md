@@ -22,6 +22,15 @@ The consuming app owns Google OAuth setup:
 - Add debug and release SHA fingerprints in Firebase or Google Cloud as needed.
 - Test on an emulator or device with Google Play services.
 
+!!! warning "Use the Web OAuth client ID"
+    `serverClientId` should be the Web OAuth client ID. Android OAuth clients identify
+    package names and signing certificates; the Web client ID is what requests the Google ID token.
+
+!!! tip "Emulator and account setup"
+    Google sign-in requires Google Play services and an available Google account on the device or
+    emulator. If Credential Manager cannot find credentials, add an account in Android Settings or
+    sign in through a Google app on the emulator.
+
 ## Basic Usage
 
 ```kotlin
