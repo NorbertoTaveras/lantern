@@ -170,6 +170,12 @@ subprojects {
                 failOnWarning.set(false)
             }
             dokkaSourceSets.configureEach {
+                val moduleIncludeFile = rootProject.layout.projectDirectory
+                    .file("dokka/modules/${project.name}.md")
+                    .asFile
+                if (moduleIncludeFile.isFile) {
+                    includes.from(moduleIncludeFile)
+                }
                 sourceLink {
                     localDirectory.set(project.layout.projectDirectory.dir("src/main/java"))
                     remoteUrl.set(
@@ -335,7 +341,17 @@ tasks.register("checkGeneratedApiDocs") {
             "Expected generated API reference HTML files under ${generatedApiDirectory.path}."
         }
 
+        sdkModuleNames.forEach { moduleName ->
+            val moduleIncludeFile = layout.projectDirectory.file("dokka/modules/$moduleName.md").asFile
+            check(moduleIncludeFile.isFile) {
+                "Expected Dokka module overview include at ${moduleIncludeFile.path}."
+            }
+        }
+
         val generatedHtml = generatedHtmlFiles.joinToString(separator = "\n") { it.readText() }
+        check(generatedHtml.contains("Use this module when app or feature code should depend on analytics behavior")) {
+            "Expected generated API reference docs to include module Dokka overview content."
+        }
         val sourceLinkPattern = Regex(
             """https://github\.com/NorbertoTaveras/android_mobilefoundation_framework/blob/[^"]+/[^"]+\.kt#L\d+"""
         )
