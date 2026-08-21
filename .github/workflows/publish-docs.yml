@@ -68,6 +68,7 @@ jobs:
         run: |
           ./gradlew \
             :generatePublicApiDocs \
+            -PMOBILE_FOUNDATION_SOURCE_REF="${GITHUB_SHA}" \
             --no-configuration-cache \
             --max-workers=2
 

@@ -9,6 +9,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.jetbrains.dokka.gradle.DokkaExtension
+import java.net.URI
 import java.util.Properties
 import java.util.jar.JarFile
 
@@ -26,6 +27,9 @@ fun localProperty(name: String) = providers.provider {
 
 val mobileFoundationVersion = providers.gradleProperty("MOBILE_FOUNDATION_VERSION")
     .orElse("0.1.0-SNAPSHOT")
+val mobileFoundationSourceRef = providers.gradleProperty("MOBILE_FOUNDATION_SOURCE_REF")
+    .orElse(providers.environmentVariable("GITHUB_SHA"))
+    .orElse("develop")
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -164,6 +168,18 @@ subprojects {
                 suppressObviousFunctions.set(true)
                 suppressInheritedMembers.set(true)
                 failOnWarning.set(false)
+            }
+            dokkaSourceSets.configureEach {
+                sourceLink {
+                    localDirectory.set(project.layout.projectDirectory.dir("src/main/java"))
+                    remoteUrl.set(
+                        URI(
+                            "https://github.com/NorbertoTaveras/android_mobilefoundation_framework/blob/" +
+                                "${mobileFoundationSourceRef.get()}/${project.name}/src/main/java"
+                        )
+                    )
+                    remoteLineSuffix.set("#L")
+                }
             }
         }
     }
