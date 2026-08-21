@@ -241,10 +241,84 @@ tasks.register<Copy>("generatePublicApiDocs") {
     into(generatedApiDocsDirectory)
 }
 
+tasks.register("checkPublicKdocCoverage") {
+    group = "verification"
+    description = "Checks public SDK declarations have nearby KDoc for generated API docs."
+
+    doLast {
+        val publicDeclarationPatterns = listOf(
+            Regex("""^\s*(data\s+)?(sealed\s+)?(class|interface|object|enum class|data class)\s+"""),
+            Regex("""^\s*(suspend\s+)?fun\s+"""),
+        )
+        val failures = mutableListOf<String>()
+
+        sdkModuleNames.forEach { moduleName ->
+            val sourceDirectory = project(":$moduleName").projectDir.resolve("src/main/java")
+            if (!sourceDirectory.isDirectory) {
+                return@forEach
+            }
+
+            sourceDirectory
+                .walkTopDown()
+                .filter { it.isFile && it.extension == "kt" }
+                .filterNot { it.toPath().any { pathPart -> pathPart.toString() == "internal" } }
+                .forEach { sourceFile ->
+                    val lines = sourceFile.readLines()
+                    val hasInternalTopLevelType = lines.any { line ->
+                        Regex("""^\s*internal\s+(class|object|interface|enum class)\s+""").containsMatchIn(line)
+                    }
+                    if (hasInternalTopLevelType) {
+                        return@forEach
+                    }
+
+                    lines.forEachIndexed { index, line ->
+                        val trimmedLine = line.trim()
+                        if (
+                            trimmedLine.startsWith("private ") ||
+                            trimmedLine.startsWith("internal ") ||
+                            trimmedLine.startsWith("override ") ||
+                            trimmedLine.startsWith("public override ") ||
+                            trimmedLine == "companion object"
+                        ) {
+                            return@forEachIndexed
+                        }
+
+                        if (publicDeclarationPatterns.none { it.containsMatchIn(line) }) {
+                            return@forEachIndexed
+                        }
+
+                        val previousMeaningfulLine = lines
+                            .take(index)
+                            .asReversed()
+                            .firstOrNull { previousLine ->
+                                val trimmedPreviousLine = previousLine.trim()
+                                trimmedPreviousLine.isNotEmpty() && !trimmedPreviousLine.startsWith("@")
+                            }
+                            ?.trim()
+
+                        if (previousMeaningfulLine != "*/") {
+                            failures += "$moduleName/${sourceFile.relativeTo(project(":$moduleName").projectDir)}:${index + 1}: $trimmedLine"
+                        }
+                    }
+                }
+        }
+
+        if (failures.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("Public KDoc coverage check failed.")
+                    failures.forEach { appendLine("- $it") }
+                    appendLine("Add concise KDoc for public SDK declarations that appear in generated API docs.")
+                }
+            )
+        }
+    }
+}
+
 tasks.register("checkGeneratedApiDocs") {
     group = "verification"
     description = "Checks generated API reference docs and public docs links."
-    dependsOn("generatePublicApiDocs")
+    dependsOn("checkPublicKdocCoverage", "generatePublicApiDocs")
 
     doLast {
         val generatedApiDirectory = generatedApiDocsDirectory.asFile
