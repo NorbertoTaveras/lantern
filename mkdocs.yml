@@ -44,6 +44,24 @@ nav:
   - Getting Started: getting-started.md
   - Core Patterns: core-patterns.md
   - Module Guide: modules.md
+  - Modules:
+      - SDK Core: modules/sdk-core.md
+      - Logging: modules/logging.md
+      - Auth Core: modules/auth-core.md
+      - Firebase Auth: modules/auth-firebase.md
+      - Google Auth: modules/auth-google.md
+      - Firebase Google Auth: modules/auth-firebase-google.md
+      - Permissions: modules/permissions.md
+      - Secure Storage: modules/secure-storage.md
+      - Network OkHttp: modules/network-okhttp.md
+      - Remote Config: modules/remote-config.md
+      - Feature Flags: modules/feature-flags.md
+      - Notifications: modules/notifications.md
+      - Media Picker: modules/media-picker.md
+      - Analytics: modules/analytics.md
+      - Deep Links: modules/deep-links.md
+      - Background Work: modules/background-work.md
+      - App Versioning: modules/app-versioning.md
   - Authentication: authentication.md
   - Integrations: integrations.md
   - Publishing: publishing.md

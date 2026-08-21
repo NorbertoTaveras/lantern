@@ -40,3 +40,23 @@
 The `app` module is a Compose sample application. It demonstrates SDK features and owns runtime app configuration such as Firebase `google-services.json`.
 
 The sample app is not published as part of the SDK.
+
+## Detailed Module Pages
+
+- [SDK Core](modules/sdk-core.md)
+- [Logging](modules/logging.md)
+- [Auth Core](modules/auth-core.md)
+- [Firebase Auth](modules/auth-firebase.md)
+- [Google Auth](modules/auth-google.md)
+- [Firebase Google Auth](modules/auth-firebase-google.md)
+- [Permissions](modules/permissions.md)
+- [Secure Storage](modules/secure-storage.md)
+- [Network OkHttp](modules/network-okhttp.md)
+- [Remote Config](modules/remote-config.md)
+- [Feature Flags](modules/feature-flags.md)
+- [Notifications](modules/notifications.md)
+- [Media Picker](modules/media-picker.md)
+- [Analytics](modules/analytics.md)
+- [Deep Links](modules/deep-links.md)
+- [Background Work](modules/background-work.md)
+- [App Versioning](modules/app-versioning.md)
