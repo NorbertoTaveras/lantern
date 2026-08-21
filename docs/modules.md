@@ -35,12 +35,6 @@
 | `background-work` | WorkManager-backed scheduling, cancellation, querying, and observation. |
 | `app-versioning` | Current app version lookup and update policy evaluation. |
 
-## Sample App
-
-The `app` module is a Compose sample application. It demonstrates SDK features and owns runtime app configuration such as Firebase `google-services.json`.
-
-The sample app is not published as part of the SDK.
-
 ## Detailed Module Pages
 
 - [SDK Core](modules/sdk-core.md)

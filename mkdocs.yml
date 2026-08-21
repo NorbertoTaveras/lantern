@@ -70,4 +70,4 @@ nav:
       - App Versioning: modules/app-versioning.md
   - Authentication: authentication.md
   - Integrations: integrations.md
-  - Publishing: publishing.md
+  - Releases: publishing.md

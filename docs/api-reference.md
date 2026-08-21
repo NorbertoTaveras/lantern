@@ -3,8 +3,8 @@
 Mobile Foundation SDK publishes generated API reference documentation from source KDoc.
 
 !!! tip "Generated from source"
-    The generated reference is built with Dokka during the docs publishing workflow. It should be
-    used together with the conceptual module guides on this site.
+    The generated reference is built from source KDoc. Use it together with the conceptual module
+    guides on this site.
 
 [Open Generated API Reference](generated/api/index.html){ .md-button .md-button--primary }
 
