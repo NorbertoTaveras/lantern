@@ -595,7 +595,7 @@ tasks.register("checkSdkDependencyAllowlist") {
             "remote-config" to setOf("sdk-core", "logging"),
             "remote-config-firebase" to setOf("sdk-core", "logging", "remote-config"),
             "feature-flags" to setOf("sdk-core", "logging", "remote-config"),
-            "notifications" to setOf("sdk-core", "logging", "deep-links"),
+            "notifications" to setOf("sdk-core", "logging", "deep-links", "permissions"),
             "notifications-firebase" to setOf("sdk-core", "logging", "notifications"),
             "media-picker" to setOf("sdk-core", "logging"),
             "analytics" to setOf("sdk-core", "logging"),
