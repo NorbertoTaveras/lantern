@@ -456,6 +456,101 @@ tasks.register("checkSdkArchitecture") {
     }
 }
 
+tasks.register("checkSdkAndroidMetadata") {
+    group = "verification"
+    description = "Checks SDK Android library metadata and app-only config boundaries."
+
+    doLast {
+        val expectedNamespacePrefix = "com.norbertotaveras.mobilefoundation"
+        val expectedCompileSdkRelease = 37
+        val expectedCompileSdkMinorApi = 1
+        val expectedMinSdk = 24
+        val forbiddenPluginIds = listOf(
+            "com.android.application",
+            "com.google.gms.google-services",
+        )
+        val forbiddenConfigFiles = listOf(
+            "google-services.json",
+            "GoogleService-Info.plist",
+        )
+        val failures = mutableListOf<String>()
+
+        sdkModuleNames.forEach { moduleName ->
+            val sdkProject = project(":$moduleName")
+            val buildFile = sdkProject.projectDir.resolve("build.gradle.kts")
+            val buildFileText = buildFile.readText()
+
+            if (!sdkProject.plugins.hasPlugin("com.android.library")) {
+                failures += ":$moduleName must apply com.android.library."
+            }
+
+            forbiddenPluginIds.forEach { pluginId ->
+                if (sdkProject.plugins.hasPlugin(pluginId) || buildFileText.contains(pluginId)) {
+                    failures += ":$moduleName must not apply app-only plugin $pluginId."
+                }
+            }
+
+            val namespace = Regex("""namespace\s*=\s*"([^"]+)"""")
+                .find(buildFileText)
+                ?.groupValues
+                ?.get(1)
+            if (namespace.isNullOrBlank()) {
+                failures += ":$moduleName must declare an Android namespace."
+            } else if (!namespace.startsWith(expectedNamespacePrefix)) {
+                failures += ":$moduleName namespace must start with $expectedNamespacePrefix, but was $namespace."
+            }
+
+            val compileSdkRelease = Regex("""version\s*=\s*release\((\d+)\)""")
+                .find(buildFileText)
+                ?.groupValues
+                ?.get(1)
+                ?.toIntOrNull()
+            if (compileSdkRelease != expectedCompileSdkRelease) {
+                failures += ":$moduleName compileSdk release must be $expectedCompileSdkRelease, but was $compileSdkRelease."
+            }
+
+            val compileSdkMinorApi = Regex("""minorApiLevel\s*=\s*(\d+)""")
+                .find(buildFileText)
+                ?.groupValues
+                ?.get(1)
+                ?.toIntOrNull()
+            if (compileSdkMinorApi != expectedCompileSdkMinorApi) {
+                failures += ":$moduleName compileSdk minorApiLevel must be $expectedCompileSdkMinorApi, but was $compileSdkMinorApi."
+            }
+
+            val minSdk = Regex("""minSdk\s*=\s*(\d+)""")
+                .find(buildFileText)
+                ?.groupValues
+                ?.get(1)
+                ?.toIntOrNull()
+            if (minSdk != expectedMinSdk) {
+                failures += ":$moduleName minSdk must be $expectedMinSdk, but was $minSdk."
+            }
+
+            forbiddenConfigFiles.forEach { fileName ->
+                val configFiles = sdkProject.projectDir
+                    .walkTopDown()
+                    .filter { it.isFile && it.name == fileName }
+                    .filterNot { it.toPath().any { pathPart -> pathPart.toString() == "build" } }
+                    .toList()
+                configFiles.forEach { configFile ->
+                    failures += ":$moduleName must not own app config file ${configFile.relativeTo(sdkProject.projectDir)}."
+                }
+            }
+        }
+
+        if (failures.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("SDK Android metadata check failed.")
+                    failures.forEach { appendLine("- $it") }
+                    appendLine("Keep SDK modules as publishable Android libraries and app configuration inside :app.")
+                }
+            )
+        }
+    }
+}
+
 tasks.register("checkConsumerShrinkerRules") {
     group = "verification"
     description = "Checks SDK consumer shrinker rules stay scoped and production-safe."
@@ -704,6 +799,7 @@ tasks.register("checkPublishingReadiness") {
     dependsOn(
         "checkPublishingGroup",
         "checkSdkArchitecture",
+        "checkSdkAndroidMetadata",
         "checkConsumerShrinkerRules",
         "checkApiCompatibility",
     )
