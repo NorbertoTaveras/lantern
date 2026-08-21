@@ -6,7 +6,8 @@ import com.norbertotaveras.mobilefoundation.securestorage.internal.SecureTokenCo
 /**
  * Default [SecureTokenStore] implementation backed by a [SecureKeyValueStore].
  *
- * Tokens are encoded as structured strings before persistence and decoded when read back.
+ * Tokens are encoded as structured strings before persistence and decoded when read back. This
+ * class does not encrypt token values; encryption is determined by the supplied [SecureKeyValueStore].
  */
 class DefaultSecureTokenStore private constructor(
     private val keyValueStore: SecureKeyValueStore,

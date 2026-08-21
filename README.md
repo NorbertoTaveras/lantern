@@ -100,7 +100,7 @@ Most apps should not install every module. Start with the provider-neutral modul
 | Google sign-in | `auth-google` | Android Credential Manager Google sign-in and Google ID token retrieval. |
 | Firebase + Google auth | `auth-firebase-google` | Google sign-in followed by Firebase credential exchange. |
 | Permissions | `permissions` | Android-version-aware permission checks, requests, rationale, and denied-state modeling. |
-| Secure storage | `secure-storage` | Validated secure storage keys, key-value storage, and token storage. |
+| Secure storage | `secure-storage` | Validated storage keys, key-value storage contracts, token storage, and a DataStore-backed app-local implementation. |
 | Networking | `network-okhttp` | OkHttp factory, auth header interceptor, default headers, retry, logging, and error mapping. |
 | Remote config | `remote-config`, `remote-config-firebase` | Provider-neutral remote config contracts plus Firebase Remote Config implementation. |
 | Feature flags | `feature-flags` | Typed feature flags with static and remote-config-backed providers. |
@@ -236,7 +236,7 @@ if (keyResult is SdkResult.Success) {
 }
 ```
 
-Use `SecureTokenStore` for token-specific storage flows and `SecureKeyValueStore` for general app values. The current DataStore implementation is intentionally app-local and can be paired with app-specific encryption policy.
+Use `SecureTokenStore` for token-specific storage flows and `SecureKeyValueStore` for general app values. The provided DataStore implementation is app-local storage, not encryption by default. Apps that store highly sensitive values should wrap values with an app-owned encryption policy or provide an encrypted `SecureKeyValueStore` implementation.
 
 ## Networking
 

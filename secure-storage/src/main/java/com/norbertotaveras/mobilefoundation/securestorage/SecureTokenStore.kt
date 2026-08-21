@@ -6,7 +6,8 @@ import com.norbertotaveras.mobilefoundation.core.SdkResult
  * Stores structured token values using [SecureStorageKey] lookup keys.
  *
  * Token stores are intended for app session tokens, provider ID tokens, refresh tokens, and
- * other short structured credentials that need consistent encoding and error mapping.
+ * other short structured credentials that need consistent encoding and error mapping. The backing
+ * [SecureKeyValueStore] owns persistence security, including whether values are encrypted.
  */
 interface SecureTokenStore {
     /**

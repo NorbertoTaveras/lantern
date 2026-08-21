@@ -21,7 +21,7 @@
 | Module | Purpose |
 | --- | --- |
 | `permissions` | Android-version-aware runtime permission checks, requests, rationale, and denied-state modeling. |
-| `secure-storage` | Validated secure storage keys, key-value storage, and token storage. |
+| `secure-storage` | Validated storage keys, key-value storage contracts, token storage, and a DataStore-backed app-local implementation. |
 | `network-okhttp` | OkHttp factory, default headers, auth header interceptor, logging, retry, connectivity, and error mapping. |
 | `remote-config` | Provider-neutral remote config keys, values, defaults, snapshots, and fetch/activate contracts. |
 | `remote-config-firebase` | Firebase Remote Config implementation. |
