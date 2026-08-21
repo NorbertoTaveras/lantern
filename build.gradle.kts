@@ -801,6 +801,7 @@ fun publicClassNames(jarFile: File): List<String> {
             .filterNot { it.startsWith("META-INF/") }
             .filterNot { it.endsWith("/R.class") || it.contains("/R$") }
             .filterNot { it.endsWith("/BuildConfig.class") }
+            .filterNot { it.contains("/internal/") }
             .filterNot { it.endsWith("\$WhenMappings.class") }
             .filterNot { it.substringAfterLast('/').matches(Regex(""".+\$.*\$\d+\.class""")) }
             .map { it.removeSuffix(".class").replace('/', '.') }
@@ -837,6 +838,7 @@ fun sdkApiSignature(
         val normalizedOutput = output
             .lines()
             .filterNot { it.startsWith("Compiled from ") }
+            .filterNot { it.contains(" access$") }
             .joinToString(separator = "\n")
             .trim()
 

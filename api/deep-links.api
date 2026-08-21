@@ -122,7 +122,6 @@ public final class com.norbertotaveras.mobilefoundation.deeplinks.DeepLinkConfig
   public com.norbertotaveras.mobilefoundation.deeplinks.DeepLinkConfig();
     descriptor: ()V
 
-  public static final com.norbertotaveras.mobilefoundation.deeplinks.DeepLinkConfig access$getAllowAny$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/deeplinks/DeepLinkConfig;
 }
 
@@ -169,13 +168,5 @@ public final class com.norbertotaveras.mobilefoundation.deeplinks.DefaultDeepLin
 
   public com.norbertotaveras.mobilefoundation.deeplinks.DefaultDeepLinkParser();
     descriptor: ()V
-}
-
-public final class com.norbertotaveras.mobilefoundation.deeplinks.internal.DeepLinkUriParser {
-  public com.norbertotaveras.mobilefoundation.deeplinks.internal.DeepLinkUriParser();
-    descriptor: ()V
-
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.deeplinks.DeepLink> parse(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

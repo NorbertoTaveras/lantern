@@ -94,10 +94,8 @@ public final class com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAu
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.auth.core.AuthState> observeAuthState();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
 
-  public static final com.google.firebase.auth.FirebaseAuth access$getFirebaseAuth$p(com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthProvider);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthProvider;)Lcom/google/firebase/auth/FirebaseAuth;
 
-  public static final com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthSessionMapper access$getSessionMapper$p(com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthProvider);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthProvider;)Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthSessionMapper;
 }
 
@@ -123,10 +121,8 @@ public final class com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAu
   public final kotlinx.coroutines.flow.Flow<com.norbertotaveras.mobilefoundation.auth.core.AuthState> observe();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
 
-  public static final com.google.firebase.auth.FirebaseAuth access$getFirebaseAuth$p(com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthStateObserver);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthStateObserver;)Lcom/google/firebase/auth/FirebaseAuth;
 
-  public static final com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthSessionMapper access$getSessionMapper$p(com.norbertotaveras.mobilefoundation.auth.firebase.FirebaseAuthStateObserver);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthStateObserver;)Lcom/norbertotaveras/mobilefoundation/auth/firebase/FirebaseAuthSessionMapper;
 }
 

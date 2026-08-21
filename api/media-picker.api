@@ -37,7 +37,6 @@ public final class com.norbertotaveras.mobilefoundation.mediapicker.MediaMimeTyp
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.mediapicker.MediaMimeType> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -174,10 +173,8 @@ public final class com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerR
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-  public static final com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult access$getEmpty$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickerResult;
 
-  public static final com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult access$getCancelled$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickerResult;
 }
 
@@ -335,7 +332,6 @@ public final class com.norbertotaveras.mobilefoundation.mediapicker.android.Andr
   public java.lang.Object pick(com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest, kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult>>);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-  public static final java.lang.Object access$launchPicker(com.norbertotaveras.mobilefoundation.mediapicker.android.AndroidPhotoPickerMediaPicker, com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest, kotlin.coroutines.Continuation);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/android/AndroidPhotoPickerMediaPicker;Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
@@ -400,19 +396,5 @@ public final class com.norbertotaveras.mobilefoundation.mediapicker.android.Andr
 
   public final com.norbertotaveras.mobilefoundation.mediapicker.MediaPickerResult mapMultiple(java.util.List<? extends android.net.Uri>, com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest);
     descriptor: (Ljava/util/List;Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickRequest;)Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickerResult;
-}
-
-public final class com.norbertotaveras.mobilefoundation.mediapicker.internal.MediaMimeTypeValidator {
-  public static final com.norbertotaveras.mobilefoundation.mediapicker.internal.MediaMimeTypeValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/mediapicker/internal/MediaMimeTypeValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validate(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-}
-
-public final class com.norbertotaveras.mobilefoundation.mediapicker.internal.MediaPickRequestValidator {
-  public static final com.norbertotaveras.mobilefoundation.mediapicker.internal.MediaPickRequestValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/mediapicker/internal/MediaPickRequestValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest> validate(com.norbertotaveras.mobilefoundation.mediapicker.MediaPickRequest);
-    descriptor: (Lcom/norbertotaveras/mobilefoundation/mediapicker/MediaPickRequest;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

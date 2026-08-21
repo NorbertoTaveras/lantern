@@ -37,7 +37,6 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfi
   public com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigDefaults();
     descriptor: ()V
 
-  public static final com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigDefaults access$getEmpty$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigDefaults;
 }
 
@@ -121,7 +120,6 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfi
   public static final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigKey> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 
-  public static final java.lang.String access$constructor-impl(java.lang.String);
     descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
@@ -161,7 +159,6 @@ public interface com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigP
   public abstract java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigSnapshot>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-  public static java.lang.Object access$fetchAndActivate$jd(com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigProvider, kotlin.coroutines.Continuation);
     descriptor: (Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigProvider;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
@@ -264,7 +261,6 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfi
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-  public static final com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfigSnapshot access$getEmpty$cp();
     descriptor: ()Lcom/norbertotaveras/mobilefoundation/remoteconfig/RemoteConfigSnapshot;
 }
 
@@ -381,12 +377,5 @@ public final class com.norbertotaveras.mobilefoundation.remoteconfig.RemoteConfi
 
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
-}
-
-public final class com.norbertotaveras.mobilefoundation.remoteconfig.internal.RemoteConfigKeyValidator {
-  public static final com.norbertotaveras.mobilefoundation.remoteconfig.internal.RemoteConfigKeyValidator INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/remoteconfig/internal/RemoteConfigKeyValidator;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<java.lang.String> validate(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
 }
 

@@ -220,10 +220,3 @@ public final class com.norbertotaveras.mobilefoundation.appversioning.StaticAppV
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class com.norbertotaveras.mobilefoundation.appversioning.internal.AppVersionParser {
-  public static final com.norbertotaveras.mobilefoundation.appversioning.internal.AppVersionParser INSTANCE;
-    descriptor: Lcom/norbertotaveras/mobilefoundation/appversioning/internal/AppVersionParser;
-  public final com.norbertotaveras.mobilefoundation.core.SdkResult<com.norbertotaveras.mobilefoundation.appversioning.AppVersion> parse(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/mobilefoundation/core/SdkResult;
-}
-
