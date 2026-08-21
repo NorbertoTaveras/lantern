@@ -46,6 +46,7 @@ nav:
   - Overview: index.md
   - Getting Started: getting-started.md
   - Artifacts: artifacts.md
+  - Versioning And Migration: versioning-migration.md
   - Core Patterns: core-patterns.md
   - Module Guide: modules.md
   - Modules:

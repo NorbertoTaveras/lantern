@@ -82,6 +82,7 @@ Public releases are intended for Maven Central. The Maven Central badge will be 
 | --- | --- |
 | [Getting Started](getting-started.md) | Installation, requirements, dependency selection, and first result handling. |
 | [Artifacts](artifacts.md) | Maven group, artifact names, and copy-ready dependency snippets. |
+| [Versioning And Migration](versioning-migration.md) | Version policy, upgrade guidance, and migration-note expectations. |
 | [Core Patterns](core-patterns.md) | `SdkResult`, `SdkError`, logging, coroutines, Flow, and provider boundaries. |
 | [Module Guide](modules.md) | All SDK modules and links to detailed module pages. |
 | [Authentication](authentication.md) | Firebase Auth, Google sign-in, and Firebase + Google setup. |

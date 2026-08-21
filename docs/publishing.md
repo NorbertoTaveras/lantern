@@ -2,6 +2,10 @@
 
 Stable Mobile Foundation SDK releases are intended to be consumed from Maven Central.
 
+!!! info "Consumer-facing publishing model"
+    Consumers should treat Maven Central as the source of stable SDK binaries. Internal repository
+    branch names, CI jobs, and release automation are not required to consume the SDK.
+
 ## Release Versioning
 
 Public releases use semantic versioning:
@@ -13,6 +17,8 @@ Public releases use semantic versioning:
 ```
 
 Until the SDK reaches `1.0.0`, minor versions may include API changes as public contracts are finalized.
+
+See [Versioning And Migration](versioning-migration.md) for upgrade and migration guidance.
 
 ## Maven Coordinates
 
@@ -35,6 +41,14 @@ mobilefoundation-network-okhttp
 
 GitHub Releases are expected to include generated release notes and GitHub-provided source archives. Maven Central is the canonical destination for binary SDK artifacts.
 
+Release notes should call out:
+
+- Added modules or features.
+- Behavior changes.
+- Deprecated APIs.
+- Breaking changes.
+- Migration steps when app code must change.
+
 ## Consumer Expectations
 
 Consuming apps should:
@@ -43,3 +57,4 @@ Consuming apps should:
 - Depend only on needed modules.
 - Keep provider credentials and configuration in the app.
 - Treat pre-1.0 APIs as early release APIs.
+- Read release notes before upgrading.
