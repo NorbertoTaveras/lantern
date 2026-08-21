@@ -2,10 +2,10 @@
 
 <p>
   <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg" />
+    <img alt="Android CI" src="https://img.shields.io/badge/Android%20CI-active-success.svg" />
   </a>
   <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml">
-    <img alt="Docs" src="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml/badge.svg" />
+    <img alt="Docs" src="https://img.shields.io/badge/docs-live-success.svg" />
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
