@@ -2,6 +2,7 @@
 
 [![Android CI](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml)
 [![Docs](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml)
+[![API Reference](https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg)](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
 ![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
@@ -28,7 +29,16 @@ The Maven Central badge will be replaced with the published artifact version aft
 
 ## Documentation
 
-The public documentation source lives in [docs](docs/index.md) and is prepared for GitHub Pages publishing at [norbertotaveras.github.io/android_mobilefoundation_framework](https://norbertotaveras.github.io/android_mobilefoundation_framework/).
+Read the public docs at [norbertotaveras.github.io/android_mobilefoundation_framework](https://norbertotaveras.github.io/android_mobilefoundation_framework/).
+
+Useful starting points:
+
+- [Getting Started](https://norbertotaveras.github.io/android_mobilefoundation_framework/getting-started/)
+- [Module Guide](https://norbertotaveras.github.io/android_mobilefoundation_framework/modules/)
+- [API Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
+- [Generated Dokka Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/generated/api/)
+
+The documentation source lives in [docs](docs/index.md). The generated Dokka reference is produced during the docs publishing workflow and is not committed as source.
 
 ## Requirements
 
