@@ -306,6 +306,56 @@ jobs:
             echo "- Validated that an external consumer app can resolve and build against locally published SDK artifacts."
           } >> "$GITHUB_STEP_SUMMARY"
 
+  docs-api:
+    name: Android CI / Docs API
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras' || github.actor == 'dependabot[bot]')
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36.1" \
+            "platforms;android-37.1" \
+            "build-tools;36.1.0"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Generate API reference docs
+        run: |
+          ./gradlew \
+            :generatePublicApiDocs \
+            -PMOBILE_FOUNDATION_SOURCE_REF="${GITHUB_SHA}" \
+            --no-configuration-cache \
+            --max-workers=2
+
+      - name: Write docs API summary
+        if: always()
+        run: |
+          {
+            echo "## Android CI / Docs API"
+            echo
+            echo "- Status: ${{ job.status }}"
+            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Validated generated Dokka API reference docs."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   android-validation:
     name: Android Validation
     runs-on: ubuntu-latest
@@ -316,6 +366,7 @@ jobs:
       - sdk-lint
       - api-check
       - consumer-smoke
+      - docs-api
 
     steps:
       - name: Check Android CI results
@@ -342,6 +393,11 @@ jobs:
             failed=true
           fi
 
+          if [[ "${{ needs.docs-api.result }}" != "success" ]]; then
+            echo "Docs API finished with result: ${{ needs.docs-api.result }}"
+            failed=true
+          fi
+
           if [[ "$failed" == "true" ]]; then
             exit 1
           fi
@@ -356,6 +412,7 @@ jobs:
             echo "- SDK Lint: ${{ needs.sdk-lint.result }}"
             echo "- API Check: ${{ needs.api-check.result }}"
             echo "- Consumer Smoke: ${{ needs.consumer-smoke.result }}"
+            echo "- Docs API: ${{ needs.docs-api.result }}"
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
