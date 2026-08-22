@@ -1,0 +1,49 @@
+name: Cleanup Snapshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot_version:
+        description: Optional exact snapshot version to delete, for example 0.1.0-SNAPSHOT. Leave empty to match all snapshots.
+        required: false
+        default: ""
+      dry_run:
+        description: Preview matching snapshot versions without deleting them.
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: cleanup-snapshots-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  cleanup-snapshots:
+    name: Cleanup GitHub Packages Snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
+    environment: github-packages
+
+    env:
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      SNAPSHOT_VERSION: ${{ inputs.snapshot_version }}
+      DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+      GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check GitHub Packages credentials
+        if: env.GH_TOKEN == ''
+        run: |
+          echo "PACKAGES_TOKEN is required to clean up private SDK snapshots from ${GITHUB_PACKAGES_REPOSITORY}."
+          exit 1
+
+      - name: Cleanup snapshot package versions
+        run: bash .github/scripts/cleanup-github-snapshots.sh
