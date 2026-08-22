@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -41,6 +43,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.norbertotaveras.mobilefoundationframework.BuildConfig
 import com.norbertotaveras.mobilefoundationframework.navigation.SampleDestination
 import com.norbertotaveras.mobilefoundationframework.navigation.sampleDestinations
 import com.norbertotaveras.mobilefoundationframework.screens.AuthStateScreen
@@ -81,72 +84,82 @@ fun SampleNavigationDrawer() {
             ModalDrawerSheet(
                 modifier = Modifier.widthIn(max = 360.dp)
             ) {
-                DrawerHeader()
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        DrawerHeader(version = BuildConfig.MOBILE_FOUNDATION_VERSION)
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
-                )
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                        )
 
-                Text(
-                    text = "SDK samples",
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                        Text(
+                            text = "SDK samples",
+                            modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
 
-                sampleDestinations.forEach { destination ->
-                    NavigationDrawerItem(
-                        icon = {
-                            Icon(
-                                imageVector = destination.icon,
-                                contentDescription = null
+                        sampleDestinations.forEach { destination ->
+                            NavigationDrawerItem(
+                                icon = {
+                                    Icon(
+                                        imageVector = destination.icon,
+                                        contentDescription = null
+                                    )
+                                },
+                                label = {
+                                    Column {
+                                        Text(
+                                            text = destination.title,
+                                            fontWeight = FontWeight.Medium
+                                        )
+                                        Text(
+                                            text = destination.description,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                },
+                                badge = {
+                                    destination.drawerBadge()?.let {
+                                        StatusPill(text = it)
+                                    }
+                                },
+                                selected = currentRoute == destination.route,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        drawerState.close()
+                                    }
+
+                                    navController.navigate(destination.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                modifier = Modifier.padding(horizontal = 12.dp)
                             )
-                        },
-                        label = {
-                            Column {
-                                Text(
-                                    text = destination.title,
-                                    fontWeight = FontWeight.Medium
-                                )
-                                Text(
-                                    text = destination.description,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        },
-                        badge = {
-                            destination.drawerBadge()?.let {
-                                StatusPill(text = it)
-                            }
-                        },
-                        selected = currentRoute == destination.route,
-                        onClick = {
-                            coroutineScope.launch {
-                                drawerState.close()
-                            }
+                        }
+                    }
 
-                            navController.navigate(destination.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                    )
 
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        modifier = Modifier.padding(horizontal = 12.dp)
+                    Text(
+                        text = "Sample app owns UI, Firebase config, and manual verification.",
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = "Sample app owns UI, Firebase config, and manual verification.",
-                    modifier = Modifier.padding(24.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
             }
         }
     ) {
@@ -193,7 +206,7 @@ fun SampleNavigationDrawer() {
 }
 
 @Composable
-private fun DrawerHeader() {
+private fun DrawerHeader(version: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -239,7 +252,7 @@ private fun DrawerHeader() {
         Spacer(modifier = Modifier.height(12.dp))
 
         Row {
-            StatusPill(text = "v0.1.0-dev")
+            StatusPill(text = "v$version")
         }
     }
 }

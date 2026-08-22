@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.google.services)
 }
 
+val mobileFoundationVersion = providers.gradleProperty("SAMPLE_APP_MOBILE_FOUNDATION_VERSION")
+    .orElse("0.1.1-SNAPSHOT")
+
 android {
     namespace = "com.norbertotaveras.mobilefoundationframework"
     compileSdk {
@@ -36,6 +39,11 @@ android {
             "firebase_web_client_id",
             "\"$firebaseWebClientId\""
         )
+        buildConfigField(
+            "String",
+            "MOBILE_FOUNDATION_VERSION",
+            "\"${mobileFoundationVersion.get()}\""
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -56,9 +64,6 @@ android {
         compose = true
     }
 }
-
-val mobileFoundationVersion = providers.gradleProperty("SAMPLE_APP_MOBILE_FOUNDATION_VERSION")
-    .orElse("0.1.0-SNAPSHOT")
 
 dependencies {
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:${mobileFoundationVersion.get()}")
