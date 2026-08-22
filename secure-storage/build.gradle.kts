@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.securestorage"
+    namespace = "com.norbertotaveras.lantern.securestorage"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

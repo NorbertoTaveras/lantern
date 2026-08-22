@@ -1,8 +1,8 @@
-# Module mobilefoundation-app-versioning
+# Module lantern-app-versioning
 
 App version and update policy utilities.
 
-# Package com.norbertotaveras.mobilefoundation.appversioning
+# Package com.norbertotaveras.lantern.appversioning
 
 Provides app version parsing, current app version lookup, static version providers, and update policy evaluation.
 

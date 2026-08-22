@@ -1,8 +1,8 @@
-# Module mobilefoundation-auth-core
+# Module lantern-auth-core
 
 Provider-neutral authentication contracts and models.
 
-# Package com.norbertotaveras.mobilefoundation.auth.core
+# Package com.norbertotaveras.lantern.auth.core
 
 Defines the `AuthProvider` contract, session model, auth state stream, token model, user profile model, provider types, and shared auth error codes.
 

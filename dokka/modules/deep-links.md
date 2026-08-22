@@ -1,8 +1,8 @@
-# Module mobilefoundation-deep-links
+# Module lantern-deep-links
 
 Deep link parsing and Android Intent resolution.
 
-# Package com.norbertotaveras.mobilefoundation.deeplinks
+# Package com.norbertotaveras.lantern.deeplinks
 
 Provides URI parsing, scheme and host allowlists, query parameter access, error codes, and Android `Intent` resolution into SDK deep link models.
 

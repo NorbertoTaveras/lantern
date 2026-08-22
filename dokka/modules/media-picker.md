@@ -1,12 +1,12 @@
-# Module mobilefoundation-media-picker
+# Module lantern-media-picker
 
 Media selection contracts and Android Photo Picker bridge.
 
-# Package com.norbertotaveras.mobilefoundation.mediapicker
+# Package com.norbertotaveras.lantern.mediapicker
 
 Defines media pick requests, selection modes, media types, MIME type validation, picked item models, picker results, and picker contracts.
 
-# Package com.norbertotaveras.mobilefoundation.mediapicker.android
+# Package com.norbertotaveras.lantern.mediapicker.android
 
 Contains Android Photo Picker request mapping, result mapping, Activity Result contract factories, and launcher-backed picker implementation.
 

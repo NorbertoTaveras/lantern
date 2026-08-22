@@ -30,7 +30,7 @@ jobs:
     environment: github-packages
 
     env:
-      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
       SNAPSHOT_VERSION: ${{ inputs.snapshot_version }}
       DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
       GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}

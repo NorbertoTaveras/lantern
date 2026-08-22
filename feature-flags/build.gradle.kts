@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.featureflags"
+    namespace = "com.norbertotaveras.lantern.featureflags"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

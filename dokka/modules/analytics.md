@@ -1,8 +1,8 @@
-# Module mobilefoundation-analytics
+# Module lantern-analytics
 
 Provider-neutral analytics contracts and value models.
 
-# Package com.norbertotaveras.mobilefoundation.analytics
+# Package com.norbertotaveras.lantern.analytics
 
 Defines analytics events, user identifiers, user properties, typed parameter values, validation helpers, and a no-op provider.
 

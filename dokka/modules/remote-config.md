@@ -1,8 +1,8 @@
-# Module mobilefoundation-remote-config
+# Module lantern-remote-config
 
 Provider-neutral remote configuration contracts.
 
-# Package com.norbertotaveras.mobilefoundation.remoteconfig
+# Package com.norbertotaveras.lantern.remoteconfig
 
 Defines remote config keys, defaults, settings, typed values, snapshots, fetch status, and provider behavior.
 

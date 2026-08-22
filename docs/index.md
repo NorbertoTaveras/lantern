@@ -1,7 +1,7 @@
-# Mobile Foundation SDK
+# Lantern
 
 <p>
-  <a href="https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml">
+  <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
     <img alt="Docs" src="https://img.shields.io/badge/docs-live-success.svg" />
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
@@ -10,17 +10,17 @@
   <img alt="Maven Central" src="https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg" />
 </p>
 
-Mobile Foundation SDK is a modular Android foundation toolkit for apps that need reusable, provider-aware building blocks for common product infrastructure.
+Lantern is a modular Android foundation toolkit for apps that need reusable, provider-aware building blocks for common product infrastructure.
 
 It gives Android apps a consistent SDK layer for authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
 
 [:material-rocket-launch: Get Started](getting-started.md){ .md-button .md-button--primary }
 [:material-view-module: Browse Modules](modules.md){ .md-button }
 [:material-package-variant-closed: Artifacts](artifacts.md){ .md-button }
-[:material-github: View Source](https://github.com/NorbertoTaveras/android_mobilefoundation_framework){ .md-button }
+[:material-github: View Source](https://github.com/NorbertoTaveras/lantern){ .md-button }
 
 !!! warning "Pre-1.0 SDK"
-    Mobile Foundation SDK is being prepared for public Maven Central publishing. APIs should be treated as early release APIs until the first stable version is published.
+    Lantern is being prepared for public Maven Central publishing. APIs should be treated as early release APIs until the first stable version is published.
 
 ## Quick Install
 
@@ -32,10 +32,10 @@ repositories {
     mavenCentral()
 }
 
-val mobileFoundationVersion = "0.1.0"
+val lanternVersion = "0.1.0"
 
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 For feature-specific setup, start with the [Module Guide](modules.md) or jump into [Getting Started](getting-started.md).

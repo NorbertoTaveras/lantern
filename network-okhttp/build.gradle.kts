@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.network.okhttp"
+    namespace = "com.norbertotaveras.lantern.network.okhttp"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

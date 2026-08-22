@@ -1,8 +1,8 @@
-# Module mobilefoundation-feature-flags
+# Module lantern-feature-flags
 
 Provider-neutral feature flag evaluation.
 
-# Package com.norbertotaveras.mobilefoundation.featureflags
+# Package com.norbertotaveras.lantern.featureflags
 
 Defines feature flag keys, values, defaults, evaluations, snapshots, providers, and remote-config-backed evaluation.
 

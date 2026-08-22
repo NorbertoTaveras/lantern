@@ -2,7 +2,7 @@
 
 ## Result Handling
 
-Mobile Foundation uses `SdkResult<T>` for expected SDK outcomes.
+Lantern uses `SdkResult<T>` for expected SDK outcomes.
 
 ```kotlin
 when (val result = provider.refresh()) {

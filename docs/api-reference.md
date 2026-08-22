@@ -1,6 +1,6 @@
 # API Reference
 
-Mobile Foundation SDK publishes generated API reference documentation from source KDoc.
+Lantern publishes generated API reference documentation from source KDoc.
 
 !!! tip "Generated from source"
     The generated reference is built from source KDoc. Use it together with the conceptual module

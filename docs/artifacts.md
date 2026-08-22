@@ -1,6 +1,6 @@
 # Artifacts
 
-Mobile Foundation SDK publishes each SDK module as a separate Maven artifact. Apps should depend only on the modules they use.
+Lantern publishes each SDK module as a separate Maven artifact. Apps should depend only on the modules they use.
 
 !!! warning "Pre-1.0 artifacts"
     Public Maven Central releases are still pending. The coordinates below describe the intended public artifact names for stable releases.
@@ -10,7 +10,7 @@ Mobile Foundation SDK publishes each SDK module as a separate Maven artifact. Ap
 Define the SDK version once in your Gradle build:
 
 ```kotlin
-val mobileFoundationVersion = "0.1.0"
+val lanternVersion = "0.1.0"
 ```
 
 ## Repository
@@ -27,71 +27,71 @@ repositories {
 ## Maven Group
 
 ```text
-com.norbertotaveras.mobilefoundation
+com.norbertotaveras.lantern
 ```
 
 ## Core Artifacts
 
 | Module | Artifact |
 | --- | --- |
-| `sdk-core` | `mobilefoundation-sdk-core` |
-| `logging` | `mobilefoundation-logging` |
+| `sdk-core` | `lantern-core` |
+| `logging` | `lantern-logging` |
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 ## Authentication Artifacts
 
 | Module | Artifact |
 | --- | --- |
-| `auth-core` | `mobilefoundation-auth-core` |
-| `auth-firebase` | `mobilefoundation-auth-firebase` |
-| `auth-google` | `mobilefoundation-auth-google` |
-| `auth-firebase-google` | `mobilefoundation-auth-firebase-google` |
+| `auth-core` | `lantern-auth-core` |
+| `auth-firebase` | `lantern-auth-firebase` |
+| `auth-google` | `lantern-auth-google` |
+| `auth-firebase-google` | `lantern-auth-firebase-google` |
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-google:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase-google:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
 ```
 
 ## App Foundation Artifacts
 
 | Module | Artifact |
 | --- | --- |
-| `permissions` | `mobilefoundation-permissions` |
-| `secure-storage` | `mobilefoundation-secure-storage` |
-| `network-okhttp` | `mobilefoundation-network-okhttp` |
-| `remote-config` | `mobilefoundation-remote-config` |
-| `remote-config-firebase` | `mobilefoundation-remote-config-firebase` |
-| `feature-flags` | `mobilefoundation-feature-flags` |
-| `notifications` | `mobilefoundation-notifications` |
-| `notifications-firebase` | `mobilefoundation-notifications-firebase` |
-| `media-picker` | `mobilefoundation-media-picker` |
-| `analytics` | `mobilefoundation-analytics` |
-| `analytics-firebase` | `mobilefoundation-analytics-firebase` |
-| `deep-links` | `mobilefoundation-deep-links` |
-| `background-work` | `mobilefoundation-background-work` |
-| `app-versioning` | `mobilefoundation-app-versioning` |
+| `permissions` | `lantern-permissions` |
+| `secure-storage` | `lantern-secure-storage` |
+| `network-okhttp` | `lantern-network-okhttp` |
+| `remote-config` | `lantern-remote-config` |
+| `remote-config-firebase` | `lantern-remote-config-firebase` |
+| `feature-flags` | `lantern-feature-flags` |
+| `notifications` | `lantern-notifications` |
+| `notifications-firebase` | `lantern-notifications-firebase` |
+| `media-picker` | `lantern-media-picker` |
+| `analytics` | `lantern-analytics` |
+| `analytics-firebase` | `lantern-analytics-firebase` |
+| `deep-links` | `lantern-deep-links` |
+| `background-work` | `lantern-background-work` |
+| `app-versioning` | `lantern-app-versioning` |
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-permissions:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-storage:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-network-okhttp:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-flags:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-media-picker:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-deep-links:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-background-work:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-app-versioning:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-permissions:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-secure-storage:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-deep-links:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
 ```
 
 ## Selection Guidance
@@ -100,9 +100,9 @@ Start with the provider-neutral artifact for a feature. Add provider-specific ar
 
 For example:
 
-- Use `mobilefoundation-auth-core` for shared auth models and contracts.
-- Add `mobilefoundation-auth-firebase` when the app uses Firebase Authentication.
-- Add `mobilefoundation-auth-google` when the app uses Google sign-in.
-- Add `mobilefoundation-auth-firebase-google` when Google sign-in should authenticate with Firebase.
+- Use `lantern-auth-core` for shared auth models and contracts.
+- Add `lantern-auth-firebase` when the app uses Firebase Authentication.
+- Add `lantern-auth-google` when the app uses Google sign-in.
+- Add `lantern-auth-firebase-google` when Google sign-in should authenticate with Firebase.
 
 The sample app module is not published.

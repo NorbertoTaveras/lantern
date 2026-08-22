@@ -24,7 +24,7 @@ repositories {
 Then define the SDK version once:
 
 ```kotlin
-val mobileFoundationVersion = "0.1.0"
+val lanternVersion = "0.1.0"
 ```
 
 ## Pick The Modules You Need
@@ -32,22 +32,22 @@ val mobileFoundationVersion = "0.1.0"
 Most apps should not install every module. Start with the provider-neutral module for a feature, then add a provider implementation only when your app uses that provider.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 For Firebase authentication:
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 For Google sign-in backed by Firebase:
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-google:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase-google:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
 ```
 
 ## First Result

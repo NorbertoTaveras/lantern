@@ -1,6 +1,6 @@
 # Versioning And Migration
 
-Mobile Foundation SDK versions are intended to be simple for consumers: choose a released version, use it consistently across modules, and read release notes before upgrading.
+Lantern versions are intended to be simple for consumers: choose a released version, use it consistently across modules, and read release notes before upgrading.
 
 !!! warning "Pre-1.0 API stability"
     Until the SDK reaches `1.0.0`, public APIs may still change as module contracts are finalized.
@@ -25,14 +25,14 @@ Examples:
 
 ## How To Choose A Version
 
-Use the same Mobile Foundation version for every SDK module in your app:
+Use the same Lantern version for every SDK module in your app:
 
 ```kotlin
-val mobileFoundationVersion = "0.1.0"
+val lanternVersion = "0.1.0"
 
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 Avoid mixing versions across modules unless a release note explicitly says it is supported.
@@ -42,7 +42,7 @@ Avoid mixing versions across modules unless a release note explicitly says it is
 When upgrading:
 
 1. Read the GitHub Release notes for the target version.
-2. Update `mobileFoundationVersion`.
+2. Update `lanternVersion`.
 3. Sync Gradle.
 4. Build your app.
 5. Run the app flows that use changed modules.

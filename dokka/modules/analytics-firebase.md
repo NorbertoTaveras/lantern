@@ -1,8 +1,8 @@
-# Module mobilefoundation-analytics-firebase
+# Module lantern-analytics-firebase
 
 Firebase Analytics implementation for the provider-neutral analytics contract.
 
-# Package com.norbertotaveras.mobilefoundation.analytics.firebase
+# Package com.norbertotaveras.lantern.analytics.firebase
 
 Adapts `AnalyticsProvider` calls to Firebase Analytics event logging, user identifiers, user properties, and analytics reset behavior.
 

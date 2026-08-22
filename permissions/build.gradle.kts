@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.permissions"
+    namespace = "com.norbertotaveras.lantern.permissions"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

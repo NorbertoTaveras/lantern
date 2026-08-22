@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.mediapicker"
+    namespace = "com.norbertotaveras.lantern.mediapicker"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

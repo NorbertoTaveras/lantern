@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.deeplinks"
+    namespace = "com.norbertotaveras.lantern.deeplinks"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

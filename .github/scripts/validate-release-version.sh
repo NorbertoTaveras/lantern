@@ -18,8 +18,8 @@ if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; 
   exit 1
 fi
 
-if [[ -n "${MOBILE_FOUNDATION_VERSION:-}" && "$MOBILE_FOUNDATION_VERSION" != "$version" ]]; then
-  echo "MOBILE_FOUNDATION_VERSION must match release branch version ${version}, but was ${MOBILE_FOUNDATION_VERSION}."
+if [[ -n "${LANTERN_VERSION:-}" && "$LANTERN_VERSION" != "$version" ]]; then
+  echo "LANTERN_VERSION must match release branch version ${version}, but was ${LANTERN_VERSION}."
   exit 1
 fi
 
@@ -30,5 +30,5 @@ if git ls-remote --tags origin "refs/tags/${tag}" | grep -q .; then
   exit 1
 fi
 
-echo "MOBILE_FOUNDATION_VERSION=$version" >> "$GITHUB_ENV"
-echo "mobile-foundation-version=$version" >> "$GITHUB_OUTPUT"
+echo "LANTERN_VERSION=$version" >> "$GITHUB_ENV"
+echo "lantern-version=$version" >> "$GITHUB_OUTPUT"

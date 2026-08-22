@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.notifications"
+    namespace = "com.norbertotaveras.lantern.notifications"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

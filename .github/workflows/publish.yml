@@ -20,11 +20,11 @@ jobs:
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     outputs:
-      mobile-foundation-version: ${{ steps.version.outputs.mobile-foundation-version }}
+      lantern-version: ${{ steps.version.outputs.lantern-version }}
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
       GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
@@ -76,7 +76,7 @@ jobs:
             :notifications:build \
             :notifications-firebase:build \
             :media-picker:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -98,7 +98,7 @@ jobs:
             :notifications:lint \
             :notifications-firebase:lint \
             :media-picker:lint \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -106,7 +106,7 @@ jobs:
         run: |
           ./gradlew \
             :checkPublishingReadiness \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -116,8 +116,8 @@ jobs:
       - name: Publish local Maven release
         run: |
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -133,8 +133,8 @@ jobs:
         run: |
           ./gradlew \
             :app:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
+            -PSAMPLE_APP_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -143,7 +143,7 @@ jobs:
           ./gradlew \
             -p consumer-smoke \
             :app:assembleRelease \
-            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PCONSUMER_SMOKE_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -153,7 +153,7 @@ jobs:
       - name: Upload release validation artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: release-validation-${{ env.MOBILE_FOUNDATION_VERSION }}
+          name: release-validation-${{ env.LANTERN_VERSION }}
           path: build/release-notes.md
           if-no-files-found: error
 
@@ -164,7 +164,7 @@ jobs:
             echo "## Release validation"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated SDK build, lint, publishing readiness, local Maven publication, release notes, sample app, and minified consumer smoke app."
@@ -180,7 +180,7 @@ jobs:
     environment: maven-central
 
     env:
-      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-release.outputs.mobile-foundation-version }}
+      LANTERN_VERSION: ${{ needs.validate-release.outputs.lantern-version }}
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
       ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
       ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_SIGNING_KEY }}
@@ -224,7 +224,7 @@ jobs:
         run: |
           ./gradlew \
             :checkPublishingReadiness \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -232,7 +232,7 @@ jobs:
         run: |
           ./gradlew \
             publishAndReleaseToMavenCentral \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -240,8 +240,8 @@ jobs:
         run: |
           rm -rf build/local-maven
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -250,14 +250,14 @@ jobs:
 
       - name: Create Git tag
         run: |
-          git tag "v${MOBILE_FOUNDATION_VERSION}" "$GITHUB_SHA"
-          git push origin "v${MOBILE_FOUNDATION_VERSION}"
+          git tag "v${LANTERN_VERSION}" "$GITHUB_SHA"
+          git push origin "v${LANTERN_VERSION}"
 
       - name: Create GitHub release
         run: |
-          gh release create "v${MOBILE_FOUNDATION_VERSION}" \
+          gh release create "v${LANTERN_VERSION}" \
             --target "$GITHUB_SHA" \
-            --title "Mobile Foundation SDK ${MOBILE_FOUNDATION_VERSION}" \
+            --title "Lantern ${LANTERN_VERSION}" \
             --notes-file build/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -269,10 +269,10 @@ jobs:
             echo "## Maven Central publish"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Environment: maven-central"
             echo "- Published production artifacts to Maven Central through Vanniktech."
-            echo "- Created Git tag and GitHub Release v${MOBILE_FOUNDATION_VERSION} with generated notes. GitHub provides source zip and tar.gz archives automatically."
+            echo "- Created Git tag and GitHub Release v${LANTERN_VERSION} with generated notes. GitHub provides source zip and tar.gz archives automatically."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish failure guidance
@@ -282,8 +282,8 @@ jobs:
             echo "## Maven Central troubleshooting"
             echo
             echo "- Confirm the maven-central environment approval was granted."
-            echo "- Confirm the Central Portal namespace is registered for com.norbertotaveras.mobilefoundation."
+            echo "- Confirm the Central Portal namespace is registered for com.norbertotaveras.lantern."
             echo "- Confirm MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD are Central Portal user-token credentials."
             echo "- Confirm MAVEN_SIGNING_KEY is an ASCII-armored private key and MAVEN_SIGNING_PASSWORD matches it."
-            echo "- Confirm v${MOBILE_FOUNDATION_VERSION} does not already exist."
+            echo "- Confirm v${LANTERN_VERSION} does not already exist."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -3,10 +3,10 @@
 `auth-firebase-google` bridges Google sign-in into Firebase Authentication.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-google:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase-google:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
 ```
 
 ## Use It For

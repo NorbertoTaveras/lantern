@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-version="${MOBILE_FOUNDATION_VERSION:?MOBILE_FOUNDATION_VERSION is required}"
+version="${LANTERN_VERSION:?LANTERN_VERSION is required}"
 owner="${GITHUB_REPOSITORY_OWNER:?GITHUB_REPOSITORY_OWNER is required}"
 
 owner_type="$(gh api "/users/$owner" --jq .type)"

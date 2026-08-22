@@ -1,2 +1,2 @@
-# Mobile Foundation app-versioning does not require consumer keep rules.
+# Lantern app-versioning does not require consumer keep rules.
 # Keep this file so the published AAR documents shrinker compatibility explicitly.

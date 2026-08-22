@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.core"
+    namespace = "com.norbertotaveras.lantern.core"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

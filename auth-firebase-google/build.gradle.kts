@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.auth.firebasegoogle"
+    namespace = "com.norbertotaveras.lantern.auth.firebasegoogle"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

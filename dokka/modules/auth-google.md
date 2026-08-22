@@ -1,8 +1,8 @@
-# Module mobilefoundation-auth-google
+# Module lantern-auth-google
 
 Google sign-in provider implementation.
 
-# Package com.norbertotaveras.mobilefoundation.auth.google
+# Package com.norbertotaveras.lantern.auth.google
 
 Wraps Android Credential Manager Google sign-in and credential state clearing behind SDK contracts.
 

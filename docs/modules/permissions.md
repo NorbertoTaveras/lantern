@@ -3,7 +3,7 @@
 `permissions` provides Android-version-aware runtime permission checks and requests.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-permissions:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-permissions:$lanternVersion")
 ```
 
 ## Use It For

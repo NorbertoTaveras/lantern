@@ -1,18 +1,18 @@
-# Mobile Foundation SDK
+# Lantern
 
-[![Android CI](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/android.yml)
-[![Docs](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/NorbertoTaveras/android_mobilefoundation_framework/actions/workflows/publish-docs.yml)
-[![API Reference](https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg)](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
+[![Android CI](https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml)
+[![Docs](https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml)
+[![API Reference](https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg)](https://norbertotaveras.github.io/lantern/api-reference/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
 ![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
 ![Maven Central](https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg)
 
-Mobile Foundation SDK is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
+Lantern is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
 
 The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, typed models, and explicit provider boundaries. Apps can depend on only the features they need, while keeping vendor-specific integrations such as Firebase, Google, OkHttp, and WorkManager isolated from provider-neutral contracts.
 
-## Why Mobile Foundation
+## Why Lantern
 
 - Use one consistent SDK style across common Android app foundations.
 - Keep app code provider-neutral where possible.
@@ -23,20 +23,20 @@ The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, t
 
 ## Status
 
-Mobile Foundation SDK is pre-1.0. The project is being prepared for public Maven Central publishing, so APIs should be treated as early release APIs until the first stable version is published.
+Lantern is pre-1.0. The project is being prepared for public Maven Central publishing, so APIs should be treated as early release APIs until the first stable version is published.
 
 The Maven Central badge will be replaced with the published artifact version after the first public release.
 
 ## Documentation
 
-Read the public docs at [norbertotaveras.github.io/android_mobilefoundation_framework](https://norbertotaveras.github.io/android_mobilefoundation_framework/).
+Read the public docs at [norbertotaveras.github.io/lantern](https://norbertotaveras.github.io/lantern/).
 
 Useful starting points:
 
-- [Getting Started](https://norbertotaveras.github.io/android_mobilefoundation_framework/getting-started/)
-- [Module Guide](https://norbertotaveras.github.io/android_mobilefoundation_framework/modules/)
-- [API Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/api-reference/)
-- [Generated Dokka Reference](https://norbertotaveras.github.io/android_mobilefoundation_framework/generated/api/)
+- [Getting Started](https://norbertotaveras.github.io/lantern/getting-started/)
+- [Module Guide](https://norbertotaveras.github.io/lantern/modules/)
+- [API Reference](https://norbertotaveras.github.io/lantern/api-reference/)
+- [Generated Dokka Reference](https://norbertotaveras.github.io/lantern/generated/api/)
 
 The documentation source lives in [docs](docs/index.md). The generated Dokka reference is produced during the docs publishing workflow and is not committed as source.
 
@@ -60,31 +60,31 @@ repositories {
 }
 ```
 
-Then add the Mobile Foundation modules your app needs:
+Then add the Lantern modules your app needs:
 
 ```kotlin
-val mobileFoundationVersion = "0.1.0"
+val lanternVersion = "0.1.0"
 
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-google:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase-google:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-permissions:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-storage:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-network-okhttp:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-flags:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-media-picker:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-firebase:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-deep-links:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-background-work:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-app-versioning:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-permissions:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-secure-storage:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-deep-links:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
 ```
 
 Most apps should not install every module. Start with the provider-neutral module for the feature you need, then add provider implementations such as Firebase or OkHttp only where your app uses them.
@@ -161,7 +161,7 @@ firebaseAuth.observeAuthState()
 firebaseAuth.signOut()
 ```
 
-The provider maps Firebase users into Mobile Foundation `AuthSession` models and Firebase failures into SDK errors.
+The provider maps Firebase users into Lantern `AuthSession` models and Firebase failures into SDK errors.
 
 ### Google Sign-In
 

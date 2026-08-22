@@ -24,26 +24,26 @@ else
 fi
 
 artifacts=(
-  "mobilefoundation-sdk-core"
-  "mobilefoundation-logging"
-  "mobilefoundation-auth-core"
-  "mobilefoundation-auth-firebase"
-  "mobilefoundation-auth-google"
-  "mobilefoundation-auth-firebase-google"
-  "mobilefoundation-permissions"
-  "mobilefoundation-secure-storage"
-  "mobilefoundation-network-okhttp"
-  "mobilefoundation-remote-config"
-  "mobilefoundation-remote-config-firebase"
-  "mobilefoundation-feature-flags"
-  "mobilefoundation-notifications"
-  "mobilefoundation-notifications-firebase"
-  "mobilefoundation-media-picker"
-  "mobilefoundation-analytics"
-  "mobilefoundation-analytics-firebase"
-  "mobilefoundation-deep-links"
-  "mobilefoundation-background-work"
-  "mobilefoundation-app-versioning"
+  "lantern-core"
+  "lantern-logging"
+  "lantern-auth-core"
+  "lantern-auth-firebase"
+  "lantern-auth-google"
+  "lantern-auth-firebase-google"
+  "lantern-permissions"
+  "lantern-secure-storage"
+  "lantern-network-okhttp"
+  "lantern-remote-config"
+  "lantern-remote-config-firebase"
+  "lantern-feature-flags"
+  "lantern-notifications"
+  "lantern-notifications-firebase"
+  "lantern-media-picker"
+  "lantern-analytics"
+  "lantern-analytics-firebase"
+  "lantern-deep-links"
+  "lantern-background-work"
+  "lantern-app-versioning"
 )
 
 deleted=0
@@ -56,7 +56,7 @@ echo "Dry run: $dry_run"
 
 for artifact in "${artifacts[@]}"; do
   package_names=(
-    "com.norbertotaveras.mobilefoundation.$artifact"
+    "com.norbertotaveras.lantern.$artifact"
     "$artifact"
   )
 

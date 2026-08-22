@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.analytics.firebase"
+    namespace = "com.norbertotaveras.lantern.analytics.firebase"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

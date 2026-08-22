@@ -1,8 +1,8 @@
-# Module mobilefoundation-auth-firebase-google
+# Module lantern-auth-firebase-google
 
 Firebase Auth bridge for Google sign-in.
 
-# Package com.norbertotaveras.mobilefoundation.auth.firebasegoogle
+# Package com.norbertotaveras.lantern.auth.firebasegoogle
 
 Combines the Google Credential Manager provider with Firebase Auth credential exchange and exposes the result through the `AuthProvider` contract.
 

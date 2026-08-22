@@ -25,11 +25,16 @@ fun localProperty(name: String) = providers.provider {
     localProperties.getProperty(name)
 }
 
-val mobileFoundationVersion = providers.gradleProperty("MOBILE_FOUNDATION_VERSION")
+val lanternVersion = providers.gradleProperty("LANTERN_VERSION")
     .orElse("0.1.0-SNAPSHOT")
-val mobileFoundationSourceRef = providers.gradleProperty("MOBILE_FOUNDATION_SOURCE_REF")
+val lanternSourceRef = providers.gradleProperty("LANTERN_SOURCE_REF")
     .orElse(providers.environmentVariable("GITHUB_SHA"))
     .orElse("develop")
+
+fun lanternArtifactId(moduleName: String) = when (moduleName) {
+    "sdk-core" -> "lantern-core"
+    else -> "lantern-$moduleName"
+}
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -43,8 +48,8 @@ plugins {
 }
 
 subprojects {
-    group = "com.norbertotaveras.mobilefoundation"
-    version = mobileFoundationVersion.get()
+    group = "com.norbertotaveras.lantern"
+    version = lanternVersion.get()
 
     plugins.withId("com.android.application") {
         extensions.configure<ApplicationExtension>("android") {
@@ -81,7 +86,7 @@ subprojects {
         extensions.configure<MavenPublishBaseExtension>("mavenPublishing") {
             coordinates(
                 groupId = project.group.toString(),
-                artifactId = "mobilefoundation-${project.name}",
+                artifactId = lanternArtifactId(project.name),
                 version = project.version.toString(),
             )
             configure(
@@ -99,10 +104,10 @@ subprojects {
             }
 
             pom {
-                name.set("Mobile Foundation ${project.name}")
-                description.set("Mobile Foundation SDK module ${project.name}.")
+                name.set("Lantern ${project.name}")
+                description.set("Lantern module ${project.name}.")
                 inceptionYear.set("2026")
-                url.set("https://github.com/NorbertoTaveras/android_mobilefoundation_framework")
+                url.set("https://github.com/NorbertoTaveras/lantern")
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
@@ -118,9 +123,9 @@ subprojects {
                     }
                 }
                 scm {
-                    url.set("https://github.com/NorbertoTaveras/android_mobilefoundation_framework")
-                    connection.set("scm:git:git://github.com/NorbertoTaveras/android_mobilefoundation_framework.git")
-                    developerConnection.set("scm:git:ssh://git@github.com/NorbertoTaveras/android_mobilefoundation_framework.git")
+                    url.set("https://github.com/NorbertoTaveras/lantern")
+                    connection.set("scm:git:git://github.com/NorbertoTaveras/lantern.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/NorbertoTaveras/lantern.git")
                 }
             }
         }
@@ -128,7 +133,7 @@ subprojects {
         extensions.configure<PublishingExtension>("publishing") {
             repositories {
                 maven {
-                    name = "mobileFoundationLocal"
+                    name = "lanternLocal"
                     url = rootProject.layout.buildDirectory
                         .dir("local-maven")
                         .get()
@@ -143,7 +148,7 @@ subprojects {
                                 .orElse(providers.environmentVariable("GITHUB_PACKAGES_REPOSITORY"))
                                 .orElse(localProperty("GITHUB_PACKAGES_REPOSITORY"))
                                 .orElse(providers.environmentVariable("GITHUB_REPOSITORY"))
-                                .orElse("NorbertoTaveras/android_mobilefoundation_packages")
+                                .orElse("NorbertoTaveras/lantern-packages")
                                 .get()
                         }"
                     )
@@ -167,7 +172,7 @@ subprojects {
 
         extensions.configure<DokkaExtension>("dokka") {
             dokkaPublications.html {
-                moduleName.set("Mobile Foundation ${project.name}")
+                moduleName.set("Lantern ${project.name}")
                 moduleVersion.set(project.version.toString())
                 suppressObviousFunctions.set(true)
                 suppressInheritedMembers.set(true)
@@ -184,8 +189,8 @@ subprojects {
                     localDirectory.set(project.layout.projectDirectory.dir("src/main/java"))
                     remoteUrl.set(
                         URI(
-                            "https://github.com/NorbertoTaveras/android_mobilefoundation_framework/blob/" +
-                                "${mobileFoundationSourceRef.get()}/${project.name}/src/main/java"
+                            "https://github.com/NorbertoTaveras/lantern/blob/" +
+                                "${lanternSourceRef.get()}/${project.name}/src/main/java"
                         )
                     )
                     remoteLineSuffix.set("#L")
@@ -226,8 +231,8 @@ dependencies {
 
 extensions.configure<DokkaExtension>("dokka") {
     dokkaPublications.html {
-        moduleName.set("Mobile Foundation SDK")
-        moduleVersion.set(mobileFoundationVersion)
+        moduleName.set("Lantern")
+        moduleVersion.set(lanternVersion)
         outputDirectory.set(layout.buildDirectory.dir("dokka/public-api"))
         suppressObviousFunctions.set(true)
         suppressInheritedMembers.set(true)
@@ -357,7 +362,7 @@ tasks.register("checkGeneratedApiDocs") {
             "Expected generated API reference docs to include module Dokka overview content."
         }
         val sourceLinkPattern = Regex(
-            """https://github\.com/NorbertoTaveras/android_mobilefoundation_framework/blob/[^"]+/[^"]+\.kt#L\d+"""
+            """https://github\.com/NorbertoTaveras/lantern/blob/[^"]+/[^"]+\.kt#L\d+"""
         )
         check(sourceLinkPattern.containsMatchIn(generatedHtml)) {
             "Expected generated API reference docs to include GitHub source links with #L line anchors."
@@ -380,24 +385,25 @@ tasks.register("checkPublishingGroup") {
             check(sdkProject.plugins.hasPlugin("com.android.library")) {
                 "Expected :$moduleName to be an Android library module."
             }
-            check(sdkProject.group.toString() == "com.norbertotaveras.mobilefoundation") {
-                "Expected :$moduleName group to be com.norbertotaveras.mobilefoundation, but was ${sdkProject.group}."
+            check(sdkProject.group.toString() == "com.norbertotaveras.lantern") {
+                "Expected :$moduleName group to be com.norbertotaveras.lantern, but was ${sdkProject.group}."
             }
             check(sdkProject.version.toString().isNotBlank()) {
                 "Expected :$moduleName version to be set."
             }
 
             val publishing = sdkProject.extensions.getByType(PublishingExtension::class.java)
+            val expectedArtifactId = lanternArtifactId(moduleName)
             val releasePublication = publishing.publications
                 .filterIsInstance<MavenPublication>()
-                .singleOrNull { it.artifactId == "mobilefoundation-$moduleName" }
-                ?: error("Expected :$moduleName to publish one Maven publication for mobilefoundation-$moduleName.")
+                .singleOrNull { it.artifactId == expectedArtifactId }
+                ?: error("Expected :$moduleName to publish one Maven publication for $expectedArtifactId.")
 
-            check(releasePublication.groupId == "com.norbertotaveras.mobilefoundation") {
-                "Expected :$moduleName publication groupId to be com.norbertotaveras.mobilefoundation."
+            check(releasePublication.groupId == "com.norbertotaveras.lantern") {
+                "Expected :$moduleName publication groupId to be com.norbertotaveras.lantern."
             }
-            check(releasePublication.artifactId == "mobilefoundation-$moduleName") {
-                "Expected :$moduleName artifactId to be mobilefoundation-$moduleName, but was ${releasePublication.artifactId}."
+            check(releasePublication.artifactId == expectedArtifactId) {
+                "Expected :$moduleName artifactId to be $expectedArtifactId, but was ${releasePublication.artifactId}."
             }
             check(releasePublication.version == sdkProject.version.toString()) {
                 "Expected :$moduleName publication version to match project version."
@@ -481,7 +487,7 @@ tasks.register("checkSdkAndroidMetadata") {
     description = "Checks SDK Android library metadata and app-only config boundaries."
 
     doLast {
-        val expectedNamespacePrefix = "com.norbertotaveras.mobilefoundation"
+        val expectedNamespacePrefix = "com.norbertotaveras.lantern"
         val expectedCompileSdkRelease = 37
         val expectedCompileSdkMinorApi = 1
         val expectedMinSdk = 24

@@ -3,8 +3,8 @@
 `remote-config` defines provider-neutral remote configuration contracts. `remote-config-firebase` implements those contracts with Firebase Remote Config.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config-firebase:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-remote-config-firebase:$lanternVersion")
 ```
 
 ## Use It For

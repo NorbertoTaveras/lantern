@@ -3,7 +3,7 @@
 `deep-links` parses URI strings into typed models and can reject unexpected schemes or hosts.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-deep-links:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-deep-links:$lanternVersion")
 ```
 
 ## Use It For

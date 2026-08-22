@@ -1,8 +1,8 @@
-# Module mobilefoundation-notifications-firebase
+# Module lantern-notifications-firebase
 
 Firebase Messaging integration for notification contracts.
 
-# Package com.norbertotaveras.mobilefoundation.notifications.firebase
+# Package com.norbertotaveras.lantern.notifications.firebase
 
 Provides Firebase Messaging token and topic manager implementations plus Firebase Messaging error mapping.
 

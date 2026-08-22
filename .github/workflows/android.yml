@@ -20,10 +20,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+  GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
   GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
   GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-  MOBILE_FOUNDATION_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
+  LANTERN_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
 
 jobs:
   sdk-build:
@@ -77,7 +77,7 @@ jobs:
             :notifications:build \
             :notifications-firebase:build \
             :media-picker:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -87,8 +87,8 @@ jobs:
       - name: Publish SDK artifacts to local Maven
         run: |
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -104,8 +104,8 @@ jobs:
         run: |
           ./gradlew \
             :app:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
+            -PSAMPLE_APP_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -122,7 +122,7 @@ jobs:
             echo "## Android CI / SDK Build"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Firebase config source: ${firebase_config_source}"
@@ -177,7 +177,7 @@ jobs:
             :notifications:lint \
             :notifications-firebase:lint \
             :media-picker:lint \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -188,7 +188,7 @@ jobs:
             echo "## Android CI / SDK Lint"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated Android lint for SDK library modules."
@@ -227,7 +227,7 @@ jobs:
         run: |
           ./gradlew \
             :checkPublishingReadiness \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -238,7 +238,7 @@ jobs:
             echo "## Android CI / API Check"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated publishing readiness, including API checks."
@@ -279,8 +279,8 @@ jobs:
       - name: Publish SDK artifacts to local Maven
         run: |
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -289,7 +289,7 @@ jobs:
           ./gradlew \
             -p consumer-smoke \
             :app:assembleRelease \
-            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PCONSUMER_SMOKE_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -300,7 +300,7 @@ jobs:
             echo "## Android CI / Consumer Smoke"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated that an external consumer app can resolve and build a minified release against locally published SDK artifacts."
@@ -339,7 +339,7 @@ jobs:
         run: |
           ./gradlew \
             :checkGeneratedApiDocs \
-            -PMOBILE_FOUNDATION_SOURCE_REF="${GITHUB_SHA}" \
+            -PLANTERN_SOURCE_REF="${GITHUB_SHA}" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -350,7 +350,7 @@ jobs:
             echo "## Android CI / Docs API"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated generated Dokka API reference docs."
@@ -413,7 +413,7 @@ jobs:
             echo "- API Check: ${{ needs.api-check.result }}"
             echo "- Consumer Smoke: ${{ needs.consumer-smoke.result }}"
             echo "- Docs API: ${{ needs.docs-api.result }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
           } >> "$GITHUB_STEP_SUMMARY"

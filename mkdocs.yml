@@ -1,8 +1,8 @@
-site_name: Mobile Foundation SDK
+site_name: Lantern
 site_description: Modular Android foundation SDK documentation.
-site_url: https://norbertotaveras.github.io/android_mobilefoundation_framework/
-repo_name: NorbertoTaveras/android_mobilefoundation_framework
-repo_url: https://github.com/NorbertoTaveras/android_mobilefoundation_framework
+site_url: https://norbertotaveras.github.io/lantern/
+repo_name: NorbertoTaveras/lantern
+repo_url: https://github.com/NorbertoTaveras/lantern
 
 theme:
   name: material

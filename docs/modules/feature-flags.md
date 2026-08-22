@@ -3,7 +3,7 @@
 `feature-flags` evaluates typed feature flags from static defaults or remote config.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-flags:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
 ```
 
 ## Use It For

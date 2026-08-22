@@ -3,8 +3,8 @@
 `analytics` defines provider-neutral analytics contracts. `analytics-firebase` implements those contracts with Firebase Analytics.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-firebase:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
 ```
 
 ## Use It For

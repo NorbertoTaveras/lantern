@@ -1,10 +1,10 @@
 # Firebase Auth
 
-`auth-firebase` implements Mobile Foundation auth contracts with Firebase Authentication.
+`auth-firebase` implements Lantern auth contracts with Firebase Authentication.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-firebase:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 ## Use It For

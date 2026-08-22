@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.logging"
+    namespace = "com.norbertotaveras.lantern.logging"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

@@ -32,16 +32,16 @@ fun localProperty(name: String) = providers.provider {
 val githubPackagesRepository = providers.gradleProperty("GITHUB_PACKAGES_REPOSITORY")
     .orElse(providers.environmentVariable("GITHUB_PACKAGES_REPOSITORY"))
     .orElse(localProperty("GITHUB_PACKAGES_REPOSITORY"))
-    .orElse("NorbertoTaveras/android_mobilefoundation_packages")
+    .orElse("NorbertoTaveras/lantern-packages")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven {
-            name = "mobileFoundationLocal"
+            name = "lanternLocal"
             url = uri(file("build/local-maven"))
             content {
-                includeGroup("com.norbertotaveras.mobilefoundation")
+                includeGroup("com.norbertotaveras.lantern")
             }
         }
         google()
@@ -64,13 +64,13 @@ dependencyResolutionManagement {
                     .get()
             }
             content {
-                includeGroup("com.norbertotaveras.mobilefoundation")
+                includeGroup("com.norbertotaveras.lantern")
             }
         }
     }
 }
 
-rootProject.name = "MobileFoundationFramework"
+rootProject.name = "Lantern"
 include(":app")
 include(":sdk-core")
 include(":logging")

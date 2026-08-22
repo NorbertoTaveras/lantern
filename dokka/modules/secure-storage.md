@@ -1,8 +1,8 @@
-# Module mobilefoundation-secure-storage
+# Module lantern-secure-storage
 
 Key-value and token storage contracts with a DataStore-backed app-local implementation.
 
-# Package com.norbertotaveras.mobilefoundation.securestorage
+# Package com.norbertotaveras.lantern.securestorage
 
 Defines storage keys, storage configuration, key-value storage, token storage, token types, token expiration helpers, and a DataStore-backed implementation.
 

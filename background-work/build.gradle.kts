@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.backgroundwork"
+    namespace = "com.norbertotaveras.lantern.backgroundwork"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

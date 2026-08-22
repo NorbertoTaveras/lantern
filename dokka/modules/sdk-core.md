@@ -1,8 +1,8 @@
-# Module mobilefoundation-sdk-core
+# Module lantern-core
 
 Shared SDK primitives.
 
-# Package com.norbertotaveras.mobilefoundation.core
+# Package com.norbertotaveras.lantern.core
 
 Defines `SdkResult`, `SdkError`, SDK configuration, environment values, and dispatcher providers.
 

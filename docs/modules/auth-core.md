@@ -3,7 +3,7 @@
 `auth-core` defines provider-neutral authentication contracts and models.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-auth-core:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
 ```
 
 ## Use It For

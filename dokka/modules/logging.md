@@ -1,8 +1,8 @@
-# Module mobilefoundation-logging
+# Module lantern-logging
 
 SDK logging abstraction.
 
-# Package com.norbertotaveras.mobilefoundation.logging
+# Package com.norbertotaveras.lantern.logging
 
 Defines SDK log levels, logger contracts, Android log output, and no-op logging.
 

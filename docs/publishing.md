@@ -1,6 +1,6 @@
 # Releases
 
-Stable Mobile Foundation SDK releases are intended to be consumed from Maven Central.
+Stable Lantern releases are intended to be consumed from Maven Central.
 
 !!! info "Stable artifacts"
     Consumers should treat Maven Central as the source of stable SDK binaries.
@@ -24,16 +24,16 @@ See [Versioning And Migration](versioning-migration.md) for upgrade and migratio
 All public artifacts use this group:
 
 ```text
-com.norbertotaveras.mobilefoundation
+com.norbertotaveras.lantern
 ```
 
-Artifacts are named with the `mobilefoundation-` prefix:
+Artifacts are named with the `lantern-` prefix:
 
 ```text
-mobilefoundation-sdk-core
-mobilefoundation-auth-core
-mobilefoundation-auth-firebase
-mobilefoundation-network-okhttp
+lantern-core
+lantern-auth-core
+lantern-auth-firebase
+lantern-network-okhttp
 ```
 
 ## Release Notes

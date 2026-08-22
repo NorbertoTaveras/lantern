@@ -1,8 +1,8 @@
-# Module mobilefoundation-notifications
+# Module lantern-notifications
 
 Provider-neutral notification contracts and helpers.
 
-# Package com.norbertotaveras.mobilefoundation.notifications
+# Package com.norbertotaveras.lantern.notifications
 
 Defines notification channel models, Android channel management, topic models, token models, notification permission state, permission bridging, payload parsing, and deep link extraction from notification payloads.
 

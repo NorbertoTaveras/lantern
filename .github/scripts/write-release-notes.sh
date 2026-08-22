@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-version="${MOBILE_FOUNDATION_VERSION:?MOBILE_FOUNDATION_VERSION is required}"
+version="${LANTERN_VERSION:?LANTERN_VERSION is required}"
 notes_file="${1:-build/release-notes.md}"
 current_tag="v${version}"
 previous_tag="$(git tag --list 'v[0-9]*' --sort=-v:refname | grep -v "^${current_tag}$" | head -n 1 || true)"
-repository="${GITHUB_REPOSITORY:-NorbertoTaveras/android_mobilefoundation_framework}"
+repository="${GITHUB_REPOSITORY:-NorbertoTaveras/lantern}"
 repository_url="https://github.com/${repository}"
 
 if [[ -n "$previous_tag" ]]; then

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.appversioning"
+    namespace = "com.norbertotaveras.lantern.appversioning"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

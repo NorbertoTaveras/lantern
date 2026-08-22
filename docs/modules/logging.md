@@ -3,7 +3,7 @@
 `logging` provides a small SDK logging abstraction.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-logging:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 ## Use It For

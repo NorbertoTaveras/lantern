@@ -3,7 +3,7 @@
 `secure-storage` provides validated keys, key-value storage contracts, token storage, and a DataStore-backed app-local implementation.
 
 ```kotlin
-implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-secure-storage:$mobileFoundationVersion")
+implementation("com.norbertotaveras.lantern:lantern-secure-storage:$lanternVersion")
 ```
 
 ## Use It For

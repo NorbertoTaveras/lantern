@@ -23,5 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MobileFoundationConsumerSmoke"
+rootProject.name = "LanternConsumerSmoke"
 include(":app")

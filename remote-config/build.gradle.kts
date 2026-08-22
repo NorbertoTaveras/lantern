@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.norbertotaveras.mobilefoundation.remoteconfig"
+    namespace = "com.norbertotaveras.lantern.remoteconfig"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1

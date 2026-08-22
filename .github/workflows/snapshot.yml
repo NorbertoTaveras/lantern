@@ -23,14 +23,14 @@ jobs:
     timeout-minutes: 30
     if: (github.repository_owner == 'NorbertoTaveras' || github.repository_owner == 'norbertotaveras') && (github.actor == 'NorbertoTaveras' || github.actor == 'norbertotaveras')
     outputs:
-      mobile-foundation-version: ${{ steps.snapshot-version.outputs.mobile-foundation-version }}
+      lantern-version: ${{ steps.snapshot-version.outputs.lantern-version }}
 
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
       GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-      MOBILE_FOUNDATION_BASE_VERSION: ${{ inputs.base_version }}
+      LANTERN_BASE_VERSION: ${{ inputs.base_version }}
 
     steps:
       - name: Check out repository
@@ -84,7 +84,7 @@ jobs:
             :notifications:build \
             :notifications-firebase:build \
             :media-picker:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -106,7 +106,7 @@ jobs:
             :notifications:lint \
             :notifications-firebase:lint \
             :media-picker:lint \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -114,7 +114,7 @@ jobs:
         run: |
           ./gradlew \
             :checkPublishingReadiness \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -124,8 +124,8 @@ jobs:
       - name: Publish local Maven snapshot
         run: |
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -141,8 +141,8 @@ jobs:
         run: |
           ./gradlew \
             :app:build \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
-            -PSAMPLE_APP_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
+            -PSAMPLE_APP_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -151,7 +151,7 @@ jobs:
           ./gradlew \
             -p consumer-smoke \
             :app:assembleRelease \
-            -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PCONSUMER_SMOKE_LANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -167,7 +167,7 @@ jobs:
             echo "## Snapshot validation"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
             echo "- Validated SDK build, lint, publishing readiness, local Maven publication, duplicate GitHub Packages versions, sample app, and minified consumer smoke app."
@@ -183,8 +183,8 @@ jobs:
     environment: github-packages
 
     env:
-      MOBILE_FOUNDATION_VERSION: ${{ needs.validate-snapshot.outputs.mobile-foundation-version }}
-      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/android_mobilefoundation_packages' }}
+      LANTERN_VERSION: ${{ needs.validate-snapshot.outputs.lantern-version }}
+      GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
       GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
       GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
@@ -223,8 +223,8 @@ jobs:
       - name: Publish local Maven snapshot
         run: |
           ./gradlew \
-            publishAllPublicationsToMobileFoundationLocalRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            publishAllPublicationsToLanternLocalRepository \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -237,7 +237,7 @@ jobs:
         run: |
           ./gradlew \
             publishAllPublicationsToGitHubPackagesRepository \
-            -PMOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
+            -PLANTERN_VERSION="$LANTERN_VERSION" \
             --no-configuration-cache \
             --max-workers=2
 
@@ -248,7 +248,7 @@ jobs:
             echo "## Snapshot publish"
             echo
             echo "- Status: ${{ job.status }}"
-            echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
+            echo "- Version: ${LANTERN_VERSION}"
             echo "- Environment: github-packages"
             echo "- Published private snapshot artifacts to GitHub Packages after protected environment approval."
           } >> "$GITHUB_STEP_SUMMARY"
