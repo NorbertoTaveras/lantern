@@ -146,11 +146,11 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Build consumer smoke app
+      - name: Build minified consumer smoke app
         run: |
           ./gradlew \
             -p consumer-smoke \
-            :app:assembleDebug \
+            :app:assembleRelease \
             -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
@@ -170,7 +170,7 @@ jobs:
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
-            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, duplicate GitHub Packages versions, sample app, and consumer smoke app."
+            echo "- Validated SDK build, lint, publishing readiness, local Maven publication, duplicate GitHub Packages versions, sample app, and minified consumer smoke app."
             echo "- No external publish happens until the protected github-packages environment approves the publish job."
           } >> "$GITHUB_STEP_SUMMARY"
 

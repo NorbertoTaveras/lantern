@@ -64,6 +64,10 @@ subprojects {
         apply(plugin = "org.jetbrains.dokka")
 
         extensions.configure<LibraryExtension>("android") {
+            defaultConfig {
+                consumerProguardFiles("consumer-rules.pro")
+            }
+
             lint {
                 abortOnError = true
                 checkDependencies = true
@@ -700,6 +704,11 @@ tasks.register("checkConsumerShrinkerRules") {
 
         sdkModuleNames.forEach { moduleName ->
             val moduleDirectory = project(":$moduleName").projectDir
+            val expectedRuleFile = moduleDirectory.resolve("consumer-rules.pro")
+            if (!expectedRuleFile.isFile) {
+                failures += ":$moduleName is missing consumer-rules.pro."
+            }
+
             val buildFile = moduleDirectory.resolve("build.gradle.kts")
             val buildFileText = buildFile.readText()
             val declaredRuleFiles = consumerRuleDeclaration

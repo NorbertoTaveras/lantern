@@ -1,0 +1,2 @@
+# Firebase Messaging and Firebase Installations ship their own consumer rules.
+# Mobile Foundation notifications-firebase does not add broad keep rules.

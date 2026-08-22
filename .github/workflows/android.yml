@@ -284,11 +284,11 @@ jobs:
             --no-configuration-cache \
             --max-workers=2
 
-      - name: Build consumer smoke app
+      - name: Build minified consumer smoke app
         run: |
           ./gradlew \
             -p consumer-smoke \
-            :app:assembleDebug \
+            :app:assembleRelease \
             -PCONSUMER_SMOKE_MOBILE_FOUNDATION_VERSION="$MOBILE_FOUNDATION_VERSION" \
             --no-configuration-cache \
             --max-workers=2
@@ -303,7 +303,7 @@ jobs:
             echo "- Version: ${MOBILE_FOUNDATION_VERSION}"
             echo "- Branch: ${GITHUB_REF_NAME}"
             echo "- Commit: ${GITHUB_SHA}"
-            echo "- Validated that an external consumer app can resolve and build against locally published SDK artifacts."
+            echo "- Validated that an external consumer app can resolve and build a minified release against locally published SDK artifacts."
           } >> "$GITHUB_STEP_SUMMARY"
 
   docs-api:
