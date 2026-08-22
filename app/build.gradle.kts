@@ -58,7 +58,7 @@ android {
 }
 
 val mobileFoundationVersion = providers.gradleProperty("SAMPLE_APP_MOBILE_FOUNDATION_VERSION")
-    .orElse("0.1.0-dev.3-SNAPSHOT")
+    .orElse("0.1.0-SNAPSHOT")
 
 dependencies {
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-sdk-core:${mobileFoundationVersion.get()}")
@@ -72,6 +72,15 @@ dependencies {
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config:${mobileFoundationVersion.get()}")
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-remote-config-firebase:${mobileFoundationVersion.get()}")
     implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-feature-flags:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-network-okhttp:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-notifications-firebase:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-media-picker:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-analytics-firebase:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-deep-links:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-background-work:${mobileFoundationVersion.get()}")
+    implementation("com.norbertotaveras.mobilefoundation:mobilefoundation-app-versioning:${mobileFoundationVersion.get()}")
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)

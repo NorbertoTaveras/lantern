@@ -44,13 +44,20 @@ import androidx.navigation.compose.rememberNavController
 import com.norbertotaveras.mobilefoundationframework.navigation.SampleDestination
 import com.norbertotaveras.mobilefoundationframework.navigation.sampleDestinations
 import com.norbertotaveras.mobilefoundationframework.screens.AuthStateScreen
+import com.norbertotaveras.mobilefoundationframework.screens.AnalyticsScreen
+import com.norbertotaveras.mobilefoundationframework.screens.AppVersioningScreen
+import com.norbertotaveras.mobilefoundationframework.screens.BackgroundWorkScreen
+import com.norbertotaveras.mobilefoundationframework.screens.DeepLinksScreen
+import com.norbertotaveras.mobilefoundationframework.screens.FeatureFlagsScreen
 import com.norbertotaveras.mobilefoundationframework.screens.FirebaseAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.FirebaseGoogleAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.GoogleAuthScreen
 import com.norbertotaveras.mobilefoundationframework.screens.HomeScreen
 import com.norbertotaveras.mobilefoundationframework.screens.LoggingScreen
+import com.norbertotaveras.mobilefoundationframework.screens.MediaPickerScreen
+import com.norbertotaveras.mobilefoundationframework.screens.NetworkScreen
+import com.norbertotaveras.mobilefoundationframework.screens.NotificationsScreen
 import com.norbertotaveras.mobilefoundationframework.screens.PermissionsScreen
-import com.norbertotaveras.mobilefoundationframework.screens.FeatureFlagsScreen
 import com.norbertotaveras.mobilefoundationframework.screens.RemoteConfigScreen
 import com.norbertotaveras.mobilefoundationframework.screens.SecureStorageScreen
 import kotlinx.coroutines.launch
@@ -245,7 +252,14 @@ private fun SampleDestination.drawerBadge(): String? {
         SampleDestination.Permissions,
         SampleDestination.SecureStorage,
         SampleDestination.RemoteConfig,
-        SampleDestination.FeatureFlags -> "Live"
+        SampleDestination.FeatureFlags,
+        SampleDestination.Network,
+        SampleDestination.Notifications,
+        SampleDestination.MediaPicker,
+        SampleDestination.Analytics,
+        SampleDestination.DeepLinks,
+        SampleDestination.BackgroundWork,
+        SampleDestination.AppVersioning -> "Live"
 
         SampleDestination.Home -> "Now"
         SampleDestination.AuthState,
@@ -300,6 +314,34 @@ private fun SampleNavHost(
 
         composable(SampleDestination.FeatureFlags.route) {
             FeatureFlagsScreen()
+        }
+
+        composable(SampleDestination.Network.route) {
+            NetworkScreen()
+        }
+
+        composable(SampleDestination.Notifications.route) {
+            NotificationsScreen()
+        }
+
+        composable(SampleDestination.MediaPicker.route) {
+            MediaPickerScreen()
+        }
+
+        composable(SampleDestination.Analytics.route) {
+            AnalyticsScreen()
+        }
+
+        composable(SampleDestination.DeepLinks.route) {
+            DeepLinksScreen()
+        }
+
+        composable(SampleDestination.BackgroundWork.route) {
+            BackgroundWorkScreen()
+        }
+
+        composable(SampleDestination.AppVersioning.route) {
+            AppVersioningScreen()
         }
 
         composable(SampleDestination.Logging.route) {

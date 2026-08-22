@@ -5,15 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SyncAlt
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -34,8 +40,8 @@ fun HomeScreen() {
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "12"),
-                DemoMetric(label = "Live demos", value = "7"),
+                DemoMetric(label = "SDK modules", value = "21"),
+                DemoMetric(label = "Live demos", value = "17"),
                 DemoMetric(label = "UI modules", value = "0")
             )
         )
@@ -131,6 +137,62 @@ fun HomeScreen() {
                     status = "Live",
                     icon = Icons.Filled.Flag
                 )
+
+                ModuleRow(
+                    name = "notifications",
+                    description = "Payload parsing, notification channels, permission state, and topic models.",
+                    status = "Live",
+                    icon = Icons.Filled.Notifications
+                )
+
+                ModuleRow(
+                    name = "notifications-firebase",
+                    description = "Firebase Messaging token and topic provider helpers.",
+                    status = "Ready",
+                    icon = Icons.Filled.Cloud
+                )
+
+                ModuleRow(
+                    name = "media-picker",
+                    description = "Typed Android Photo Picker requests and result models.",
+                    status = "Live",
+                    icon = Icons.Filled.Collections
+                )
+
+                ModuleRow(
+                    name = "analytics",
+                    description = "Provider-neutral event, value, user ID, and user property models.",
+                    status = "Live",
+                    icon = Icons.Filled.Analytics
+                )
+
+                ModuleRow(
+                    name = "analytics-firebase",
+                    description = "Firebase Analytics provider implementation for typed SDK events.",
+                    status = "Live",
+                    icon = Icons.Filled.Cloud
+                )
+
+                ModuleRow(
+                    name = "deep-links",
+                    description = "URI parsing with scheme and host allow-listing.",
+                    status = "Live",
+                    icon = Icons.Filled.Link
+                )
+
+                ModuleRow(
+                    name = "background-work",
+                    description = "Work scheduling contracts, no-op scheduler, and WorkManager adapter.",
+                    status = "Live",
+                    icon = Icons.Filled.Work
+                )
+
+                ModuleRow(
+                    name = "app-versioning",
+                    description = "Installed version lookup and update policy evaluation.",
+                    status = "Live",
+                    icon = Icons.Filled.SystemUpdate
+                )
             }
         }
 
@@ -146,15 +208,22 @@ fun HomeScreen() {
             InfoRow(label = "Secure storage", value = "Ready")
             InfoRow(label = "Remote config", value = "Ready")
             InfoRow(label = "Feature flags", value = "Ready")
+            InfoRow(label = "Network", value = "Ready")
+            InfoRow(label = "Notifications", value = "Ready")
+            InfoRow(label = "Media picker", value = "Ready")
+            InfoRow(label = "Analytics", value = "Ready")
+            InfoRow(label = "Deep links", value = "Ready")
+            InfoRow(label = "Background work", value = "Ready")
+            InfoRow(label = "App versioning", value = "Ready")
         }
 
         DemoSection(
             title = "Current boundary",
-            description = "Upcoming notification, media picker, background work, analytics, app versioning, and deep link modules are intentionally not created in this UI pass.",
+            description = "The sample app now covers each published SDK module while keeping Compose UI and provider configuration outside library modules.",
             leadingIcon = Icons.Filled.BugReport
         ) {
             Text(
-                text = "Use the drawer to inspect each implemented SDK area. Compose stays in the sample app, while reusable contracts and provider logic stay inside SDK modules."
+                text = "Use the drawer to inspect each SDK area. Compose stays in the sample app, while reusable contracts and provider logic stay inside SDK modules."
             )
         }
     }

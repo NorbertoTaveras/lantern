@@ -1,0 +1,127 @@
+package com.norbertotaveras.mobilefoundationframework.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsEvent
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsEventName
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserId
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserProperty
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsUserPropertyName
+import com.norbertotaveras.mobilefoundation.analytics.AnalyticsValue
+import com.norbertotaveras.mobilefoundation.analytics.NoOpAnalyticsProvider
+import com.norbertotaveras.mobilefoundation.analytics.firebase.FirebaseAnalyticsProvider
+import com.norbertotaveras.mobilefoundation.core.SdkResult
+import com.norbertotaveras.mobilefoundationframework.components.DemoMetric
+import com.norbertotaveras.mobilefoundationframework.components.DemoSection
+import com.norbertotaveras.mobilefoundationframework.components.FeatureScreen
+import com.norbertotaveras.mobilefoundationframework.components.InfoRow
+import com.norbertotaveras.mobilefoundationframework.components.MetricRow
+import com.norbertotaveras.mobilefoundationframework.components.PrimaryDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.SecondaryDemoButton
+import com.norbertotaveras.mobilefoundationframework.components.StatusMessage
+import kotlinx.coroutines.launch
+
+@Composable
+fun AnalyticsScreen() {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val noOpProvider = remember { NoOpAnalyticsProvider() }
+    val firebaseProvider = remember(context) { FirebaseAnalyticsProvider(context) }
+    val event = remember {
+        AnalyticsEvent(
+            name = AnalyticsEventName.unsafe("sample_screen_view"),
+            parameters = mapOf(
+                "screen" to AnalyticsValue.StringValue("analytics"),
+                "sample" to AnalyticsValue.BooleanValue(true)
+            )
+        )
+    }
+    var message by remember { mutableStateOf<String?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    FeatureScreen(
+        title = "Analytics",
+        subtitle = "Track typed analytics events through no-op and Firebase provider implementations.",
+        icon = Icons.Filled.Analytics,
+        status = "Live"
+    ) {
+        MetricRow(
+            metrics = listOf(
+                DemoMetric(label = "Parameters", value = event.parameters.size.toString()),
+                DemoMetric(label = "Providers", value = "2"),
+                DemoMetric(label = "Privacy owner", value = "App")
+            )
+        )
+
+        DemoSection(
+            title = "Track events",
+            description = "No-op is safe for demos; Firebase uses the app's Firebase configuration.",
+            leadingIcon = Icons.AutoMirrored.Filled.Send
+        ) {
+            PrimaryDemoButton(
+                text = "Track no-op event",
+                icon = Icons.AutoMirrored.Filled.Send,
+                onClick = {
+                    coroutineScope.launch {
+                        when (val result = noOpProvider.track(event)) {
+                            is SdkResult.Success -> {
+                                errorMessage = null
+                                message = "No-op provider accepted ${event.name.value}."
+                            }
+                            is SdkResult.Failure -> errorMessage = result.error.message
+                        }
+                    }
+                }
+            )
+
+            SecondaryDemoButton(
+                text = "Track Firebase event",
+                icon = Icons.Filled.Analytics,
+                onClick = {
+                    coroutineScope.launch {
+                        when (val result = firebaseProvider.track(event)) {
+                            is SdkResult.Success -> {
+                                errorMessage = null
+                                message = "Firebase provider accepted ${event.name.value}."
+                            }
+                            is SdkResult.Failure -> errorMessage = result.error.message
+                        }
+                    }
+                }
+            )
+        }
+
+        DemoSection(
+            title = "User state",
+            description = "User identifiers and properties are typed before reaching provider SDKs.",
+            leadingIcon = Icons.Filled.Person
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                InfoRow(label = "Event name", value = event.name.value)
+                InfoRow(label = "User ID model", value = AnalyticsUserId.unsafe("sample-user").value)
+                InfoRow(
+                    label = "Property model",
+                    value = AnalyticsUserProperty(
+                        name = AnalyticsUserPropertyName.unsafe("plan"),
+                        value = AnalyticsValue.StringValue("demo")
+                    ).name.value
+                )
+                InfoRow(label = "Provider module", value = "analytics-firebase")
+            }
+        }
+
+        StatusMessage(message = message, errorMessage = errorMessage)
+    }
+}

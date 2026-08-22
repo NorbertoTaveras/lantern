@@ -5,12 +5,19 @@ import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.SyncAlt
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.Work
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class SampleDestination(
@@ -82,6 +89,55 @@ sealed class SampleDestination(
         icon = Icons.Filled.Flag
     )
 
+    data object Network : SampleDestination(
+        route = "network",
+        title = "Network",
+        description = "OkHttp clients and interceptors",
+        icon = Icons.Filled.SyncAlt
+    )
+
+    data object Notifications : SampleDestination(
+        route = "notifications",
+        title = "Notifications",
+        description = "Payloads, channels, and topics",
+        icon = Icons.Filled.Notifications
+    )
+
+    data object MediaPicker : SampleDestination(
+        route = "media_picker",
+        title = "Media Picker",
+        description = "Typed Photo Picker requests",
+        icon = Icons.Filled.Collections
+    )
+
+    data object Analytics : SampleDestination(
+        route = "analytics",
+        title = "Analytics",
+        description = "Typed events and providers",
+        icon = Icons.Filled.Analytics
+    )
+
+    data object DeepLinks : SampleDestination(
+        route = "deep_links",
+        title = "Deep Links",
+        description = "URI parsing and allow-lists",
+        icon = Icons.Filled.Link
+    )
+
+    data object BackgroundWork : SampleDestination(
+        route = "background_work",
+        title = "Background Work",
+        description = "Scheduling models and status",
+        icon = Icons.Filled.Work
+    )
+
+    data object AppVersioning : SampleDestination(
+        route = "app_versioning",
+        title = "App Versioning",
+        description = "Version and update policy",
+        icon = Icons.Filled.SystemUpdate
+    )
+
     data object Logging : SampleDestination(
         route = "logging",
         title = "Logging",
@@ -100,5 +156,12 @@ val sampleDestinations = listOf(
     SampleDestination.SecureStorage,
     SampleDestination.RemoteConfig,
     SampleDestination.FeatureFlags,
+    SampleDestination.Network,
+    SampleDestination.Notifications,
+    SampleDestination.MediaPicker,
+    SampleDestination.Analytics,
+    SampleDestination.DeepLinks,
+    SampleDestination.BackgroundWork,
+    SampleDestination.AppVersioning,
     SampleDestination.Logging
 )
