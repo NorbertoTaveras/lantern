@@ -1,8 +1,26 @@
 # Lantern
 
-<p>
+<p align="center">
+  <img src="assets/brand/lantern-banner.png" alt="Lantern - A modular Android foundation SDK" />
+</p>
+
+<p align="center">
+  <img src="assets/brand/lantern-logo-512.png" alt="Lantern logo" width="96" />
+</p>
+
+<p align="center">
+  <strong>Modular Android Foundation SDK</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
+    <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg" />
+  </a>
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
-    <img alt="Docs" src="https://img.shields.io/badge/docs-live-success.svg" />
+    <img alt="Docs" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg" />
+  </a>
+  <a href="api-reference.md">
+    <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
