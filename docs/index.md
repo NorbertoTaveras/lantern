@@ -44,8 +44,8 @@ repositories {
 
 val lanternVersion = "0.1.0"
 
-implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 For feature-specific setup, start with the [Module Guide](modules.md) or jump into [Getting Started](getting-started.md).

@@ -3,7 +3,7 @@
 `background-work` schedules, cancels, queries, and observes WorkManager work through SDK models.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
 ```
 
 ## Use It For

@@ -27,7 +27,7 @@ repositories {
 ## Maven Group
 
 ```text
-com.norbertotaveras.lantern
+io.github.norbertotaveras.lantern
 ```
 
 ## Core Artifacts
@@ -38,8 +38,8 @@ com.norbertotaveras.lantern
 | `logging` | `lantern-logging` |
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 ## Authentication Artifacts
@@ -52,10 +52,10 @@ implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 | `auth-firebase-google` | `lantern-auth-firebase-google` |
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
 ```
 
 ## App Foundation Artifacts
@@ -78,20 +78,20 @@ implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanter
 | `app-versioning` | `lantern-app-versioning` |
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-permissions:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-secure-storage:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-remote-config:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-remote-config-firebase:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-deep-links:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-permissions:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-secure-storage:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-remote-config:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-remote-config-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-deep-links:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-background-work:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
 ```
 
 ## Selection Guidance

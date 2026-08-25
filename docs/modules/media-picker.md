@@ -3,7 +3,7 @@
 `media-picker` wraps Android Photo Picker requests and results in typed SDK models.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
 ```
 
 ## Use It For

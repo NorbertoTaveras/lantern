@@ -30,9 +30,9 @@ Use the same Lantern version for every SDK module in your app:
 ```kotlin
 val lanternVersion = "0.1.0"
 
-implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 Avoid mixing versions across modules unless a release note explicitly says it is supported.

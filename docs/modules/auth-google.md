@@ -3,7 +3,7 @@
 `auth-google` provides Google sign-in through Android Credential Manager.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
 ```
 
 ## Use It For

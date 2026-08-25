@@ -56,7 +56,7 @@ echo "Dry run: $dry_run"
 
 for artifact in "${artifacts[@]}"; do
   package_names=(
-    "com.norbertotaveras.lantern.$artifact"
+    "io.github.norbertotaveras.lantern.$artifact"
     "$artifact"
   )
 

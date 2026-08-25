@@ -3,8 +3,8 @@
 `auth-firebase` implements Lantern auth contracts with Firebase Authentication.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 ## Use It For

@@ -41,7 +41,7 @@ dependencyResolutionManagement {
             name = "lanternLocal"
             url = uri(file("build/local-maven"))
             content {
-                includeGroup("com.norbertotaveras.lantern")
+                includeGroup("io.github.norbertotaveras.lantern")
             }
         }
         google()
@@ -64,7 +64,7 @@ dependencyResolutionManagement {
                     .get()
             }
             content {
-                includeGroup("com.norbertotaveras.lantern")
+                includeGroup("io.github.norbertotaveras.lantern")
             }
         }
     }

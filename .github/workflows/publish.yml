@@ -282,7 +282,7 @@ jobs:
             echo "## Maven Central troubleshooting"
             echo
             echo "- Confirm the maven-central environment approval was granted."
-            echo "- Confirm the Central Portal namespace is registered for com.norbertotaveras.lantern."
+            echo "- Confirm the Central Portal namespace is registered for io.github.norbertotaveras.lantern."
             echo "- Confirm MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD are Central Portal user-token credentials."
             echo "- Confirm MAVEN_SIGNING_KEY is an ASCII-armored private key and MAVEN_SIGNING_PASSWORD matches it."
             echo "- Confirm v${LANTERN_VERSION} does not already exist."
