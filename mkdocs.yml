@@ -7,6 +7,8 @@ repo_url: https://github.com/NorbertoTaveras/lantern
 theme:
   name: material
   language: en
+  logo: assets/brand/lantern-logo-512.png
+  favicon: assets/brand/lantern-logo-512.png
   features:
     - navigation.sections
     - navigation.expand

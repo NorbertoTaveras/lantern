@@ -1,12 +1,34 @@
-# Lantern
+<p align="center">
+  <img src="docs/assets/brand/lantern-banner.png" alt="Lantern - A modular Android foundation SDK" width="100%" />
+</p>
 
-[![Android CI](https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg)](https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml)
-[![Docs](https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml)
-[![API Reference](https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg)](https://norbertotaveras.github.io/lantern/api-reference/)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg)
-![Min SDK](https://img.shields.io/badge/min%20SDK-24-3DDC84.svg)
-![Maven Central](https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg)
+<h1 align="center">Lantern</h1>
+
+<p align="center">
+  <img src="docs/assets/brand/lantern-logo-512.png" alt="Lantern logo" width="96" height="96" />
+</p>
+
+<p align="center">
+  <strong>Modular Android Foundation SDK</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
+    <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg" />
+  </a>
+  <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
+    <img alt="Docs" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg" />
+  </a>
+  <a href="https://norbertotaveras.github.io/lantern/api-reference/">
+    <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
+  </a>
+  <a href="LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+  </a>
+  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
+  <img alt="Min SDK" src="https://img.shields.io/badge/min%20SDK-24-3DDC84.svg" />
+  <img alt="Maven Central" src="https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg" />
+</p>
 
 Lantern is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
 
