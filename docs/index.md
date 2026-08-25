@@ -4,15 +4,17 @@
 
 <p align="center">
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg" />
+    <img alt="Android CI" src="https://img.shields.io/github/actions/workflow/status/NorbertoTaveras/lantern/android.yml?branch=develop&label=Android%20CI" />
   </a>
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
-    <img alt="Docs" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg" />
+    <img alt="Docs" src="https://img.shields.io/github/actions/workflow/status/NorbertoTaveras/lantern/publish-docs.yml?branch=develop&label=Docs" />
   </a>
-  <a href="api-reference.md">
+  <a href="generated/api/index.html">
     <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
   </a>
-  <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+  <a href="https://github.com/NorbertoTaveras/lantern/blob/develop/LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+  </a>
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
   <img alt="Min SDK" src="https://img.shields.io/badge/min%20SDK-24-3DDC84.svg" />
   <img alt="Maven Central" src="https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg" />
