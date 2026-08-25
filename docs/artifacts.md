@@ -3,7 +3,7 @@
 Lantern publishes each SDK module as a separate Maven artifact. Apps should depend only on the modules they use.
 
 !!! warning "Pre-1.0 artifacts"
-    Public Maven Central releases are still pending. The coordinates below describe the intended public artifact names for stable releases.
+    Lantern is published to Maven Central. APIs should be treated as early release APIs until the SDK reaches `1.0.0`.
 
 ## Version
 
@@ -15,7 +15,7 @@ val lanternVersion = "0.1.0"
 
 ## Repository
 
-Stable releases are intended to resolve from Maven Central:
+Stable releases resolve from Maven Central:
 
 ```kotlin
 repositories {

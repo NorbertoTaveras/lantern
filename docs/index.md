@@ -4,20 +4,22 @@
 
 <p align="center">
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://img.shields.io/badge/Android%20CI-GitHub%20Actions-2088FF.svg" />
+    <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg?branch=develop" />
   </a>
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
-    <img alt="Docs" src="https://img.shields.io/badge/Docs-GitHub%20Pages-success.svg" />
+    <img alt="Docs" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg?branch=develop" />
   </a>
   <a href="generated/api/index.html">
     <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
   </a>
   <a href="https://github.com/NorbertoTaveras/lantern/blob/develop/LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+    <img alt="License" src="https://img.shields.io/github/license/NorbertoTaveras/lantern.svg" />
   </a>
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
   <img alt="Min SDK" src="https://img.shields.io/badge/min%20SDK-24-3DDC84.svg" />
-  <img alt="Maven Central" src="https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg" />
+  <a href="https://central.sonatype.com/artifact/io.github.norbertotaveras.lantern/lantern-core">
+    <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.norbertotaveras.lantern/lantern-core.svg" />
+  </a>
 </p>
 
 Lantern is a modular Android foundation toolkit for apps that need reusable, provider-aware building blocks for common product infrastructure.
@@ -30,7 +32,7 @@ It gives Android apps a consistent SDK layer for authentication, logging, permis
 [:material-github: View Source](https://github.com/NorbertoTaveras/lantern){ .md-button }
 
 !!! warning "Pre-1.0 SDK"
-    Lantern is being prepared for public Maven Central publishing. APIs should be treated as early release APIs until the first stable version is published.
+    Lantern is published to Maven Central. APIs should be treated as early release APIs until the SDK reaches `1.0.0`.
 
 ## Quick Install
 
@@ -74,12 +76,12 @@ For feature-specific setup, start with the [Module Guide](modules.md) or jump in
 
 ## Release Status
 
-Public releases are intended for Maven Central. The Maven Central badge will be replaced with the published artifact version after the first public release.
+Public releases are published to Maven Central.
 
 | Area | Status |
 | --- | --- |
 | Public docs | Live through GitHub Pages |
-| Stable artifacts | Pending first Maven Central release |
+| Stable artifacts | Published to Maven Central |
 | Version line | Pre-1.0 |
 
 ## Documentation Structure

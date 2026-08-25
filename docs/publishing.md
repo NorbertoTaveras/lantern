@@ -24,7 +24,7 @@ See [Versioning And Migration](versioning-migration.md) for upgrade and migratio
 All public artifacts use this group:
 
 ```text
-com.norbertotaveras.lantern
+io.github.norbertotaveras.lantern
 ```
 
 Artifacts are named with the `lantern-` prefix:

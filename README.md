@@ -13,11 +13,13 @@
     <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
   </a>
   <a href="LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+    <img alt="License" src="https://img.shields.io/github/license/NorbertoTaveras/lantern.svg" />
   </a>
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-2.4.10-7F52FF.svg" />
   <img alt="Min SDK" src="https://img.shields.io/badge/min%20SDK-24-3DDC84.svg" />
-  <img alt="Maven Central" src="https://img.shields.io/badge/Maven%20Central-pending-lightgrey.svg" />
+  <a href="https://central.sonatype.com/artifact/io.github.norbertotaveras.lantern/lantern-core">
+    <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.norbertotaveras.lantern/lantern-core.svg" />
+  </a>
 </p>
 
 Lantern is a modular Android foundation toolkit for apps that need a clean, reusable starting point for common product infrastructure: authentication, logging, permissions, secure storage, networking, remote config, feature flags, notifications, media picking, analytics, deep links, background work, and app versioning.
@@ -35,9 +37,7 @@ The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, t
 
 ## Status
 
-Lantern is pre-1.0. The project is being prepared for public Maven Central publishing, so APIs should be treated as early release APIs until the first stable version is published.
-
-The Maven Central badge will be replaced with the published artifact version after the first public release.
+Lantern is pre-1.0 and published to Maven Central. APIs should be treated as early release APIs until the SDK reaches `1.0.0`.
 
 ## Documentation
 
