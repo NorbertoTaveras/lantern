@@ -3,7 +3,7 @@
 `sdk-core` contains the shared primitives used across Lantern modules.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
 ```
 
 ## Use It For

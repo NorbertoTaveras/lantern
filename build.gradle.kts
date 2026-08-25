@@ -48,7 +48,7 @@ plugins {
 }
 
 subprojects {
-    group = "com.norbertotaveras.lantern"
+    group = "io.github.norbertotaveras.lantern"
     version = lanternVersion.get()
 
     plugins.withId("com.android.application") {
@@ -385,8 +385,8 @@ tasks.register("checkPublishingGroup") {
             check(sdkProject.plugins.hasPlugin("com.android.library")) {
                 "Expected :$moduleName to be an Android library module."
             }
-            check(sdkProject.group.toString() == "com.norbertotaveras.lantern") {
-                "Expected :$moduleName group to be com.norbertotaveras.lantern, but was ${sdkProject.group}."
+            check(sdkProject.group.toString() == "io.github.norbertotaveras.lantern") {
+                "Expected :$moduleName group to be io.github.norbertotaveras.lantern, but was ${sdkProject.group}."
             }
             check(sdkProject.version.toString().isNotBlank()) {
                 "Expected :$moduleName version to be set."
@@ -399,8 +399,8 @@ tasks.register("checkPublishingGroup") {
                 .singleOrNull { it.artifactId == expectedArtifactId }
                 ?: error("Expected :$moduleName to publish one Maven publication for $expectedArtifactId.")
 
-            check(releasePublication.groupId == "com.norbertotaveras.lantern") {
-                "Expected :$moduleName publication groupId to be com.norbertotaveras.lantern."
+            check(releasePublication.groupId == "io.github.norbertotaveras.lantern") {
+                "Expected :$moduleName publication groupId to be io.github.norbertotaveras.lantern."
             }
             check(releasePublication.artifactId == expectedArtifactId) {
                 "Expected :$moduleName artifactId to be $expectedArtifactId, but was ${releasePublication.artifactId}."

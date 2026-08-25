@@ -3,7 +3,7 @@
 `network-okhttp` provides an OkHttp client factory and common network utilities.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-network-okhttp:$lanternVersion")
 ```
 
 ## Use It For

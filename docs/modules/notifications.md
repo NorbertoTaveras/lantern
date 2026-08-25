@@ -3,8 +3,8 @@
 `notifications` defines provider-neutral notification models and contracts. `notifications-firebase` adds Firebase Messaging support.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
 ```
 
 ## Use It For

@@ -3,7 +3,7 @@
 `app-versioning` reads the installed app version and evaluates update policy.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-app-versioning:$lanternVersion")
 ```
 
 ## Use It For

@@ -32,22 +32,22 @@ val lanternVersion = "0.1.0"
 Most apps should not install every module. Start with the provider-neutral module for a feature, then add a provider implementation only when your app uses that provider.
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-logging:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-logging:$lanternVersion")
 ```
 
 For Firebase authentication:
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase:$lanternVersion")
 ```
 
 For Google sign-in backed by Firebase:
 
 ```kotlin
-implementation("com.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
-implementation("com.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-google:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-auth-firebase-google:$lanternVersion")
 ```
 
 ## First Result
