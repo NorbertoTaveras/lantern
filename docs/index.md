@@ -4,10 +4,10 @@
 
 <p align="center">
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
-    <img alt="Android CI" src="https://img.shields.io/github/actions/workflow/status/NorbertoTaveras/lantern/android.yml?branch=develop&label=Android%20CI" />
+    <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg?branch=develop" />
   </a>
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml">
-    <img alt="Docs" src="https://img.shields.io/github/actions/workflow/status/NorbertoTaveras/lantern/publish-docs.yml?branch=develop&label=Docs" />
+    <img alt="Docs" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/publish-docs.yml/badge.svg?branch=develop" />
   </a>
   <a href="generated/api/index.html">
     <img alt="API Reference" src="https://img.shields.io/badge/API%20Reference-Dokka-4B6BFF.svg" />
