@@ -1,15 +1,5 @@
-# Lantern
-
 <p align="center">
   <img src="assets/brand/lantern-banner.png" alt="Lantern - A modular Android foundation SDK" />
-</p>
-
-<p align="center">
-  <img src="assets/brand/lantern-logo-512.png" alt="Lantern logo" width="96" />
-</p>
-
-<p align="center">
-  <strong>Modular Android Foundation SDK</strong>
 </p>
 
 <p align="center">

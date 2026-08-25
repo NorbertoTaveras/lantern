@@ -2,16 +2,6 @@
   <img src="docs/assets/brand/lantern-banner.png" alt="Lantern - A modular Android foundation SDK" width="100%" />
 </p>
 
-<h1 align="center">Lantern</h1>
-
-<p align="center">
-  <img src="docs/assets/brand/lantern-logo-512.png" alt="Lantern logo" width="96" height="96" />
-</p>
-
-<p align="center">
-  <strong>Modular Android Foundation SDK</strong>
-</p>
-
 <p align="center">
   <a href="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml">
     <img alt="Android CI" src="https://github.com/NorbertoTaveras/lantern/actions/workflows/android.yml/badge.svg" />
