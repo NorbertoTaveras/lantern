@@ -7,7 +7,7 @@ plugins {
 }
 
 val lanternVersion = providers.gradleProperty("SAMPLE_APP_LANTERN_VERSION")
-    .orElse("0.1.0-SNAPSHOT")
+    .orElse("0.1.1-SNAPSHOT")
 
 android {
     namespace = "com.norbertotaveras.lanternsample"

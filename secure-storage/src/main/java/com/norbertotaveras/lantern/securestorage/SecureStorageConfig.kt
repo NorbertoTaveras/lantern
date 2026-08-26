@@ -35,7 +35,15 @@ data class SecureStorageConfig(
         /**
          * Default namespace used when a store does not need app-specific separation.
          */
-        const val DEFAULT_NAMESPACE = "mobile_foundation_secure_storage"
+        const val DEFAULT_NAMESPACE = "lantern_secure_storage"
+
+        /**
+         * Namespace used by Lantern 0.1.0 before the SDK rename was fully reflected in storage.
+         *
+         * Use this value when an app needs to keep reading data written by the 0.1.0 default
+         * DataStore-backed implementation.
+         */
+        const val LEGACY_MOBILE_FOUNDATION_NAMESPACE = "mobile_foundation_secure_storage"
 
         private const val MAX_NAMESPACE_LENGTH = 80
         private val NAMESPACE_PATTERN = Regex("^[A-Za-z0-9._-]+$")

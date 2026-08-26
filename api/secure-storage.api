@@ -63,6 +63,8 @@ public final class com.norbertotaveras.lantern.securestorage.SecureStorageConfig
     descriptor: Lcom/norbertotaveras/lantern/securestorage/SecureStorageConfig$Companion;
   public static final java.lang.String DEFAULT_NAMESPACE;
     descriptor: Ljava/lang/String;
+  public static final java.lang.String LEGACY_MOBILE_FOUNDATION_NAMESPACE;
+    descriptor: Ljava/lang/String;
   public com.norbertotaveras.lantern.securestorage.SecureStorageConfig(java.lang.String, boolean);
     descriptor: (Ljava/lang/String;Z)V
 

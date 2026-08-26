@@ -45,11 +45,15 @@ tokenStore.saveToken(
 val store = DataStoreSecureKeyValueStore(
     context = context,
     config = SecureStorageConfig(
-        namespace = "mobile_foundation",
+        namespace = "lantern",
         allowEmptyValues = false
     )
 )
 ```
+
+Apps upgrading from Lantern 0.1.0 can pass
+`SecureStorageConfig.LEGACY_MOBILE_FOUNDATION_NAMESPACE` when they need to keep reading values
+written with the old default namespace.
 
 ## Security Note
 
