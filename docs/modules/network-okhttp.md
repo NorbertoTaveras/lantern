@@ -21,7 +21,12 @@ implementation("io.github.norbertotaveras.lantern:lantern-network-okhttp:$lanter
 ```kotlin
 val client = OkHttpNetworkClientFactory(
     config = NetworkConfig(
-        defaultHeaders = mapOf("Accept" to "application/json")
+        connectTimeoutMillis = 10_000,
+        readTimeoutMillis = 30_000,
+        defaultHeaders = mapOf(
+            "Accept" to "application/json",
+            "X-App-Platform" to "android"
+        )
     )
 ).create()
 ```
@@ -38,13 +43,22 @@ val client = OkHttpNetworkClientFactory().create(
 )
 ```
 
+`AuthHeaderInterceptor` preserves an existing `Authorization` header by default. Use that when an
+individual request needs a one-off token or no auth header at all.
+
 ## Retry
 
 ```kotlin
 val client = OkHttpNetworkClientFactory().create(
-    retryConfig = NetworkRetryConfig(maxRetries = 2)
+    retryConfig = NetworkRetryConfig(
+        maxRetries = 2,
+        initialDelayMillis = 250
+    )
 )
 ```
+
+Retries are best for transient failures. Keep non-idempotent API behavior in mind before applying
+retry policy broadly to a shared client.
 
 ## Logging
 
@@ -57,6 +71,34 @@ val client = OkHttpNetworkClientFactory()
 ```
 
 Request and response bodies are not logged by the SDK logger.
+
+## Connectivity
+
+```kotlin
+val monitor = AndroidNetworkMonitor(context)
+
+monitor.connectivity.collect { state ->
+    if (state.isUsable) {
+        refreshData()
+    } else {
+        showOfflineState()
+    }
+}
+```
+
+`isUsable` means Android reports an available and validated network. Apps should still handle
+request failures because connectivity can change between observation and request execution.
+
+## Error Mapping
+
+```kotlin
+val errorMapper = NetworkErrorMapper()
+
+val sdkError = errorMapper.map(throwable)
+```
+
+Use the mapper when app network layers want to normalize timeouts, connectivity failures, HTTP
+errors, and unknown failures into `SdkError`.
 
 ## Boundaries
 

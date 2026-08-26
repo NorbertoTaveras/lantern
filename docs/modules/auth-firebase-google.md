@@ -51,13 +51,48 @@ val provider = FirebaseGoogleAuthProvider(
 val result = provider.signIn()
 ```
 
+## Result Handling
+
+```kotlin
+when (val result = provider.signIn()) {
+    is SdkResult.Success -> {
+        val session = result.data
+        val firebaseUid = session.userId
+    }
+    is SdkResult.Failure -> {
+        logger.error("Firebase Google sign-in failed: ${result.error.code}")
+    }
+}
+```
+
+The bridge returns the same provider-neutral `AuthSession` model used by `auth-core`, so app layers
+do not need to depend directly on Firebase user objects.
+
 ## Sign-Out
 
 ```kotlin
-provider.signOut()
+when (val result = provider.signOut()) {
+    is SdkResult.Success -> Unit
+    is SdkResult.Failure -> logger.error("Sign-out failed: ${result.error.code}")
+}
 ```
 
-Sign-out should clear Firebase auth state and Google credential state so the next sign-in flow can prompt again when needed.
+Sign-out clears Firebase auth state and Google credential state so the next sign-in flow can prompt
+again when needed.
+
+## Recommended App Flow
+
+```kotlin
+val existingSession = provider.getCurrentSession()
+
+if (existingSession is SdkResult.Success && existingSession.data != null) {
+    showSignedInUi(existingSession.data)
+} else {
+    showGoogleSignInButton()
+}
+```
+
+Use `authState` from the provider when the UI should react to Firebase auth changes over time.
 
 ## Boundaries
 

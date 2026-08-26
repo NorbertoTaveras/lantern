@@ -48,6 +48,24 @@ val result = googleAuthProvider.signIn(
 
 The returned token can be verified by your backend or exchanged by another provider module.
 
+## Result Handling
+
+```kotlin
+when (val result = googleAuthProvider.signIn(context, googleConfig)) {
+    is SdkResult.Success -> {
+        val token = result.data
+        sendIdTokenToBackend(token.idToken)
+    }
+    is SdkResult.Failure -> {
+        logger.error("Google sign-in failed: ${result.error.code}")
+    }
+}
+```
+
+Use `filterByAuthorizedAccounts = false` when first-time users should be able to pick any Google
+account on the device. Use `autoSelectEnabled = false` when your app wants account selection to be
+visible during testing or explicit sign-in flows.
+
 ## Sign-Out And Credential State
 
 ```kotlin
@@ -55,6 +73,14 @@ googleAuthProvider.signOut(context)
 ```
 
 Clear credential state when your app wants the next sign-in attempt to show account selection again.
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| No credentials available | Confirm the emulator/device has Google Play services and a Google account. |
+| Sign-in is canceled after picking an account | Confirm the Web OAuth client ID and Android SHA fingerprints belong to the same Google/Firebase project. |
+| Backend rejects token | Verify the backend expects the same Web OAuth client ID as the token audience. |
 
 ## Boundaries
 

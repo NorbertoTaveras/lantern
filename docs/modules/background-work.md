@@ -24,13 +24,23 @@ val scheduler = WorkManagerBackgroundWorkScheduler(
     workerClasses = mapOf(workName to SyncProfileWorker::class.java)
 )
 
-scheduler.enqueue(
+when (val result = scheduler.enqueue(
     BackgroundWorkRequest(
         name = workName,
         type = BackgroundWorkType.OneTime
     )
-)
+)) {
+    is SdkResult.Success -> {
+        val workId = result.data
+    }
+    is SdkResult.Failure -> {
+        logger.error("Unable to schedule work: ${result.error.code}")
+    }
+}
 ```
+
+Register every SDK work name with the app-owned Worker class that should execute it. The SDK
+schedules work; the app still owns the Worker implementation.
 
 ## Constraints And Input
 
@@ -71,11 +81,19 @@ WorkManager enforces platform minimums for periodic work intervals. Keep worker 
 val infoResult = scheduler.getWorkInfo(workName)
 
 scheduler.observeWorkInfo(workName).collect { info ->
-    val status = info?.status
+    when (info?.status) {
+        BackgroundWorkStatus.Running -> showSyncInProgress()
+        BackgroundWorkStatus.Succeeded -> showSyncComplete()
+        BackgroundWorkStatus.Failed -> showSyncError()
+        else -> Unit
+    }
 }
 
 scheduler.cancel(workName)
 ```
+
+`getWorkInfo` is best for one-time decisions. `observeWorkInfo` is better for UI state, sync
+indicators, or diagnostics screens that need to react to changes.
 
 ## No-Op Scheduler
 

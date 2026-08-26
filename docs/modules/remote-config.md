@@ -37,9 +37,60 @@ provider.fetchAndActivate()
 val snapshot = provider.getSnapshot()
 ```
 
+Handle results explicitly so fetch or activation failures do not look like missing feature data:
+
+```kotlin
+when (val result = provider.fetchAndActivate()) {
+    is SdkResult.Success -> {
+        val changed = result.data
+    }
+    is SdkResult.Failure -> {
+        logger.error("Remote config refresh failed: ${result.error.code}")
+    }
+}
+```
+
 ## Settings
 
 Use `RemoteConfigSettings` for SDK-level fetch settings, then let the Firebase implementation map those values to Firebase Remote Config.
+
+```kotlin
+val provider = FirebaseRemoteConfigProvider(
+    config = FirebaseRemoteConfigProviderConfig(
+        settings = RemoteConfigSettings(
+            minimumFetchIntervalMillis = 60 * 60 * 1000L,
+            fetchTimeoutMillis = 30 * 1000L
+        )
+    )
+)
+```
+
+For debug builds, use a lower fetch interval in the consuming app so local testing does not wait for
+production cache windows.
+
+## Reading Values
+
+```kotlin
+val key = RemoteConfigKey.unsafe("new_home")
+
+when (val result = provider.getValue(key)) {
+    is SdkResult.Success -> {
+        val enabled = when (val value = result.data) {
+            is RemoteConfigValue.BooleanValue -> value.value
+            else -> false
+        }
+    }
+    is SdkResult.Failure -> {
+        val enabled = false
+    }
+}
+```
+
+Use a snapshot when the app needs a point-in-time view of several values:
+
+```kotlin
+val snapshotResult = provider.getSnapshot()
+```
 
 ## Boundaries
 

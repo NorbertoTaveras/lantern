@@ -78,6 +78,28 @@ val enabledResult = featureFlagProvider.isEnabled(
 val snapshotResult = featureFlagProvider.getSnapshot()
 ```
 
+Use this shape when a feature decision should stay provider-neutral while the values come from
+Firebase Remote Config through the `remote-config-firebase` module.
+
+## App Usage Pattern
+
+```kotlin
+suspend fun shouldShowNewHome(provider: FeatureFlagProvider): Boolean {
+    val flag = FeatureFlag(
+        key = FeatureFlagKey.unsafe("new_home"),
+        defaultValue = FeatureFlagValue.BooleanValue(false)
+    )
+
+    return when (val result = provider.isEnabled(flag)) {
+        is SdkResult.Success -> result.data
+        is SdkResult.Failure -> false
+    }
+}
+```
+
+Keep fallback behavior close to the app feature so a remote-config outage does not make the UI
+ambiguous.
+
 ## Observing Updates
 
 ```kotlin
@@ -85,6 +107,8 @@ featureFlagProvider.updates.collect { snapshot ->
     val values = snapshot.values
 }
 ```
+
+Use updates to refresh already-visible UI after remote config activates new values.
 
 ## Boundaries
 

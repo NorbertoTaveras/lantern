@@ -38,7 +38,33 @@ val payload = parser.parse(data = remoteMessage.data)
 
 ```kotlin
 val tokenProvider = FirebaseMessagingTokenProvider()
-val token = tokenProvider.getToken()
+
+when (val result = tokenProvider.getToken()) {
+    is SdkResult.Success -> {
+        val token = result.data
+        sendPushTokenToBackend(token.value)
+    }
+    is SdkResult.Failure -> {
+        logger.error("Unable to read FCM token: ${result.error.code}")
+    }
+}
+```
+
+The token value is the Firebase Cloud Messaging registration token. The Firebase Installation ID is
+available as optional metadata when Firebase returns it:
+
+```kotlin
+val installationId = token.metadata["firebase_installation_id"]
+```
+
+Observe token state when the app wants a simple stream of the latest token known to the provider:
+
+```kotlin
+tokenProvider.tokenUpdates.collect { token ->
+    if (token != null) {
+        sendPushTokenToBackend(token.value)
+    }
+}
 ```
 
 ## Android Notification Channels
@@ -71,13 +97,29 @@ val requestResult = notificationPermissionManager.request()
 The `permissionManager` is provided by the `permissions` module and owns the app-provided runtime
 permission launcher.
 
+Use the check result to decide whether to show an app rationale before triggering a runtime request:
+
+```kotlin
+when (currentState.status) {
+    NotificationPermissionStatus.Granted -> enableNotifications()
+    NotificationPermissionStatus.NotDetermined -> showNotificationOptIn()
+    NotificationPermissionStatus.Denied,
+    NotificationPermissionStatus.PermanentlyDenied -> showSettingsEducation()
+}
+```
+
 ## Topics
 
 ```kotlin
 val topicManager = FirebaseMessagingTopicManager()
-topicManager.subscribe(NotificationTopic.unsafe("product-updates"))
-topicManager.unsubscribe(NotificationTopic.unsafe("product-updates"))
+val topic = NotificationTopic.unsafe("product-updates")
+
+topicManager.subscribe(topic)
+topicManager.unsubscribe(topic)
 ```
+
+Keep topic names stable and backend-owned. Treat topic subscription as a user preference or account
+state decision from the app layer.
 
 ## Boundaries
 
