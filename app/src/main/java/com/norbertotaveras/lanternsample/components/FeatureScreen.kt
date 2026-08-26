@@ -1,5 +1,6 @@
 package com.norbertotaveras.lanternsample.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,7 @@ fun FeatureScreen(
     subtitle: String,
     icon: ImageVector,
     status: String,
+    logoResId: Int? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
@@ -64,7 +67,8 @@ fun FeatureScreen(
                 title = title,
                 subtitle = subtitle,
                 icon = icon,
-                status = status
+                status = status,
+                logoResId = logoResId
             )
 
             content()
@@ -77,7 +81,8 @@ fun FeatureHeroCard(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    status: String
+    status: String,
+    logoResId: Int? = null
 ) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
@@ -99,17 +104,31 @@ fun FeatureHeroCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (logoResId == null) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.surfaceContainerHighest
+                    },
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .padding(14.dp)
-                            .size(28.dp)
-                    )
+                    if (logoResId == null) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .padding(14.dp)
+                                .size(28.dp)
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = logoResId),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(40.dp)
+                        )
+                    }
                 }
 
                 Column(
