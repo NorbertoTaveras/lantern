@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import com.norbertotaveras.lanternsample.BuildConfig
 import com.norbertotaveras.lanternsample.components.DemoMetric
 import com.norbertotaveras.lanternsample.components.DemoSection
 import com.norbertotaveras.lanternsample.components.FeatureScreen
@@ -36,7 +37,7 @@ fun HomeScreen() {
         title = "Lantern",
         subtitle = "A modular Android foundation library with clean SDK boundaries and a sample app for manual verification.",
         icon = Icons.Filled.Home,
-        status = "FWK-37 sample"
+        status = "v${BuildConfig.LANTERN_VERSION}"
     ) {
         MetricRow(
             metrics = listOf(
