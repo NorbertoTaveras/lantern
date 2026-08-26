@@ -1,9 +1,10 @@
-package com.norbertotaveras.lantern.auth.google
+package com.norbertotaveras.lantern.auth.google.internal
 
 import androidx.credentials.exceptions.ClearCredentialException
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
+import com.norbertotaveras.lantern.auth.google.GoogleAuthErrorCodes
 import com.norbertotaveras.lantern.core.SdkError
 
 internal class GoogleAuthErrorMapper {

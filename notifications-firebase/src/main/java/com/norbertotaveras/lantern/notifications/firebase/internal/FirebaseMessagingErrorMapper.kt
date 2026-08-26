@@ -1,6 +1,7 @@
-package com.norbertotaveras.lantern.notifications.firebase
+package com.norbertotaveras.lantern.notifications.firebase.internal
 
 import com.norbertotaveras.lantern.core.SdkError
+import com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorCodes
 
 internal class FirebaseMessagingErrorMapper {
 

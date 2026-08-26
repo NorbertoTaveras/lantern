@@ -1,8 +1,9 @@
-package com.norbertotaveras.lantern.remoteconfig.firebase
+package com.norbertotaveras.lantern.remoteconfig.firebase.internal
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigValue
+import com.norbertotaveras.lantern.remoteconfig.firebase.FirebaseRemoteConfigValueType
 
 internal class FirebaseRemoteConfigValueMapper(
     private val valueTypes: Map<RemoteConfigKey, FirebaseRemoteConfigValueType> = emptyMap()

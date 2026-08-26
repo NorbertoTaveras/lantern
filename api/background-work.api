@@ -52,7 +52,6 @@ public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkCons
   public com.norbertotaveras.lantern.backgroundwork.BackgroundWorkConstraints();
     descriptor: ()V
 
-    descriptor: ()Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkConstraints;
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkConstraints$Companion {
@@ -120,7 +119,6 @@ public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkId {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkId> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkId$Companion {
@@ -223,7 +221,6 @@ public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName$Companion {
@@ -443,9 +440,7 @@ public final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgro
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkInfo> observeWorkInfo-NkJymT4(java.lang.String);
     descriptor: (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
 
-    descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/WorkManagerBackgroundWorkScheduler;)Lcom/norbertotaveras/lantern/logging/SdkLogger;
 
-    descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/WorkManagerBackgroundWorkScheduler;Lcom/google/common/util/concurrent/ListenableFuture;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler$DirectExecutor implements java.util.concurrent.Executor {
@@ -456,12 +451,8 @@ final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWork
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkSchedulerKt {
-    descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkRequest;Ljava/lang/Class;)Landroidx/work/WorkRequest;
 
-    descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkPolicy;)Landroidx/work/ExistingWorkPolicy;
 
-    descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkPolicy;)Landroidx/work/ExistingPeriodicWorkPolicy;
 
-    descriptor: (Landroidx/work/WorkInfo;Ljava/lang/String;)Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkInfo;
 }
 

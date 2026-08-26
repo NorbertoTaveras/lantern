@@ -1,6 +1,7 @@
 package com.norbertotaveras.lantern.analytics.firebase
 
 import com.norbertotaveras.lantern.analytics.AnalyticsValue
+import com.norbertotaveras.lantern.analytics.firebase.internal.FirebaseAnalyticsValueMapper
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

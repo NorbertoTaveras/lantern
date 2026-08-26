@@ -12,6 +12,10 @@ import com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigProvider
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigSnapshot
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigValue
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.FirebaseRemoteConfigErrorMapper
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.FirebaseRemoteConfigValueMapper
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.toFirebase
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.toFirebaseDefaults
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

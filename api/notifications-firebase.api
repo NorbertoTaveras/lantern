@@ -16,41 +16,6 @@ public final class com.norbertotaveras.lantern.notifications.firebase.FirebaseMe
     descriptor: Ljava/lang/String;
 }
 
-public final class com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper {
-  public com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.core.SdkError map(com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation, java.lang.Throwable);
-    descriptor: (Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-}
-
-public final class com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation extends java.lang.Enum<com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation> {
-  public static final com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation GetToken;
-    descriptor: Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-  public static final com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation DeleteToken;
-    descriptor: Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-  public static final com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation SubscribeTopic;
-    descriptor: Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-  public static final com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation UnsubscribeTopic;
-    descriptor: Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-  public static final com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation Unknown;
-    descriptor: Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-  public final java.lang.String getErrorCode();
-    descriptor: ()Ljava/lang/String;
-
-  public final java.lang.String getFallbackMessage();
-    descriptor: ()Ljava/lang/String;
-
-  public static com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation[] values();
-    descriptor: ()[Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-
-  public static com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation valueOf(java.lang.String);
-    descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/notifications/firebase/FirebaseMessagingErrorMapper$Operation;
-
-  public static kotlin.enums.EnumEntries<com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingErrorMapper$Operation> getEntries();
-    descriptor: ()Lkotlin/enums/EnumEntries;
-}
-
 public final class com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTokenProvider implements com.norbertotaveras.lantern.notifications.NotificationTokenProvider {
   public com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTokenProvider();
     descriptor: ()V

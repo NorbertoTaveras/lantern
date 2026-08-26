@@ -68,14 +68,6 @@ public final class com.norbertotaveras.lantern.auth.google.GoogleAuthErrorCodes 
     descriptor: Ljava/lang/String;
 }
 
-public final class com.norbertotaveras.lantern.auth.google.GoogleAuthErrorMapper {
-  public com.norbertotaveras.lantern.auth.google.GoogleAuthErrorMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.core.SdkError map(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-}
-
 public interface com.norbertotaveras.lantern.auth.google.GoogleAuthProvider {
   public abstract java.lang.Object signIn(android.content.Context, com.norbertotaveras.lantern.auth.google.GoogleAuthConfig, kotlin.coroutines.Continuation<? super com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.auth.google.GoogleAuthToken>>);
     descriptor: (Landroid/content/Context;Lcom/norbertotaveras/lantern/auth/google/GoogleAuthConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;

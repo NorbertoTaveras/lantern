@@ -6,6 +6,7 @@ import com.norbertotaveras.lantern.mediapicker.MediaPickRequest
 import com.norbertotaveras.lantern.mediapicker.MediaPicker
 import com.norbertotaveras.lantern.mediapicker.MediaPickerErrorCodes
 import com.norbertotaveras.lantern.mediapicker.MediaPickerResult
+import com.norbertotaveras.lantern.mediapicker.android.internal.AndroidPhotoPickerRequestMapper
 
 /**
  * [MediaPicker] implementation backed by Android Photo Picker.

@@ -1,10 +1,11 @@
-package com.norbertotaveras.lantern.auth.firebase
+package com.norbertotaveras.lantern.auth.firebase.internal
 
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.norbertotaveras.lantern.auth.firebase.FirebaseAuthErrorCodes
 import com.norbertotaveras.lantern.core.SdkError
 
 internal class FirebaseAuthErrorMapper {

@@ -850,10 +850,30 @@ fun sdkApiSignature(
         check(exitCode == 0) {
             "Unable to inspect API signature for $className in ${jarFile.path}:\n$output"
         }
-        val normalizedOutput = output
-            .lines()
-            .filterNot { it.startsWith("Compiled from ") }
-            .filterNot { it.contains(" access$") }
+        val normalizedLines = mutableListOf<String>()
+        var skipSyntheticAccessorDescriptor = false
+
+        output.lines().forEach { line ->
+            if (line.startsWith("Compiled from ")) {
+                return@forEach
+            }
+
+            if (skipSyntheticAccessorDescriptor && line.trimStart().startsWith("descriptor:")) {
+                skipSyntheticAccessorDescriptor = false
+                return@forEach
+            }
+
+            skipSyntheticAccessorDescriptor = false
+
+            if (line.contains(" access$")) {
+                skipSyntheticAccessorDescriptor = true
+                return@forEach
+            }
+
+            normalizedLines += line
+        }
+
+        val normalizedOutput = normalizedLines
             .joinToString(separator = "\n")
             .trim()
 

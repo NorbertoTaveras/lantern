@@ -4,6 +4,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.notifications.NotificationTopic
 import com.norbertotaveras.lantern.notifications.NotificationTopicManager
+import com.norbertotaveras.lantern.notifications.firebase.internal.FirebaseMessagingErrorMapper
 import kotlinx.coroutines.tasks.await
 
 /**

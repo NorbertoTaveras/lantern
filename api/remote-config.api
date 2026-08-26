@@ -37,7 +37,6 @@ public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigDefaults
   public com.norbertotaveras.lantern.remoteconfig.RemoteConfigDefaults();
     descriptor: ()V
 
-    descriptor: ()Lcom/norbertotaveras/lantern/remoteconfig/RemoteConfigDefaults;
 }
 
 public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigDefaults$Companion {
@@ -120,7 +119,6 @@ public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey$Companion {
@@ -159,7 +157,6 @@ public interface com.norbertotaveras.lantern.remoteconfig.RemoteConfigProvider {
   public abstract java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.remoteconfig.RemoteConfigSnapshot>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-    descriptor: (Lcom/norbertotaveras/lantern/remoteconfig/RemoteConfigProvider;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigProvider$DefaultImpls {
@@ -261,7 +258,6 @@ public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigSnapshot
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-    descriptor: ()Lcom/norbertotaveras/lantern/remoteconfig/RemoteConfigSnapshot;
 }
 
 public final class com.norbertotaveras.lantern.remoteconfig.RemoteConfigSnapshot$Companion {

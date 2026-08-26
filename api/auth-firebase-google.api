@@ -76,6 +76,5 @@ public final class com.norbertotaveras.lantern.auth.firebasegoogle.FirebaseGoogl
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.lantern.auth.core.AuthState> observeAuthState();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
 
-    descriptor: (Lcom/norbertotaveras/lantern/auth/firebasegoogle/FirebaseGoogleAuthProvider;)Lcom/google/firebase/auth/FirebaseAuth;
 }
 

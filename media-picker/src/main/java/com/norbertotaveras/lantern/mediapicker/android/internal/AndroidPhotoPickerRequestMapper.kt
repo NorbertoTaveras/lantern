@@ -1,10 +1,12 @@
-package com.norbertotaveras.lantern.mediapicker.android
+package com.norbertotaveras.lantern.mediapicker.android.internal
 
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import com.norbertotaveras.lantern.mediapicker.MediaPickRequest
 import com.norbertotaveras.lantern.mediapicker.MediaSelectionMode
 import com.norbertotaveras.lantern.mediapicker.MediaType
+import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerContractType
+import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequest
 
 internal class AndroidPhotoPickerRequestMapper {
 

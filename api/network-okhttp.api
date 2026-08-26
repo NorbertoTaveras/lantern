@@ -157,7 +157,6 @@ public final class com.norbertotaveras.lantern.network.okhttp.NetworkConnectivit
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-    descriptor: ()Lcom/norbertotaveras/lantern/network/okhttp/NetworkConnectivityState;
 }
 
 public final class com.norbertotaveras.lantern.network.okhttp.NetworkConnectivityState$Companion {
@@ -317,7 +316,6 @@ public final class com.norbertotaveras.lantern.network.okhttp.NetworkRetryConfig
   public com.norbertotaveras.lantern.network.okhttp.NetworkRetryConfig();
     descriptor: ()V
 
-    descriptor: ()Ljava/util/Set;
 }
 
 public final class com.norbertotaveras.lantern.network.okhttp.NetworkRetryConfig$Companion {
@@ -407,7 +405,6 @@ final class com.norbertotaveras.lantern.network.okhttp.RetryInterceptor$ThreadSl
 }
 
 public final class com.norbertotaveras.lantern.network.okhttp.RetryInterceptorKt {
-    descriptor: (Ljava/lang/String;)Z
 }
 
 public interface com.norbertotaveras.lantern.network.okhttp.TokenProvider {
@@ -427,12 +424,8 @@ public final class com.norbertotaveras.lantern.network.okhttp.connectivity.Andro
 }
 
 public final class com.norbertotaveras.lantern.network.okhttp.connectivity.AndroidNetworkMonitorKt {
-    descriptor: (Landroid/net/ConnectivityManager;)Lkotlinx/coroutines/flow/Flow;
 
-    descriptor: (Landroid/net/ConnectivityManager;)Lcom/norbertotaveras/lantern/network/okhttp/NetworkConnectivityState;
 
-    descriptor: (Landroid/net/NetworkCapabilities;)Lcom/norbertotaveras/lantern/network/okhttp/NetworkConnectivityState;
 
-    descriptor: ()Landroid/net/NetworkRequest;
 }
 

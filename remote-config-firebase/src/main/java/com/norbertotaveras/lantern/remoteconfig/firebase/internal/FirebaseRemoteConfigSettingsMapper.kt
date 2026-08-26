@@ -1,4 +1,4 @@
-package com.norbertotaveras.lantern.remoteconfig.firebase
+package com.norbertotaveras.lantern.remoteconfig.firebase.internal
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigSettings

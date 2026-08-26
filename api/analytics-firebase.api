@@ -56,13 +56,3 @@ public final class com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyt
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsValueMapper {
-  public static final com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsValueMapper INSTANCE;
-    descriptor: Lcom/norbertotaveras/lantern/analytics/firebase/FirebaseAnalyticsValueMapper;
-  public final android.os.Bundle toBundle(java.util.Map<java.lang.String, ? extends com.norbertotaveras.lantern.analytics.AnalyticsValue>);
-    descriptor: (Ljava/util/Map;)Landroid/os/Bundle;
-
-  public final java.lang.String toUserPropertyValue(com.norbertotaveras.lantern.analytics.AnalyticsValue);
-    descriptor: (Lcom/norbertotaveras/lantern/analytics/AnalyticsValue;)Ljava/lang/String;
-}
-

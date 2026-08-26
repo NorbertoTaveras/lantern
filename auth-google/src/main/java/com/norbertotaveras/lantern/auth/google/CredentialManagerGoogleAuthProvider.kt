@@ -8,6 +8,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.norbertotaveras.lantern.auth.google.internal.GoogleAuthErrorMapper
 import com.norbertotaveras.lantern.core.SdkError
 import com.norbertotaveras.lantern.core.SdkResult
 

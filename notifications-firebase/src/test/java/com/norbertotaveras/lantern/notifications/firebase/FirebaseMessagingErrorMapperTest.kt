@@ -1,5 +1,6 @@
 package com.norbertotaveras.lantern.notifications.firebase
 
+import com.norbertotaveras.lantern.notifications.firebase.internal.FirebaseMessagingErrorMapper
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test

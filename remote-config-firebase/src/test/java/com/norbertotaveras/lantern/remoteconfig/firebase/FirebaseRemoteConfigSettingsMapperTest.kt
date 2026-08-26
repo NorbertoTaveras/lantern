@@ -1,6 +1,7 @@
 package com.norbertotaveras.lantern.remoteconfig.firebase
 
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigSettings
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.toFirebase
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

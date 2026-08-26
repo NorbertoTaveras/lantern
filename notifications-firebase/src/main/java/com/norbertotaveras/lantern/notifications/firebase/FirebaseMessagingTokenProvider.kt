@@ -6,6 +6,7 @@ import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.notifications.NotificationToken
 import com.norbertotaveras.lantern.notifications.NotificationTokenProvider
 import com.norbertotaveras.lantern.notifications.NotificationTokenProviderType
+import com.norbertotaveras.lantern.notifications.firebase.internal.FirebaseMessagingErrorMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

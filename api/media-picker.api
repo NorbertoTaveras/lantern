@@ -37,7 +37,6 @@ public final class com.norbertotaveras.lantern.mediapicker.MediaMimeType {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.mediapicker.MediaMimeType> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.mediapicker.MediaMimeType$Companion {
@@ -173,9 +172,7 @@ public final class com.norbertotaveras.lantern.mediapicker.MediaPickerResult {
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-    descriptor: ()Lcom/norbertotaveras/lantern/mediapicker/MediaPickerResult;
 
-    descriptor: ()Lcom/norbertotaveras/lantern/mediapicker/MediaPickerResult;
 }
 
 public final class com.norbertotaveras.lantern.mediapicker.MediaPickerResult$Companion {
@@ -332,7 +329,6 @@ public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoP
   public java.lang.Object pick(com.norbertotaveras.lantern.mediapicker.MediaPickRequest, kotlin.coroutines.Continuation<? super com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.mediapicker.MediaPickerResult>>);
     descriptor: (Lcom/norbertotaveras/lantern/mediapicker/MediaPickRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-    descriptor: (Lcom/norbertotaveras/lantern/mediapicker/android/AndroidPhotoPickerMediaPicker;Lcom/norbertotaveras/lantern/mediapicker/MediaPickRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequest {
@@ -377,14 +373,6 @@ public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoP
 
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
-}
-
-public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequestMapper {
-  public com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequestMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequest map(com.norbertotaveras.lantern.mediapicker.MediaPickRequest);
-    descriptor: (Lcom/norbertotaveras/lantern/mediapicker/MediaPickRequest;)Lcom/norbertotaveras/lantern/mediapicker/android/AndroidPhotoPickerRequest;
 }
 
 public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerResultMapper {

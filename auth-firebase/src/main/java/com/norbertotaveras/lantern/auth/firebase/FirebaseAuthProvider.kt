@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.norbertotaveras.lantern.auth.core.AuthProvider
 import com.norbertotaveras.lantern.auth.core.AuthSession
 import com.norbertotaveras.lantern.auth.core.AuthState
+import com.norbertotaveras.lantern.auth.firebase.internal.FirebaseAuthErrorMapper
+import com.norbertotaveras.lantern.auth.firebase.internal.FirebaseAuthSessionMapper
 import com.norbertotaveras.lantern.core.SdkError
 import com.norbertotaveras.lantern.core.SdkResult
 import kotlinx.coroutines.channels.awaitClose

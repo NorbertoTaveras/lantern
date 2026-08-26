@@ -55,13 +55,9 @@ public final class com.norbertotaveras.lantern.notifications.DefaultNotification
   public com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.notifications.NotificationPayload> parse(java.util.Map<java.lang.String, java.lang.String>);
     descriptor: (Ljava/util/Map;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: ()Ljava/util/Set;
 
-    descriptor: ()Ljava/util/Set;
 
-    descriptor: ()Ljava/util/Set;
 
-    descriptor: ()Ljava/util/Set;
 }
 
 final class com.norbertotaveras.lantern.notifications.DefaultNotificationPayloadParser$Companion {
@@ -176,7 +172,6 @@ public final class com.norbertotaveras.lantern.notifications.NotificationChannel
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.notifications.NotificationChannelId> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.notifications.NotificationChannelId$Companion {
@@ -515,7 +510,6 @@ public final class com.norbertotaveras.lantern.notifications.NotificationTopic {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.notifications.NotificationTopic> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.notifications.NotificationTopic$Companion {

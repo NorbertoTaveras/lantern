@@ -3,6 +3,7 @@ package com.norbertotaveras.lantern.remoteconfig.firebase
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigDefaults
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigKey
 import com.norbertotaveras.lantern.remoteconfig.RemoteConfigValue
+import com.norbertotaveras.lantern.remoteconfig.firebase.internal.toFirebaseDefaults
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

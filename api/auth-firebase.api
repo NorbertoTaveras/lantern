@@ -58,14 +58,6 @@ public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthErrorCo
     descriptor: Ljava/lang/String;
 }
 
-public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthErrorMapper {
-  public com.norbertotaveras.lantern.auth.firebase.FirebaseAuthErrorMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.core.SdkError map(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-}
-
 public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthProvider implements com.norbertotaveras.lantern.auth.core.AuthProvider {
   public com.norbertotaveras.lantern.auth.firebase.FirebaseAuthProvider();
     descriptor: ()V
@@ -94,35 +86,6 @@ public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthProvide
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.lantern.auth.core.AuthState> observeAuthState();
     descriptor: ()Lkotlinx/coroutines/flow/Flow;
 
-    descriptor: (Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthProvider;)Lcom/google/firebase/auth/FirebaseAuth;
 
-    descriptor: (Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthProvider;)Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthSessionMapper;
-}
-
-public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthSessionMapper {
-  public static final java.lang.String GOOGLE_PROVIDER_ID;
-    descriptor: Ljava/lang/String;
-  public com.norbertotaveras.lantern.auth.firebase.FirebaseAuthSessionMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.auth.core.AuthSession map(com.google.firebase.auth.FirebaseUser);
-    descriptor: (Lcom/google/firebase/auth/FirebaseUser;)Lcom/norbertotaveras/lantern/auth/core/AuthSession;
-}
-
-final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthSessionMapper$Companion {
-  public com.norbertotaveras.lantern.auth.firebase.FirebaseAuthSessionMapper$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
-public final class com.norbertotaveras.lantern.auth.firebase.FirebaseAuthStateObserver {
-  public com.norbertotaveras.lantern.auth.firebase.FirebaseAuthStateObserver(com.google.firebase.auth.FirebaseAuth, com.norbertotaveras.lantern.auth.firebase.FirebaseAuthSessionMapper);
-    descriptor: (Lcom/google/firebase/auth/FirebaseAuth;Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthSessionMapper;)V
-
-  public final kotlinx.coroutines.flow.Flow<com.norbertotaveras.lantern.auth.core.AuthState> observe();
-    descriptor: ()Lkotlinx/coroutines/flow/Flow;
-
-    descriptor: (Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthStateObserver;)Lcom/google/firebase/auth/FirebaseAuth;
-
-    descriptor: (Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthStateObserver;)Lcom/norbertotaveras/lantern/auth/firebase/FirebaseAuthSessionMapper;
 }
 

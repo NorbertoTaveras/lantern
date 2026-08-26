@@ -1,6 +1,7 @@
-package com.norbertotaveras.lantern.remoteconfig.firebase
+package com.norbertotaveras.lantern.remoteconfig.firebase.internal
 
 import com.norbertotaveras.lantern.core.SdkError
+import com.norbertotaveras.lantern.remoteconfig.firebase.FirebaseRemoteConfigErrorCodes
 
 internal class FirebaseRemoteConfigErrorMapper {
 

@@ -1,4 +1,4 @@
-package com.norbertotaveras.lantern.auth.firebase
+package com.norbertotaveras.lantern.auth.firebase.internal
 
 import com.google.firebase.auth.FirebaseUser
 import com.norbertotaveras.lantern.auth.core.AuthProviderType

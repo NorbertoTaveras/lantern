@@ -4,6 +4,7 @@ import com.norbertotaveras.lantern.mediapicker.MediaMimeType
 import com.norbertotaveras.lantern.mediapicker.MediaPickRequest
 import com.norbertotaveras.lantern.mediapicker.MediaSelectionMode
 import com.norbertotaveras.lantern.mediapicker.MediaType
+import com.norbertotaveras.lantern.mediapicker.android.internal.AndroidPhotoPickerRequestMapper
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

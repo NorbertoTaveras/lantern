@@ -122,7 +122,6 @@ public final class com.norbertotaveras.lantern.deeplinks.DeepLinkConfig {
   public com.norbertotaveras.lantern.deeplinks.DeepLinkConfig();
     descriptor: ()V
 
-    descriptor: ()Lcom/norbertotaveras/lantern/deeplinks/DeepLinkConfig;
 }
 
 public final class com.norbertotaveras.lantern.deeplinks.DeepLinkConfig$Companion {

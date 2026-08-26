@@ -91,7 +91,6 @@ public final class com.norbertotaveras.lantern.analytics.AnalyticsEventName {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.analytics.AnalyticsEventName> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.analytics.AnalyticsEventName$Companion {
@@ -155,7 +154,6 @@ public final class com.norbertotaveras.lantern.analytics.AnalyticsUserId {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.analytics.AnalyticsUserId> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.analytics.AnalyticsUserId$Companion {
@@ -237,7 +235,6 @@ public final class com.norbertotaveras.lantern.analytics.AnalyticsUserPropertyNa
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.analytics.AnalyticsUserPropertyName> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.analytics.AnalyticsUserPropertyName$Companion {

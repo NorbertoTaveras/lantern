@@ -6,6 +6,7 @@ import com.norbertotaveras.lantern.analytics.AnalyticsEvent
 import com.norbertotaveras.lantern.analytics.AnalyticsProvider
 import com.norbertotaveras.lantern.analytics.AnalyticsUserId
 import com.norbertotaveras.lantern.analytics.AnalyticsUserProperty
+import com.norbertotaveras.lantern.analytics.firebase.internal.FirebaseAnalyticsValueMapper
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.logging.NoOpSdkLogger
 import com.norbertotaveras.lantern.logging.SdkLogger

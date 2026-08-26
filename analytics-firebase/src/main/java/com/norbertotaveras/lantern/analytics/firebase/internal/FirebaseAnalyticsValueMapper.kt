@@ -1,4 +1,4 @@
-package com.norbertotaveras.lantern.analytics.firebase
+package com.norbertotaveras.lantern.analytics.firebase.internal
 
 import android.os.Bundle
 import com.norbertotaveras.lantern.analytics.AnalyticsValue

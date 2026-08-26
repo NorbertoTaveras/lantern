@@ -90,7 +90,6 @@ public final class com.norbertotaveras.lantern.featureflags.FeatureFlagDefaults 
   public com.norbertotaveras.lantern.featureflags.FeatureFlagDefaults();
     descriptor: ()V
 
-    descriptor: ()Lcom/norbertotaveras/lantern/featureflags/FeatureFlagDefaults;
 }
 
 public final class com.norbertotaveras.lantern.featureflags.FeatureFlagDefaults$Companion {
@@ -193,7 +192,6 @@ public final class com.norbertotaveras.lantern.featureflags.FeatureFlagKey {
   public static final com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.featureflags.FeatureFlagKey> from(java.lang.String);
     descriptor: (Ljava/lang/String;)Lcom/norbertotaveras/lantern/core/SdkResult;
 
-    descriptor: (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com.norbertotaveras.lantern.featureflags.FeatureFlagKey$Companion {
@@ -223,7 +221,6 @@ public interface com.norbertotaveras.lantern.featureflags.FeatureFlagProvider {
   public abstract java.lang.Object getSnapshot(kotlin.coroutines.Continuation<? super com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.featureflags.FeatureFlagSnapshot>>);
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
-    descriptor: (Lcom/norbertotaveras/lantern/featureflags/FeatureFlagProvider;Lcom/norbertotaveras/lantern/featureflags/FeatureFlag;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com.norbertotaveras.lantern.featureflags.FeatureFlagProvider$DefaultImpls {
@@ -261,7 +258,6 @@ public final class com.norbertotaveras.lantern.featureflags.FeatureFlagSnapshot 
   public boolean equals(java.lang.Object);
     descriptor: (Ljava/lang/Object;)Z
 
-    descriptor: ()Lcom/norbertotaveras/lantern/featureflags/FeatureFlagSnapshot;
 }
 
 public final class com.norbertotaveras.lantern.featureflags.FeatureFlagSnapshot$Companion {
