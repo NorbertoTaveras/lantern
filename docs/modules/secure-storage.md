@@ -55,6 +55,9 @@ Apps upgrading from Lantern 0.1.0 can pass
 `SecureStorageConfig.LEGACY_MOBILE_FOUNDATION_NAMESPACE` when they need to keep reading values
 written with the old default namespace.
 
+The legacy constant name is intentionally historical. New stores should use the default
+`lantern_secure_storage` namespace or an app-specific namespace.
+
 ## Security Note
 
 The provided DataStore implementation is not encrypted by default. It stores app-local values through AndroidX Preferences DataStore and is designed as a foundation implementation that can be paired with app-owned encryption policy.

@@ -16,7 +16,7 @@ Authentication is split across provider-neutral contracts and provider-specific 
 ```kotlin
 val authProvider: AuthProvider = FirebaseAuthProvider()
 
-when (val result = authProvider.signIn()) {
+when (val result = authProvider.getCurrentSession()) {
     is SdkResult.Success -> {
         val session = result.data
     }
@@ -25,6 +25,10 @@ when (val result = authProvider.signIn()) {
     }
 }
 ```
+
+`AuthProvider.signIn()` starts the provider's default sign-in flow. For `FirebaseAuthProvider`, the
+default is anonymous sign-in. Provider-specific methods such as `signInWithEmailAndPassword` are
+available from the Firebase implementation when your app needs that exact flow.
 
 ## Firebase Auth
 

@@ -128,12 +128,14 @@ Most apps should not install every module. Start with the provider-neutral modul
 SDK operations model expected success and failure states with `SdkResult<T>`:
 
 ```kotlin
-when (val result = operation()) {
+val keyResult = SecureStorageKey.from("session:access_token")
+
+when (keyResult) {
     is SdkResult.Success -> {
-        val value = result.data
+        val key = keyResult.data
     }
     is SdkResult.Failure -> {
-        val error = result.error
+        val error = keyResult.error
     }
 }
 ```

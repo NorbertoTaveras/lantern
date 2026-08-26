@@ -5,9 +5,9 @@
 Lantern uses `SdkResult<T>` for expected SDK outcomes.
 
 ```kotlin
-when (val result = provider.refresh()) {
-    is SdkResult.Success -> handleValue(result.data)
-    is SdkResult.Failure -> handleError(result.error)
+when (val result = SecureStorageKey.from("session:access_token")) {
+    is SdkResult.Success -> readStoredToken(result.data)
+    is SdkResult.Failure -> showStorageKeyError(result.error)
 }
 ```
 
