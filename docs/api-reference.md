@@ -29,3 +29,7 @@ The SDK is organized into focused modules:
 | App foundation | `permissions`, `secure-storage`, `network-okhttp`, `remote-config`, `feature-flags`, `notifications`, `media-picker`, `analytics`, `deep-links`, `background-work`, `app-versioning` |
 
 Each detailed module page lists its purpose, artifact, setup notes, usage examples, and boundaries.
+
+The public examples use supported contracts, models, provider constructors, and factory-style entry
+points. Implementation helpers used inside provider modules are not part of the documented API
+surface and should not be used directly by consuming apps.
