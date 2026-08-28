@@ -957,10 +957,57 @@ tasks.named("checkApiCompatibility") {
     dependsOn("checkSdkBinaryApi")
 }
 
+val apacheLicenseHeader = """
+    /*
+     * Copyright (C) 2026 Norberto Taveras
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     https://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+""".trimIndent()
+
+tasks.register("checkLicenseHeaders") {
+    group = "verification"
+    description = "Verifies Kotlin source files include the Apache 2.0 license header."
+
+    doLast {
+        val missingHeaders = rootProject.projectDir
+            .walkTopDown()
+            .filter { file ->
+                file.isFile &&
+                    file.extension == "kt" &&
+                    "${file.invariantSeparatorsPath}/".contains("/src/")
+            }
+            .filterNot { file -> file.readText().startsWith(apacheLicenseHeader) }
+            .map { file -> file.relativeTo(rootProject.projectDir).invariantSeparatorsPath }
+            .sorted()
+            .toList()
+
+        if (missingHeaders.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("Kotlin license header check failed.")
+                    missingHeaders.forEach { appendLine("- $it") }
+                }
+            )
+        }
+    }
+}
+
 tasks.register("checkPublishingReadiness") {
     group = "verification"
     description = "Runs CI publishing, architecture, and API metadata checks for SDK modules."
     dependsOn(
+        "checkLicenseHeaders",
         "checkPublishingGroup",
         "checkSdkArchitecture",
         "checkSdkAndroidMetadata",
