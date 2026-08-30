@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.runtime.Composable
@@ -59,6 +60,7 @@ fun BackgroundWorkScreen() {
         )
     }
     var currentStatus by remember { mutableStateOf("Not scheduled") }
+    var currentWorkId by remember { mutableStateOf<String?>(null) }
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -89,6 +91,7 @@ fun BackgroundWorkScreen() {
                         when (val result = scheduler.enqueue(request)) {
                             is SdkResult.Success -> {
                                 currentStatus = "Enqueued"
+                                currentWorkId = result.data.value
                                 errorMessage = null
                                 message = "Work ${result.data.value.take(8)} enqueued."
                             }
@@ -114,6 +117,26 @@ fun BackgroundWorkScreen() {
                     }
                 }
             )
+
+            SecondaryDemoButton(
+                text = "Read work status",
+                icon = Icons.Filled.Refresh,
+                onClick = {
+                    coroutineScope.launch {
+                        when (val result = scheduler.getWorkInfo(workName)) {
+                            is SdkResult.Success -> {
+                                currentStatus = result.data?.status?.name ?: "Not scheduled"
+                                currentWorkId = result.data?.id?.value
+                                errorMessage = null
+                                message = result.data?.let {
+                                    "Work '${it.name.value}' is ${it.status.name}."
+                                } ?: "No work has been scheduled."
+                            }
+                            is SdkResult.Failure -> errorMessage = result.error.message
+                        }
+                    }
+                }
+            )
         }
 
         DemoSection(
@@ -123,6 +146,8 @@ fun BackgroundWorkScreen() {
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 InfoRow(label = "Name", value = request.name.value)
+                InfoRow(label = "Latest ID", value = currentWorkId?.take(8) ?: "None")
+                InfoRow(label = "Latest status", value = currentStatus)
                 InfoRow(label = "Type", value = "OneTime")
                 InfoRow(label = "Requires network", value = request.constraints.requiresNetwork.toString())
                 InfoRow(label = "App owns", value = "Worker classes")

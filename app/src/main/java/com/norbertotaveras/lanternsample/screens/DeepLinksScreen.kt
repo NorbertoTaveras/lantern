@@ -18,12 +18,20 @@ package com.norbertotaveras.lanternsample.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Route
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.norbertotaveras.lantern.deeplinks.DeepLink
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.deeplinks.DeepLinkConfig
 import com.norbertotaveras.lantern.deeplinks.DefaultDeepLinkParser
@@ -32,6 +40,9 @@ import com.norbertotaveras.lanternsample.components.DemoSection
 import com.norbertotaveras.lanternsample.components.FeatureScreen
 import com.norbertotaveras.lanternsample.components.InfoRow
 import com.norbertotaveras.lanternsample.components.MetricRow
+import com.norbertotaveras.lanternsample.components.PrimaryDemoButton
+import com.norbertotaveras.lanternsample.components.SecondaryDemoButton
+import com.norbertotaveras.lanternsample.components.StatusMessage
 
 @Composable
 fun DeepLinksScreen() {
@@ -43,8 +54,29 @@ fun DeepLinksScreen() {
             )
         )
     }
-    val validResult = remember { parser.parse("mf://open/profile/42?tab=settings&source=sample") }
-    val invalidResult = remember { parser.parse("https://example.com/profile/42") }
+    var inputValue by remember { mutableStateOf("mf://open/profile/42?tab=settings&source=sample") }
+    var parsedResult by remember { mutableStateOf<SdkResult<DeepLink>?>(null) }
+    var message by remember { mutableStateOf<String?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    fun parseValue(value: String) {
+        when (val result = parser.parse(value)) {
+            is SdkResult.Success -> {
+                parsedResult = result
+                message = "Deep link accepted."
+                errorMessage = null
+            }
+            is SdkResult.Failure -> {
+                parsedResult = result
+                message = null
+                errorMessage = result.error.message
+            }
+        }
+    }
+
+    fun parseCurrentInput() {
+        parseValue(inputValue)
+    }
 
     FeatureScreen(
         title = "Deep Links",
@@ -61,35 +93,59 @@ fun DeepLinksScreen() {
         )
 
         DemoSection(
-            title = "Accepted link",
-            description = "The parser returns a typed model with path segments and query parameters.",
+            title = "Parser controls",
+            description = "Try an accepted Lantern-style URI or a rejected external URI.",
             leadingIcon = Icons.Filled.Route
         ) {
-            when (validResult) {
-                is SdkResult.Success -> {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        InfoRow(label = "Raw", value = validResult.data.rawValue)
-                        InfoRow(label = "Scheme", value = validResult.data.scheme)
-                        InfoRow(label = "Host", value = validResult.data.host ?: "None")
-                        InfoRow(label = "Path", value = validResult.data.pathSegments.joinToString("/"))
-                        InfoRow(label = "Source", value = validResult.data.firstQueryParameter("source") ?: "None")
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                OutlinedTextField(
+                    value = inputValue,
+                    onValueChange = { inputValue = it },
+                    label = { Text(text = "Deep link URI") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                PrimaryDemoButton(
+                    text = "Parse deep link",
+                    icon = Icons.Filled.Route,
+                    onClick = ::parseCurrentInput
+                )
+
+                SecondaryDemoButton(
+                    text = "Use rejected example",
+                    icon = Icons.Filled.Link,
+                    onClick = {
+                        val rejectedExample = "https://example.com/profile/42"
+                        inputValue = rejectedExample
+                        parseValue(rejectedExample)
                     }
-                }
-                is SdkResult.Failure -> {
-                    InfoRow(label = "Error", value = validResult.error.message)
-                }
+                )
             }
         }
 
         DemoSection(
-            title = "Rejected link",
-            description = "Unexpected schemes and hosts are rejected before they reach navigation.",
-            leadingIcon = Icons.Filled.Link
+            title = "Parsed result",
+            description = "The parser returns a typed model with path segments and query parameters.",
+            leadingIcon = Icons.Filled.Route
         ) {
-            when (invalidResult) {
-                is SdkResult.Success -> InfoRow(label = "Parsed", value = invalidResult.data.rawValue)
-                is SdkResult.Failure -> InfoRow(label = "Rejected", value = invalidResult.error.code)
+            when (val result = parsedResult) {
+                is SdkResult.Success -> {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        InfoRow(label = "Raw", value = result.data.rawValue)
+                        InfoRow(label = "Scheme", value = result.data.scheme)
+                        InfoRow(label = "Host", value = result.data.host ?: "None")
+                        InfoRow(label = "Path", value = result.data.pathSegments.joinToString("/"))
+                        InfoRow(label = "Source", value = result.data.firstQueryParameter("source") ?: "None")
+                    }
+                }
+                is SdkResult.Failure -> {
+                    InfoRow(label = "Rejected", value = result.error.code)
+                }
+                null -> InfoRow(label = "Status", value = "Not parsed yet")
             }
         }
+
+        StatusMessage(message = message, errorMessage = errorMessage)
     }
 }

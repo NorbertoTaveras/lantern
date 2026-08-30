@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +42,7 @@ import com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsProvider
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lanternsample.components.DemoMetric
 import com.norbertotaveras.lanternsample.components.DemoSection
+import com.norbertotaveras.lanternsample.components.DestructiveDemoButton
 import com.norbertotaveras.lanternsample.components.FeatureScreen
 import com.norbertotaveras.lanternsample.components.InfoRow
 import com.norbertotaveras.lanternsample.components.MetricRow
@@ -64,8 +66,37 @@ fun AnalyticsScreen() {
             )
         )
     }
+    val sampleUserId = remember { AnalyticsUserId.unsafe("sample-user") }
+    val sampleUserProperty = remember {
+        AnalyticsUserProperty(
+            name = AnalyticsUserPropertyName.unsafe("plan"),
+            value = AnalyticsValue.StringValue("demo")
+        )
+    }
+    var activeUserId by remember { mutableStateOf<String?>(null) }
+    var activeProperty by remember { mutableStateOf<String?>(null) }
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    fun runAnalyticsAction(
+        successMessage: String,
+        onSuccess: () -> Unit = {},
+        block: suspend () -> SdkResult<Unit>
+    ) {
+        coroutineScope.launch {
+            when (val result = block()) {
+                is SdkResult.Success -> {
+                    onSuccess()
+                    errorMessage = null
+                    message = successMessage
+                }
+                is SdkResult.Failure -> {
+                    message = null
+                    errorMessage = result.error.message
+                }
+            }
+        }
+    }
 
     FeatureScreen(
         title = "Analytics",
@@ -77,7 +108,7 @@ fun AnalyticsScreen() {
             metrics = listOf(
                 DemoMetric(label = "Parameters", value = event.parameters.size.toString()),
                 DemoMetric(label = "Providers", value = "2"),
-                DemoMetric(label = "Privacy owner", value = "App")
+                DemoMetric(label = "User", value = activeUserId ?: "None")
             )
         )
 
@@ -124,16 +155,65 @@ fun AnalyticsScreen() {
             description = "User identifiers and properties are typed before reaching provider SDKs.",
             leadingIcon = Icons.Filled.Person
         ) {
+            PrimaryDemoButton(
+                text = "Set sample user ID",
+                icon = Icons.Filled.Person,
+                onClick = {
+                    runAnalyticsAction(
+                        successMessage = "Sample user ID set on both providers.",
+                        onSuccess = {
+                            activeUserId = sampleUserId.value
+                        }
+                    ) {
+                        when (val noOpResult = noOpProvider.setUserId(sampleUserId)) {
+                            is SdkResult.Failure -> noOpResult
+                            is SdkResult.Success -> firebaseProvider.setUserId(sampleUserId)
+                        }
+                    }
+                }
+            )
+
+            SecondaryDemoButton(
+                text = "Set plan property",
+                icon = Icons.Filled.Analytics,
+                onClick = {
+                    runAnalyticsAction(
+                        successMessage = "Sample user property set on both providers.",
+                        onSuccess = {
+                            activeProperty = "${sampleUserProperty.name.value}=demo"
+                        }
+                    ) {
+                        when (val noOpResult = noOpProvider.setUserProperty(sampleUserProperty)) {
+                            is SdkResult.Failure -> noOpResult
+                            is SdkResult.Success -> firebaseProvider.setUserProperty(sampleUserProperty)
+                        }
+                    }
+                }
+            )
+
+            DestructiveDemoButton(
+                text = "Reset analytics state",
+                icon = Icons.Filled.Delete,
+                onClick = {
+                    runAnalyticsAction(
+                        successMessage = "Analytics state reset on both providers.",
+                        onSuccess = {
+                            activeUserId = null
+                            activeProperty = null
+                        }
+                    ) {
+                        when (val noOpResult = noOpProvider.reset()) {
+                            is SdkResult.Failure -> noOpResult
+                            is SdkResult.Success -> firebaseProvider.reset()
+                        }
+                    }
+                }
+            )
+
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 InfoRow(label = "Event name", value = event.name.value)
-                InfoRow(label = "User ID model", value = AnalyticsUserId.unsafe("sample-user").value)
-                InfoRow(
-                    label = "Property model",
-                    value = AnalyticsUserProperty(
-                        name = AnalyticsUserPropertyName.unsafe("plan"),
-                        value = AnalyticsValue.StringValue("demo")
-                    ).name.value
-                )
+                InfoRow(label = "Active user ID", value = activeUserId ?: "None")
+                InfoRow(label = "Active property", value = activeProperty ?: "None")
                 InfoRow(label = "Provider module", value = "analytics-firebase")
             }
         }

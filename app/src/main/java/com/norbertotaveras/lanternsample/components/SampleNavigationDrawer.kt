@@ -16,6 +16,7 @@
 
 package com.norbertotaveras.lanternsample.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -51,6 +52,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -60,6 +62,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.norbertotaveras.lanternsample.BuildConfig
+import com.norbertotaveras.lanternsample.R
 import com.norbertotaveras.lanternsample.navigation.SampleDestination
 import com.norbertotaveras.lanternsample.navigation.sampleDestinations
 import com.norbertotaveras.lanternsample.screens.AuthStateScreen
@@ -234,15 +237,14 @@ private fun DrawerHeader(version: String) {
         ) {
             Surface(
                 modifier = Modifier.clip(CircleShape),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.surfaceContainerHighest
             ) {
-                Icon(
-                    imageVector = SampleDestination.FirebaseGoogleAuth.icon,
+                Image(
+                    painter = painterResource(id = R.drawable.lantern_logo),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
-                        .padding(14.dp)
-                        .size(28.dp)
+                        .padding(10.dp)
+                        .size(44.dp)
                 )
             }
 

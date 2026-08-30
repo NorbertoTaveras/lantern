@@ -52,7 +52,7 @@ sealed class SampleDestination(
     data object FirebaseAuth : SampleDestination(
         route = "firebase_auth",
         title = "Firebase Auth",
-        description = "Anonymous and email/password auth",
+        description = "Anonymous Firebase sign-in",
         icon = Icons.Filled.Cloud
     )
 

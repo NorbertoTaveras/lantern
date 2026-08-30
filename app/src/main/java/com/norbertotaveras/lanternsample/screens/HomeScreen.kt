@@ -59,7 +59,7 @@ fun HomeScreen() {
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "21"),
+                DemoMetric(label = "SDK modules", value = "20"),
                 DemoMetric(label = "Live demos", value = "17"),
                 DemoMetric(label = "UI modules", value = "0")
             )

@@ -22,6 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import com.norbertotaveras.lantern.logging.AndroidSdkLogger
 import com.norbertotaveras.lanternsample.components.DemoMetric
@@ -30,10 +34,12 @@ import com.norbertotaveras.lanternsample.components.FeatureScreen
 import com.norbertotaveras.lanternsample.components.InfoRow
 import com.norbertotaveras.lanternsample.components.MetricRow
 import com.norbertotaveras.lanternsample.components.PrimaryDemoButton
+import com.norbertotaveras.lanternsample.components.StatusMessage
 
 @Composable
 fun LoggingScreen() {
     val logger = AndroidSdkLogger(isEnabled = true)
+    var message by remember { mutableStateOf<String?>(null) }
 
     FeatureScreen(
         title = "Logging",
@@ -62,6 +68,7 @@ fun LoggingScreen() {
                     logger.info("Info log from sample app")
                     logger.warning("Warning log from sample app")
                     logger.error("Error log from sample app")
+                    message = "Sent debug, info, warning, and error logs."
                 }
             )
         }
@@ -77,5 +84,7 @@ fun LoggingScreen() {
                 InfoRow(label = "Levels", value = "Debug, info, warning, error")
             }
         }
+
+        StatusMessage(message = message, errorMessage = null)
     }
 }
