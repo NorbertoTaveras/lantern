@@ -16,17 +16,18 @@
 
 package com.norbertotaveras.lanternsample.screens
 
-import android.Manifest
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Topic
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +44,9 @@ import com.norbertotaveras.lantern.notifications.NotificationChannelConfig
 import com.norbertotaveras.lantern.notifications.NotificationChannelId
 import com.norbertotaveras.lantern.notifications.NotificationChannelImportance
 import com.norbertotaveras.lantern.notifications.NotificationTopic
+import com.norbertotaveras.lantern.notifications.NotificationToken
+import com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTokenProvider
+import com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTopicManager
 import com.norbertotaveras.lantern.permissions.AndroidPermissionManager
 import com.norbertotaveras.lantern.permissions.PermissionRequestLauncher
 import com.norbertotaveras.lanternsample.components.DemoMetric
@@ -77,6 +81,9 @@ fun NotificationsScreen() {
         AndroidNotificationPermissionManager(permissionManager)
     }
     val channelManager = remember(context) { AndroidNotificationChannelManager(context) }
+    val tokenProvider = remember { FirebaseMessagingTokenProvider() }
+    val topicManager = remember { FirebaseMessagingTopicManager() }
+    val token by tokenProvider.tokenUpdates.collectAsState(initial = null)
     val parser = remember { DefaultNotificationPayloadParser() }
     val payload = remember {
         parser.parse(
@@ -89,6 +96,7 @@ fun NotificationsScreen() {
         )
     }
     val topicResult = remember { NotificationTopic.from("product-updates") }
+    val topic = (topicResult as? SdkResult.Success)?.data
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -102,7 +110,7 @@ fun NotificationsScreen() {
             metrics = listOf(
                 DemoMetric(label = "Payload parser", value = "Live"),
                 DemoMetric(label = "Channel API", value = "Live"),
-                DemoMetric(label = "Firebase topics", value = "Ready")
+                DemoMetric(label = "FCM token", value = token?.shortValue() ?: "Not loaded")
             )
         )
 
@@ -170,13 +178,91 @@ fun NotificationsScreen() {
 
         DemoSection(
             title = "Firebase Messaging boundary",
-            description = "Topic and token helpers are available, but subscription calls intentionally stay user-driven.",
+            description = "Fetch this device's FCM token and manage a sample topic through the Firebase-backed SDK module.",
             leadingIcon = Icons.Filled.Topic
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                PrimaryDemoButton(
+                    text = "Fetch FCM token",
+                    icon = Icons.Filled.Notifications,
+                    onClick = {
+                        coroutineScope.launch {
+                            when (val result = tokenProvider.getToken()) {
+                                is SdkResult.Success -> {
+                                    errorMessage = null
+                                    message = "FCM token loaded: ${result.data.shortValue()}."
+                                }
+                                is SdkResult.Failure -> {
+                                    errorMessage = result.error.message
+                                }
+                            }
+                        }
+                    }
+                )
+
+                SecondaryDemoButton(
+                    text = "Delete FCM token",
+                    icon = Icons.Filled.Delete,
+                    onClick = {
+                        coroutineScope.launch {
+                            when (val result = tokenProvider.deleteToken()) {
+                                is SdkResult.Success -> {
+                                    errorMessage = null
+                                    message = "FCM token deleted for this app instance."
+                                }
+                                is SdkResult.Failure -> {
+                                    errorMessage = result.error.message
+                                }
+                            }
+                        }
+                    }
+                )
+
+                SecondaryDemoButton(
+                    text = "Subscribe sample topic",
+                    icon = Icons.Filled.Topic,
+                    enabled = topic != null,
+                    onClick = {
+                        coroutineScope.launch {
+                            val notificationTopic = topic ?: return@launch
+                            when (val result = topicManager.subscribe(notificationTopic)) {
+                                is SdkResult.Success -> {
+                                    errorMessage = null
+                                    message = "Subscribed to '${notificationTopic.value}'."
+                                }
+                                is SdkResult.Failure -> {
+                                    errorMessage = result.error.message
+                                }
+                            }
+                        }
+                    }
+                )
+
+                SecondaryDemoButton(
+                    text = "Unsubscribe sample topic",
+                    icon = Icons.Filled.Topic,
+                    enabled = topic != null,
+                    onClick = {
+                        coroutineScope.launch {
+                            val notificationTopic = topic ?: return@launch
+                            when (val result = topicManager.unsubscribe(notificationTopic)) {
+                                is SdkResult.Success -> {
+                                    errorMessage = null
+                                    message = "Unsubscribed from '${notificationTopic.value}'."
+                                }
+                                is SdkResult.Failure -> {
+                                    errorMessage = result.error.message
+                                }
+                            }
+                        }
+                    }
+                )
+
                 InfoRow(label = "Topic", value = topicResult.topicName())
+                InfoRow(label = "Token", value = token?.shortValue() ?: "Not loaded")
+                InfoRow(label = "Token provider", value = token?.provider?.name ?: "FirebaseCloudMessaging")
                 InfoRow(label = "Provider module", value = "notifications-firebase")
-                InfoRow(label = "App owns", value = "Icons, display, click handling")
+                InfoRow(label = "Push sending", value = "Backend-owned")
             }
         }
 
@@ -226,3 +312,13 @@ private fun SdkResult<NotificationTopic>.topicName(): String {
         is SdkResult.Failure -> error.message
     }
 }
+
+private fun NotificationToken.shortValue(): String {
+    return if (value.length <= TOKEN_PREVIEW_LENGTH * 2) {
+        value
+    } else {
+        "${value.take(TOKEN_PREVIEW_LENGTH)}...${value.takeLast(TOKEN_PREVIEW_LENGTH)}"
+    }
+}
+
+private const val TOKEN_PREVIEW_LENGTH = 8
