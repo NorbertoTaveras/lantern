@@ -24,18 +24,22 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.norbertotaveras.lantern.backgroundwork.BackgroundWorkConstraints
 import com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName
+import com.norbertotaveras.lantern.backgroundwork.BackgroundWorkPolicy
 import com.norbertotaveras.lantern.backgroundwork.BackgroundWorkRequest
 import com.norbertotaveras.lantern.backgroundwork.BackgroundWorkType
-import com.norbertotaveras.lantern.backgroundwork.NoOpBackgroundWorkScheduler
+import com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler
 import com.norbertotaveras.lantern.core.SdkResult
+import com.norbertotaveras.lanternsample.background.SampleSyncWorker
 import com.norbertotaveras.lanternsample.components.DemoMetric
 import com.norbertotaveras.lanternsample.components.DemoSection
 import com.norbertotaveras.lanternsample.components.FeatureScreen
@@ -48,43 +52,59 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BackgroundWorkScreen() {
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val scheduler = remember { NoOpBackgroundWorkScheduler() }
     val workName = remember { BackgroundWorkName.unsafe("sample-sync") }
+    val scheduler = remember(context, workName) {
+        WorkManagerBackgroundWorkScheduler(
+            context = context,
+            workerClasses = mapOf(workName to SampleSyncWorker::class.java)
+        )
+    }
     val request = remember {
         BackgroundWorkRequest(
             name = workName,
             type = BackgroundWorkType.OneTime,
-            constraints = BackgroundWorkConstraints(requiresNetwork = true),
+            policy = BackgroundWorkPolicy.ReplaceExisting,
+            constraints = BackgroundWorkConstraints.None,
             input = mapOf("source" to "sample-app")
         )
     }
+    val observedWorkInfo by scheduler.observeWorkInfo(workName).collectAsState(initial = null)
     var currentStatus by remember { mutableStateOf("Not scheduled") }
     var currentWorkId by remember { mutableStateOf<String?>(null) }
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val latestStatus = observedWorkInfo?.status?.name ?: currentStatus
+    val latestWorkId = observedWorkInfo?.id?.value ?: currentWorkId
+    val progressText = observedWorkInfo?.progress?.entries
+        ?.joinToString { (key, value) -> "$key=$value" }
+        .orEmpty()
+    val outputText = observedWorkInfo?.output?.entries
+        ?.joinToString { (key, value) -> "$key=$value" }
+        .orEmpty()
 
     FeatureScreen(
         title = "Background Work",
         subtitle = "Schedule, query, and cancel background work through provider-neutral SDK models.",
         icon = Icons.Filled.Work,
-        status = currentStatus
+        status = latestStatus
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "Scheduler", value = "No-op"),
+                DemoMetric(label = "Scheduler", value = "WorkManager"),
                 DemoMetric(label = "Input keys", value = request.input.size.toString()),
-                DemoMetric(label = "Constraint", value = "Network")
+                DemoMetric(label = "Constraint", value = "None")
             )
         )
 
         DemoSection(
             title = "Work controls",
-            description = "NoOpBackgroundWorkScheduler gives the sample app a safe in-memory demo path.",
+            description = "The sample app registers its own Worker while Lantern owns the provider-neutral scheduler API.",
             leadingIcon = Icons.Filled.Schedule
         ) {
             PrimaryDemoButton(
-                text = "Enqueue sample work",
+                text = "Run sample sync",
                 icon = Icons.Filled.Schedule,
                 onClick = {
                     coroutineScope.launch {
@@ -93,7 +113,7 @@ fun BackgroundWorkScreen() {
                                 currentStatus = "Enqueued"
                                 currentWorkId = result.data.value
                                 errorMessage = null
-                                message = "Work ${result.data.value.take(8)} enqueued."
+                                message = "Work ${result.data.value.take(8)} submitted to WorkManager."
                             }
                             is SdkResult.Failure -> errorMessage = result.error.message
                         }
@@ -110,7 +130,7 @@ fun BackgroundWorkScreen() {
                             is SdkResult.Success -> {
                                 currentStatus = "Cancelled"
                                 errorMessage = null
-                                message = "Work '${workName.value}' cancelled."
+                                message = "Work '${workName.value}' cancelled in WorkManager."
                             }
                             is SdkResult.Failure -> errorMessage = result.error.message
                         }
@@ -146,10 +166,12 @@ fun BackgroundWorkScreen() {
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 InfoRow(label = "Name", value = request.name.value)
-                InfoRow(label = "Latest ID", value = currentWorkId?.take(8) ?: "None")
-                InfoRow(label = "Latest status", value = currentStatus)
+                InfoRow(label = "Latest ID", value = latestWorkId?.take(8) ?: "None")
+                InfoRow(label = "Latest status", value = latestStatus)
                 InfoRow(label = "Type", value = "OneTime")
-                InfoRow(label = "Requires network", value = request.constraints.requiresNetwork.toString())
+                InfoRow(label = "Policy", value = request.policy.name)
+                InfoRow(label = "Progress", value = progressText.ifBlank { "None" })
+                InfoRow(label = "Output", value = outputText.ifBlank { "None" })
                 InfoRow(label = "App owns", value = "Worker classes")
             }
         }
