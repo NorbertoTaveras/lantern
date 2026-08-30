@@ -34,7 +34,7 @@ android {
 
 val lanternVersion = providers.gradleProperty("CONSUMER_SMOKE_LANTERN_VERSION")
     .orElse(providers.gradleProperty("LANTERN_VERSION"))
-    .orElse("0.1.1-SNAPSHOT")
+    .orElse("0.1.2-SNAPSHOT")
 
 dependencies {
     implementation("io.github.norbertotaveras.lantern:lantern-core:${lanternVersion.get()}")

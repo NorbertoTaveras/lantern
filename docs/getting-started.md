@@ -24,7 +24,7 @@ repositories {
 Then define the SDK version once:
 
 ```kotlin
-val lanternVersion = "0.1.0"
+val lanternVersion = "0.1.1"
 ```
 
 ## Pick The Modules You Need

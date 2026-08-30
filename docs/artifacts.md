@@ -10,7 +10,7 @@ Lantern publishes each SDK module as a separate Maven artifact. Apps should depe
 Define the SDK version once in your Gradle build:
 
 ```kotlin
-val lanternVersion = "0.1.0"
+val lanternVersion = "0.1.1"
 ```
 
 ## Repository

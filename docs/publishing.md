@@ -10,7 +10,7 @@ Stable Lantern releases are intended to be consumed from Maven Central.
 Public releases use semantic versioning:
 
 ```text
-0.1.0
+0.1.1
 0.2.0
 1.0.0
 ```

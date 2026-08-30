@@ -26,7 +26,7 @@ fun localProperty(name: String) = providers.provider {
 }
 
 val lanternVersion = providers.gradleProperty("LANTERN_VERSION")
-    .orElse("0.1.1-SNAPSHOT")
+    .orElse("0.1.2-SNAPSHOT")
 val lanternSourceRef = providers.gradleProperty("LANTERN_SOURCE_REF")
     .orElse(providers.environmentVariable("GITHUB_SHA"))
     .orElse("develop")

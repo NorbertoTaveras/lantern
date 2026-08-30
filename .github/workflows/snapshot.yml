@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       base_version:
-        description: Snapshot version, for example 0.1.0-SNAPSHOT.
+        description: Snapshot version, for example 0.1.2-SNAPSHOT.
         required: true
-        default: 0.1.0-SNAPSHOT
+        default: 0.1.2-SNAPSHOT
 
 permissions:
   contents: read

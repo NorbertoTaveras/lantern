@@ -18,7 +18,7 @@ MAJOR.MINOR.PATCH
 Examples:
 
 ```text
-0.1.0
+0.1.1
 0.2.0
 1.0.0
 ```
@@ -28,7 +28,7 @@ Examples:
 Use the same Lantern version for every SDK module in your app:
 
 ```kotlin
-val lanternVersion = "0.1.0"
+val lanternVersion = "0.1.1"
 
 implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")

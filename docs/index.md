@@ -44,7 +44,7 @@ repositories {
     mavenCentral()
 }
 
-val lanternVersion = "0.1.0"
+val lanternVersion = "0.1.1"
 
 implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-logging:$lanternVersion")

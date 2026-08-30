@@ -23,7 +23,7 @@ env:
   GITHUB_PACKAGES_REPOSITORY: ${{ vars.PACKAGES_REPOSITORY || 'NorbertoTaveras/lantern-packages' }}
   GITHUB_PACKAGES_USERNAME: ${{ vars.PACKAGES_USERNAME || github.actor }}
   GITHUB_PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-  LANTERN_VERSION: 0.1.0-ci.${{ github.run_number }}-SNAPSHOT
+  LANTERN_VERSION: 0.1.2-ci.${{ github.run_number }}-SNAPSHOT
 
 jobs:
   sdk-build:

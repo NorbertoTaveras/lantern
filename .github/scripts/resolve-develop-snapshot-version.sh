@@ -6,7 +6,7 @@ if [[ "${GITHUB_REF_NAME}" != "develop" ]]; then
   exit 1
 fi
 
-snapshot_version="${LANTERN_BASE_VERSION:-0.1.0-SNAPSHOT}"
+snapshot_version="${LANTERN_BASE_VERSION:-0.1.2-SNAPSHOT}"
 
 if [[ ! "$snapshot_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?-SNAPSHOT$ ]]; then
   echo "Snapshot base versions must use x.y.z-SNAPSHOT or x.y.z-prerelease-SNAPSHOT."
