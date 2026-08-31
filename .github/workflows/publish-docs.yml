@@ -3,7 +3,6 @@ name: Publish Docs
 on:
   pull_request:
     branches:
-      - develop
       - "release/**"
     paths:
       - "docs/**"
@@ -14,7 +13,6 @@ on:
       - ".github/workflows/publish-docs.yml"
   push:
     branches:
-      - develop
       - "release/**"
     paths:
       - "docs/**"
