@@ -23,6 +23,7 @@ import com.norbertotaveras.lantern.analytics.AnalyticsProvider
 import com.norbertotaveras.lantern.analytics.AnalyticsUserId
 import com.norbertotaveras.lantern.analytics.AnalyticsUserProperty
 import com.norbertotaveras.lantern.analytics.firebase.internal.FirebaseAnalyticsValueMapper
+import com.norbertotaveras.lantern.core.SdkError
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.logging.NoOpSdkLogger
 import com.norbertotaveras.lantern.logging.SdkLogger
@@ -55,7 +56,7 @@ class FirebaseAnalyticsProvider(
             SdkResult.Success(Unit)
         } catch (exception: Throwable) {
             logger.error("Unable to track Firebase Analytics event ${event.name.value}.", exception)
-            SdkResult.Failure(FirebaseAnalyticsErrorMapper.trackFailure(exception))
+            SdkResult.Failure(trackFailure(exception))
         }
     }
 
@@ -65,7 +66,7 @@ class FirebaseAnalyticsProvider(
             SdkResult.Success(Unit)
         } catch (exception: Throwable) {
             logger.error("Unable to set Firebase Analytics user ID.", exception)
-            SdkResult.Failure(FirebaseAnalyticsErrorMapper.userIdFailure(exception))
+            SdkResult.Failure(userIdFailure(exception))
         }
     }
 
@@ -78,7 +79,7 @@ class FirebaseAnalyticsProvider(
             SdkResult.Success(Unit)
         } catch (exception: Throwable) {
             logger.error("Unable to set Firebase Analytics user property ${property.name.value}.", exception)
-            SdkResult.Failure(FirebaseAnalyticsErrorMapper.userPropertyFailure(exception))
+            SdkResult.Failure(userPropertyFailure(exception))
         }
     }
 
@@ -88,7 +89,31 @@ class FirebaseAnalyticsProvider(
             SdkResult.Success(Unit)
         } catch (exception: Throwable) {
             logger.error("Unable to reset Firebase Analytics data.", exception)
-            SdkResult.Failure(FirebaseAnalyticsErrorMapper.resetFailure(exception))
+            SdkResult.Failure(resetFailure(exception))
         }
     }
+
+    private fun trackFailure(cause: Throwable) = SdkError(
+        code = FirebaseAnalyticsErrorCodes.TRACK_FAILED,
+        message = "Unable to track Firebase Analytics event.",
+        cause = cause
+    )
+
+    private fun userIdFailure(cause: Throwable) = SdkError(
+        code = FirebaseAnalyticsErrorCodes.USER_ID_FAILED,
+        message = "Unable to set Firebase Analytics user ID.",
+        cause = cause
+    )
+
+    private fun userPropertyFailure(cause: Throwable) = SdkError(
+        code = FirebaseAnalyticsErrorCodes.USER_PROPERTY_FAILED,
+        message = "Unable to set Firebase Analytics user property.",
+        cause = cause
+    )
+
+    private fun resetFailure(cause: Throwable) = SdkError(
+        code = FirebaseAnalyticsErrorCodes.RESET_FAILED,
+        message = "Unable to reset Firebase Analytics data.",
+        cause = cause
+    )
 }

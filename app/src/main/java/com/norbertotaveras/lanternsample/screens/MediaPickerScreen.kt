@@ -16,6 +16,7 @@
 
 package com.norbertotaveras.lanternsample.screens
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,12 +38,12 @@ import com.norbertotaveras.lantern.mediapicker.MediaPickerResult
 import com.norbertotaveras.lantern.mediapicker.MediaPickerStatus
 import com.norbertotaveras.lantern.mediapicker.MediaSelectionMode
 import com.norbertotaveras.lantern.mediapicker.MediaType
+import com.norbertotaveras.lantern.mediapicker.PickedMediaItem
 import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerContractType
 import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerContracts
 import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerLauncher
 import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerMediaPicker
 import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerRequest
-import com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerResultMapper
 import com.norbertotaveras.lanternsample.components.DemoMetric
 import com.norbertotaveras.lanternsample.components.DemoSection
 import com.norbertotaveras.lanternsample.components.FeatureScreen
@@ -57,7 +58,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun MediaPickerScreen() {
     val coroutineScope = rememberCoroutineScope()
-    val resultMapper = remember { AndroidPhotoPickerResultMapper() }
     var pendingPick by remember { mutableStateOf<PendingMediaPick?>(null) }
     var pickerResult by remember { mutableStateOf(MediaPickerResult.Empty) }
     var message by remember { mutableStateOf<String?>(null) }
@@ -69,7 +69,7 @@ fun MediaPickerScreen() {
         onResult = { uri ->
             val pending = pendingPick ?: return@rememberLauncherForActivityResult
             pending.deferred.complete(
-                resultMapper.mapSingle(
+                mapSinglePhotoPickerResult(
                     uri = uri,
                     request = pending.request.sourceRequest
                 )
@@ -83,7 +83,7 @@ fun MediaPickerScreen() {
         onResult = { uris ->
             val pending = pendingPick ?: return@rememberLauncherForActivityResult
             pending.deferred.complete(
-                resultMapper.mapMultiple(
+                mapMultiplePhotoPickerResult(
                     uris = uris,
                     request = pending.request.sourceRequest
                 )
@@ -236,6 +236,40 @@ private data class PendingMediaPick(
     val request: AndroidPhotoPickerRequest,
     val deferred: CompletableDeferred<MediaPickerResult>
 )
+
+private fun mapSinglePhotoPickerResult(
+    uri: Uri?,
+    request: MediaPickRequest
+): MediaPickerResult {
+    return uri?.let { mapPhotoPickerUris(listOf(it), request) } ?: MediaPickerResult.Cancelled
+}
+
+private fun mapMultiplePhotoPickerResult(
+    uris: List<Uri>,
+    request: MediaPickRequest
+): MediaPickerResult {
+    return if (uris.isEmpty()) {
+        MediaPickerResult.Cancelled
+    } else {
+        mapPhotoPickerUris(uris, request)
+    }
+}
+
+private fun mapPhotoPickerUris(
+    uris: List<Uri>,
+    request: MediaPickRequest
+): MediaPickerResult {
+    val fallbackMediaType = request.mediaTypes.singleOrNull() ?: MediaType.Image
+    return MediaPickerResult(
+        items = uris.map { uri ->
+            PickedMediaItem(
+                uri = uri.toString(),
+                mediaType = fallbackMediaType,
+                mimeType = request.mimeTypes.singleOrNull()
+            )
+        }
+    )
+}
 
 private fun SdkResult<MediaPickerResult>.toPickerResult(): MediaPickerResult {
     return when (this) {

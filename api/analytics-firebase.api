@@ -14,22 +14,6 @@ public final class com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyt
     descriptor: Ljava/lang/String;
 }
 
-public final class com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsErrorMapper {
-  public static final com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsErrorMapper INSTANCE;
-    descriptor: Lcom/norbertotaveras/lantern/analytics/firebase/FirebaseAnalyticsErrorMapper;
-  public final com.norbertotaveras.lantern.core.SdkError trackFailure(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public final com.norbertotaveras.lantern.core.SdkError userIdFailure(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public final com.norbertotaveras.lantern.core.SdkError userPropertyFailure(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public final com.norbertotaveras.lantern.core.SdkError resetFailure(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-}
-
 public final class com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsProvider implements com.norbertotaveras.lantern.analytics.AnalyticsProvider {
   public com.norbertotaveras.lantern.analytics.firebase.FirebaseAnalyticsProvider(com.google.firebase.analytics.FirebaseAnalytics, com.norbertotaveras.lantern.logging.SdkLogger);
     descriptor: (Lcom/google/firebase/analytics/FirebaseAnalytics;Lcom/norbertotaveras/lantern/logging/SdkLogger;)V

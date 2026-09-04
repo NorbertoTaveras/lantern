@@ -13,7 +13,6 @@ implementation("io.github.norbertotaveras.lantern:lantern-network-okhttp:$lanter
 - Adding bearer auth headers through `TokenProvider`.
 - Adding retry behavior.
 - Adding SDK network logging.
-- Mapping network failures.
 - Observing connectivity state.
 
 ## Basic Client
@@ -88,17 +87,6 @@ monitor.connectivity.collect { state ->
 
 `isUsable` means Android reports an available and validated network. Apps should still handle
 request failures because connectivity can change between observation and request execution.
-
-## Error Mapping
-
-```kotlin
-val errorMapper = NetworkErrorMapper()
-
-val sdkError = errorMapper.map(throwable)
-```
-
-Use the mapper when app network layers want to normalize timeouts, connectivity failures, HTTP
-errors, and unknown failures into `SdkError`.
 
 ## Boundaries
 

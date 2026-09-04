@@ -375,14 +375,3 @@ public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoP
     descriptor: (Ljava/lang/Object;)Z
 }
 
-public final class com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerResultMapper {
-  public com.norbertotaveras.lantern.mediapicker.android.AndroidPhotoPickerResultMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.mediapicker.MediaPickerResult mapSingle(android.net.Uri, com.norbertotaveras.lantern.mediapicker.MediaPickRequest);
-    descriptor: (Landroid/net/Uri;Lcom/norbertotaveras/lantern/mediapicker/MediaPickRequest;)Lcom/norbertotaveras/lantern/mediapicker/MediaPickerResult;
-
-  public final com.norbertotaveras.lantern.mediapicker.MediaPickerResult mapMultiple(java.util.List<? extends android.net.Uri>, com.norbertotaveras.lantern.mediapicker.MediaPickRequest);
-    descriptor: (Ljava/util/List;Lcom/norbertotaveras/lantern/mediapicker/MediaPickRequest;)Lcom/norbertotaveras/lantern/mediapicker/MediaPickerResult;
-}
-

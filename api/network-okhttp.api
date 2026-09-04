@@ -186,23 +186,6 @@ public final class com.norbertotaveras.lantern.network.okhttp.NetworkErrorCodes 
     descriptor: Ljava/lang/String;
 }
 
-public final class com.norbertotaveras.lantern.network.okhttp.NetworkErrorMapper {
-  public com.norbertotaveras.lantern.network.okhttp.NetworkErrorMapper();
-    descriptor: ()V
-
-  public final com.norbertotaveras.lantern.core.SdkError map(java.lang.Throwable);
-    descriptor: (Ljava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public final com.norbertotaveras.lantern.core.SdkError mapHttp(okhttp3.Response);
-    descriptor: (Lokhttp3/Response;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public final com.norbertotaveras.lantern.core.SdkError retryExhausted(int, java.lang.Throwable);
-    descriptor: (ILjava/lang/Throwable;)Lcom/norbertotaveras/lantern/core/SdkError;
-
-  public static com.norbertotaveras.lantern.core.SdkError retryExhausted$default(com.norbertotaveras.lantern.network.okhttp.NetworkErrorMapper, int, java.lang.Throwable, int, java.lang.Object);
-    descriptor: (Lcom/norbertotaveras/lantern/network/okhttp/NetworkErrorMapper;ILjava/lang/Throwable;ILjava/lang/Object;)Lcom/norbertotaveras/lantern/core/SdkError;
-}
-
 public final class com.norbertotaveras.lantern.network.okhttp.NetworkLoggingInterceptor implements okhttp3.Interceptor {
   public static final com.norbertotaveras.lantern.network.okhttp.NetworkLoggingInterceptor$Companion Companion;
     descriptor: Lcom/norbertotaveras/lantern/network/okhttp/NetworkLoggingInterceptor$Companion;
