@@ -56,6 +56,9 @@ import com.norbertotaveras.lantern.network.okhttp.NetworkRetryConfig
 import com.norbertotaveras.lantern.network.okhttp.OkHttpNetworkClientFactory
 import com.norbertotaveras.lantern.network.okhttp.TokenProvider
 import com.norbertotaveras.lantern.notifications.DefaultNotificationPayloadParser
+import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationTokenProvider
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushGateway
+import com.norbertotaveras.lantern.notifications.airship.AirshipUserNotificationsManager
 import com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTokenProvider
 import com.norbertotaveras.lantern.permissions.AndroidPermissionManager
 import com.norbertotaveras.lantern.permissions.PermissionRequestLauncher
@@ -201,6 +204,22 @@ internal object ReadmeUsageSmoke {
 
         val tokenProvider = FirebaseMessagingTokenProvider()
         val token = tokenProvider.getToken()
+    }
+
+    suspend fun airshipNotifications() {
+        val gateway = object : AirshipPushGateway {
+            override suspend fun getChannelId(): String? = "airship-channel-id"
+
+            override suspend fun areUserNotificationsEnabled(): Boolean = true
+
+            override suspend fun setUserNotificationsEnabled(enabled: Boolean) = Unit
+        }
+
+        val tokenProvider = AirshipNotificationTokenProvider(gateway)
+        val userNotificationsManager = AirshipUserNotificationsManager(gateway)
+
+        val token = tokenProvider.getToken()
+        val status = userNotificationsManager.getStatus()
     }
 
     suspend fun mediaPicker(mediaPicker: MediaPicker) {

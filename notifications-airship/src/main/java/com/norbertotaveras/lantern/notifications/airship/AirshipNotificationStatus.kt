@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package com.norbertotaveras.lantern.notifications
+package com.norbertotaveras.lantern.notifications.airship
 
 /**
- * Provider that issued a [NotificationToken].
+ * Snapshot of Airship notification state exposed through Lantern.
  */
-enum class NotificationTokenProviderType {
+data class AirshipNotificationStatus(
     /**
-     * Firebase Cloud Messaging token.
+     * Current Airship channel ID, when registration has completed.
      */
-    FirebaseCloudMessaging,
+    val channelId: String?,
     /**
-     * Airship channel ID.
+     * Whether Airship user-visible notifications are enabled.
      */
-    Airship,
-    /**
-     * Caller-defined notification provider.
-     */
-    Custom
-}
+    val userNotificationsEnabled: Boolean
+)

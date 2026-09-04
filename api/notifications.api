@@ -462,6 +462,8 @@ public interface com.norbertotaveras.lantern.notifications.NotificationTokenProv
 public final class com.norbertotaveras.lantern.notifications.NotificationTokenProviderType extends java.lang.Enum<com.norbertotaveras.lantern.notifications.NotificationTokenProviderType> {
   public static final com.norbertotaveras.lantern.notifications.NotificationTokenProviderType FirebaseCloudMessaging;
     descriptor: Lcom/norbertotaveras/lantern/notifications/NotificationTokenProviderType;
+  public static final com.norbertotaveras.lantern.notifications.NotificationTokenProviderType Airship;
+    descriptor: Lcom/norbertotaveras/lantern/notifications/NotificationTokenProviderType;
   public static final com.norbertotaveras.lantern.notifications.NotificationTokenProviderType Custom;
     descriptor: Lcom/norbertotaveras/lantern/notifications/NotificationTokenProviderType;
   public static com.norbertotaveras.lantern.notifications.NotificationTokenProviderType[] values();
