@@ -58,7 +58,7 @@ class AndroidPhotoPickerMediaPicker private constructor(
             SdkResult.Failure(
                 SdkError(
                     code = MediaPickerErrorCodes.SELECTION_FAILED,
-                    message = throwable.localizedMessage ?: "Unable to launch Android Photo Picker.",
+                    message = "Unable to launch Android Photo Picker.",
                     cause = throwable
                 )
             )

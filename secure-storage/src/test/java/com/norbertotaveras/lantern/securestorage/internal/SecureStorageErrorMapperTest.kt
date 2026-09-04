@@ -32,7 +32,7 @@ class SecureStorageErrorMapperTest {
         val error = mapper.map(SecureStorageErrorMapper.Operation.Read, throwable)
 
         assertEquals(SecureStorageErrorCodes.READ_FAILED, error.code)
-        assertEquals("Read failed", error.message)
+        assertEquals("Unable to read secure storage value.", error.message)
         assertSame(throwable, error.cause)
     }
 
@@ -43,7 +43,7 @@ class SecureStorageErrorMapperTest {
         val error = mapper.map(SecureStorageErrorMapper.Operation.Write, throwable)
 
         assertEquals(SecureStorageErrorCodes.WRITE_FAILED, error.code)
-        assertEquals("Write failed", error.message)
+        assertEquals("Unable to write secure storage value.", error.message)
         assertSame(throwable, error.cause)
     }
 
@@ -54,7 +54,7 @@ class SecureStorageErrorMapperTest {
         val error = mapper.map(SecureStorageErrorMapper.Operation.Remove, throwable)
 
         assertEquals(SecureStorageErrorCodes.REMOVE_FAILED, error.code)
-        assertEquals("Remove failed", error.message)
+        assertEquals("Unable to remove secure storage value.", error.message)
         assertSame(throwable, error.cause)
     }
 
@@ -65,7 +65,7 @@ class SecureStorageErrorMapperTest {
         val error = mapper.map(SecureStorageErrorMapper.Operation.Clear, throwable)
 
         assertEquals(SecureStorageErrorCodes.CLEAR_FAILED, error.code)
-        assertEquals("Clear failed", error.message)
+        assertEquals("Unable to clear secure storage values.", error.message)
         assertSame(throwable, error.cause)
     }
 }

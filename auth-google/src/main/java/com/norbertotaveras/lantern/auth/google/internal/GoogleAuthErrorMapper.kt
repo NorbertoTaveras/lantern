@@ -46,7 +46,7 @@ internal class GoogleAuthErrorMapper {
             is GetCredentialException -> {
                 SdkError(
                     code = GoogleAuthErrorCodes.INVALID_CREDENTIAL,
-                    message = throwable.localizedMessage ?: "Unable to get Google credential.",
+                    message = "Unable to get Google credential.",
                     cause = throwable
                 )
             }
@@ -54,7 +54,7 @@ internal class GoogleAuthErrorMapper {
             is ClearCredentialException -> {
                 SdkError(
                     code = GoogleAuthErrorCodes.CLEAR_CREDENTIAL_FAILED,
-                    message = throwable.localizedMessage ?: "Unable to clear Google credential state.",
+                    message = "Unable to clear Google credential state.",
                     cause = throwable
                 )
             }
@@ -62,7 +62,7 @@ internal class GoogleAuthErrorMapper {
             else -> {
                 SdkError(
                     code = GoogleAuthErrorCodes.UNKNOWN,
-                    message = throwable.localizedMessage ?: "Unknown Google authentication error.",
+                    message = "Unknown Google authentication error.",
                     cause = throwable
                 )
             }

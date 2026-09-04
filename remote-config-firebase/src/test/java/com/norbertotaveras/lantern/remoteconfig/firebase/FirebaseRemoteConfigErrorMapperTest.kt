@@ -18,18 +18,22 @@ package com.norbertotaveras.lantern.remoteconfig.firebase
 
 import com.norbertotaveras.lantern.remoteconfig.firebase.internal.FirebaseRemoteConfigErrorMapper
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertSame
 import org.junit.Test
 
 class FirebaseRemoteConfigErrorMapperTest {
 
     @Test
-    fun mapUsesOperationErrorCodeAndThrowableMessage() {
+    fun mapUsesOperationErrorCodeFallbackMessageAndCause() {
+        val throwable = IllegalStateException("Fetch failed")
+
         val error = FirebaseRemoteConfigErrorMapper().map(
             operation = FirebaseRemoteConfigErrorMapper.Operation.Fetch,
-            throwable = IllegalStateException("Fetch failed")
+            throwable = throwable
         )
 
         assertEquals(FirebaseRemoteConfigErrorCodes.FETCH_FAILED, error.code)
-        assertEquals("Fetch failed", error.message)
+        assertEquals("Unable to fetch Firebase Remote Config values.", error.message)
+        assertSame(throwable, error.cause)
     }
 }

@@ -131,7 +131,7 @@ class FirebaseGoogleAuthProvider private constructor(
             SdkResult.Failure(
                 SdkError(
                     code = FirebaseGoogleAuthErrorCodes.FIREBASE_SIGN_IN_FAILED,
-                    message = throwable.localizedMessage ?: "Firebase Google sign-in failed.",
+                    message = "Firebase Google sign-in failed.",
                     cause = throwable
                 )
             )
@@ -146,7 +146,7 @@ class FirebaseGoogleAuthProvider private constructor(
             SdkResult.Failure(
                 SdkError(
                     code = FirebaseGoogleAuthErrorCodes.SIGN_OUT_FAILED,
-                    message = throwable.localizedMessage ?: "Firebase Google sign-out failed.",
+                    message = "Firebase Google sign-out failed.",
                     cause = throwable
                 )
             )
@@ -173,7 +173,7 @@ class FirebaseGoogleAuthProvider private constructor(
             SdkResult.Failure(
                 SdkError(
                     code = FirebaseGoogleAuthErrorCodes.SESSION_LOOKUP_FAILED,
-                    message = throwable.localizedMessage ?: "Firebase Google session lookup failed.",
+                    message = "Firebase Google session lookup failed.",
                     cause = throwable
                 )
             )

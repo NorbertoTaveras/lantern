@@ -27,7 +27,7 @@ internal class SecureStorageErrorMapper {
     ): SdkError {
         return SdkError(
             code = operation.errorCode,
-            message = throwable.localizedMessage ?: operation.fallbackMessage,
+            message = operation.fallbackMessage,
             cause = throwable
         )
     }

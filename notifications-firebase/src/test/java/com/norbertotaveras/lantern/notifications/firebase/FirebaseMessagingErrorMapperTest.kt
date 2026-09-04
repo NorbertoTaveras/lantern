@@ -24,7 +24,7 @@ import org.junit.Test
 class FirebaseMessagingErrorMapperTest {
 
     @Test
-    fun mapUsesOperationErrorCodeAndThrowableMessage() {
+    fun mapUsesOperationErrorCodeFallbackMessageAndCause() {
         val throwable = IllegalStateException("Token failed")
 
         val error = FirebaseMessagingErrorMapper().map(
@@ -33,12 +33,12 @@ class FirebaseMessagingErrorMapperTest {
         )
 
         assertEquals(FirebaseMessagingErrorCodes.TOKEN_UNAVAILABLE, error.code)
-        assertEquals("Token failed", error.message)
+        assertEquals("Unable to register Firebase Messaging and retrieve the FCM token.", error.message)
         assertSame(throwable, error.cause)
     }
 
     @Test
-    fun mapUsesOperationFallbackMessageWhenThrowableMessageIsMissing() {
+    fun mapUsesOperationFallbackMessage() {
         val error = FirebaseMessagingErrorMapper().map(
             operation = FirebaseMessagingErrorMapper.Operation.SubscribeTopic,
             throwable = Throwable()

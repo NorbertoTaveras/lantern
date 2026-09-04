@@ -93,8 +93,7 @@ class AndroidPermissionManager private constructor(
                 states = resolutions.associate { it.permission to mapper.toState(it) },
                 error = SdkError(
                     code = PermissionErrorCodes.UNKNOWN,
-                    message = exception.localizedMessage.takeUnless { it.isNullOrBlank() }
-                        ?: "Permission request failed.",
+                    message = "Permission request failed.",
                     cause = exception
                 )
             )

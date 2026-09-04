@@ -89,7 +89,7 @@ class AndroidNotificationChannelManager(
     private fun channelOperationFailure(throwable: Throwable): SdkError {
         return SdkError(
             code = NotificationErrorCodes.CHANNEL_OPERATION_FAILED,
-            message = throwable.localizedMessage ?: "Notification channel operation failed.",
+            message = "Notification channel operation failed.",
             cause = throwable
         )
     }

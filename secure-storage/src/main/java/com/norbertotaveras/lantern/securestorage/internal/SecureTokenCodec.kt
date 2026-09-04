@@ -39,7 +39,7 @@ internal class SecureTokenCodec(
             SdkResult.Failure(
                 SdkError(
                     code = SecureStorageErrorCodes.WRITE_FAILED,
-                    message = throwable.localizedMessage ?: "Unable to encode secure token.",
+                    message = "Unable to encode secure token.",
                     cause = throwable
                 )
             )
@@ -53,7 +53,7 @@ internal class SecureTokenCodec(
             SdkResult.Failure(
                 SdkError(
                     code = SecureStorageErrorCodes.READ_FAILED,
-                    message = throwable.localizedMessage ?: "Unable to decode secure token.",
+                    message = "Unable to decode secure token.",
                     cause = throwable
                 )
             )
@@ -61,7 +61,7 @@ internal class SecureTokenCodec(
             SdkResult.Failure(
                 SdkError(
                     code = SecureStorageErrorCodes.READ_FAILED,
-                    message = throwable.localizedMessage ?: "Unable to decode secure token.",
+                    message = "Unable to decode secure token.",
                     cause = throwable
                 )
             )

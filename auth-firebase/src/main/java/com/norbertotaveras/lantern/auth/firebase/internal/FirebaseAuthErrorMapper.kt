@@ -30,7 +30,7 @@ internal class FirebaseAuthErrorMapper {
             is FirebaseAuthInvalidCredentialsException -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.INVALID_CREDENTIALS,
-                    message = throwable.localizedMessage ?: "Invalid Firebase authentication credentials.",
+                    message = "Invalid Firebase authentication credentials.",
                     cause = throwable
                 )
             }
@@ -38,7 +38,7 @@ internal class FirebaseAuthErrorMapper {
             is FirebaseAuthInvalidUserException -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.USER_NOT_FOUND,
-                    message = throwable.localizedMessage ?: "Firebase user was not found.",
+                    message = "Firebase user was not found.",
                     cause = throwable
                 )
             }
@@ -46,7 +46,7 @@ internal class FirebaseAuthErrorMapper {
             is FirebaseAuthUserCollisionException -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.EMAIL_ALREADY_IN_USE,
-                    message = throwable.localizedMessage ?: "Firebase account already exists.",
+                    message = "Firebase account already exists.",
                     cause = throwable
                 )
             }
@@ -54,7 +54,7 @@ internal class FirebaseAuthErrorMapper {
             is FirebaseAuthWeakPasswordException -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.WEAK_PASSWORD,
-                    message = throwable.localizedMessage ?: "Firebase password is too weak.",
+                    message = "Firebase password is too weak.",
                     cause = throwable
                 )
             }
@@ -62,7 +62,7 @@ internal class FirebaseAuthErrorMapper {
             is FirebaseNetworkException -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.NETWORK_ERROR,
-                    message = throwable.localizedMessage ?: "Firebase authentication network error.",
+                    message = "Firebase authentication network error.",
                     cause = throwable
                 )
             }
@@ -70,7 +70,7 @@ internal class FirebaseAuthErrorMapper {
             else -> {
                 SdkError(
                     code = FirebaseAuthErrorCodes.UNKNOWN,
-                    message = throwable.localizedMessage ?: "Unknown Firebase authentication error.",
+                    message = "Unknown Firebase authentication error.",
                     cause = throwable
                 )
             }
