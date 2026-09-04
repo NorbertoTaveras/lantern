@@ -56,4 +56,24 @@ object AirshipNotificationErrorCodes {
      * Airship audience input was blank or otherwise invalid.
      */
     const val INVALID_AUDIENCE_VALUE = "airship_notifications_invalid_audience_value"
+
+    /**
+     * Airship push operation failed.
+     */
+    const val PUSH_OPERATION_FAILED = "airship_notifications_push_operation_failed"
+
+    /**
+     * Airship contact operation failed.
+     */
+    const val CONTACT_OPERATION_FAILED = "airship_notifications_contact_operation_failed"
+
+    /**
+     * Airship contact input was blank or otherwise invalid.
+     */
+    const val INVALID_CONTACT_VALUE = "airship_notifications_invalid_contact_value"
+
+    /**
+     * Airship privacy operation failed.
+     */
+    const val PRIVACY_OPERATION_FAILED = "airship_notifications_privacy_operation_failed"
 }

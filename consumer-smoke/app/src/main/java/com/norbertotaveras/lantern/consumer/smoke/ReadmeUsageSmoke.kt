@@ -60,12 +60,25 @@ import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceAttribut
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceManager
 import com.norbertotaveras.lantern.notifications.airship.AirshipConfigOptionsFactory
+import com.norbertotaveras.lantern.notifications.airship.AirshipContactGateway
+import com.norbertotaveras.lantern.notifications.airship.AirshipContactManager
+import com.norbertotaveras.lantern.notifications.airship.AirshipContactSubscriptionScope
 import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationConfig
 import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationSite
 import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationTokenProvider
+import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyFeature
+import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyGateway
+import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyManager
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushEvent
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventGateway
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventType
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventsManager
+import com.norbertotaveras.lantern.notifications.airship.AirshipPushNotificationStatus
 import com.norbertotaveras.lantern.notifications.airship.AirshipPushGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipUserNotificationsManager
 import com.norbertotaveras.lantern.notifications.firebase.FirebaseMessagingTokenProvider
+import com.norbertotaveras.lantern.notifications.NotificationChannelConfig
+import com.norbertotaveras.lantern.notifications.NotificationChannelId
 import com.norbertotaveras.lantern.permissions.AndroidPermissionManager
 import com.norbertotaveras.lantern.permissions.PermissionRequestLauncher
 import com.norbertotaveras.lantern.permissions.SdkPermission
@@ -76,6 +89,7 @@ import com.norbertotaveras.lantern.remoteconfig.RemoteConfigValue
 import com.norbertotaveras.lantern.remoteconfig.firebase.FirebaseRemoteConfigProvider
 import com.norbertotaveras.lantern.securestorage.DataStoreSecureKeyValueStore
 import com.norbertotaveras.lantern.securestorage.SecureStorageKey
+import kotlinx.coroutines.flow.flowOf
 
 @Suppress("UNUSED_VARIABLE", "unused")
 internal object ReadmeUsageSmoke {
@@ -256,6 +270,59 @@ internal object ReadmeUsageSmoke {
             override suspend fun unsubscribeFromLists(listIds: Set<String>) = Unit
         }
         val audienceManager = AirshipAudienceManager(audienceGateway)
+        val pushEventGateway = object : AirshipPushEventGateway {
+            override fun observePushEvents() = flowOf(
+                AirshipPushEvent(type = AirshipPushEventType.Received, alert = "Hello")
+            )
+
+            override suspend fun getPushNotificationStatus() = AirshipPushNotificationStatus(
+                userNotificationsEnabled = true,
+                notificationsAllowed = true,
+                pushPrivacyFeatureEnabled = true,
+                pushTokenRegistered = true,
+                optedIn = true
+            )
+
+            override suspend fun createNotificationChannel(config: NotificationChannelConfig) = Unit
+
+            override suspend fun setForegroundNotificationDisplayEnabled(enabled: Boolean) = Unit
+        }
+        val contactGateway = object : AirshipContactGateway {
+            override suspend fun getNamedUserId(): String? = "user-123"
+
+            override suspend fun identify(namedUserId: String) = Unit
+
+            override suspend fun reset() = Unit
+
+            override suspend fun setAttribute(
+                name: String,
+                value: AirshipAudienceAttributeValue
+            ) = Unit
+
+            override suspend fun removeAttribute(name: String) = Unit
+
+            override suspend fun subscribeToLists(
+                listIds: Set<String>,
+                scope: AirshipContactSubscriptionScope
+            ) = Unit
+
+            override suspend fun unsubscribeFromLists(
+                listIds: Set<String>,
+                scope: AirshipContactSubscriptionScope
+            ) = Unit
+        }
+        val privacyGateway = object : AirshipPrivacyGateway {
+            override suspend fun getEnabledFeatures() = setOf(AirshipPrivacyFeature.Push)
+
+            override suspend fun setEnabledFeatures(features: Set<AirshipPrivacyFeature>) = Unit
+
+            override suspend fun enableFeatures(features: Set<AirshipPrivacyFeature>) = Unit
+
+            override suspend fun disableFeatures(features: Set<AirshipPrivacyFeature>) = Unit
+        }
+        val pushEventsManager = AirshipPushEventsManager(pushEventGateway)
+        val contactManager = AirshipContactManager(contactGateway)
+        val privacyManager = AirshipPrivacyManager(privacyGateway)
 
         val token = tokenProvider.getToken()
         val status = userNotificationsManager.getStatus()
@@ -266,6 +333,27 @@ internal object ReadmeUsageSmoke {
             value = AirshipAudienceAttributeValue.StringValue("premium")
         )
         val listUpdate = audienceManager.subscribeToLists(setOf("weekly-updates"))
+        val pushStatus = pushEventsManager.getPushNotificationStatus()
+        val channelUpdate = pushEventsManager.createNotificationChannel(
+            NotificationChannelConfig(
+                id = NotificationChannelId.unsafe("updates"),
+                name = "Updates"
+            )
+        )
+        val foregroundDisplay = pushEventsManager.setForegroundNotificationDisplayEnabled(true)
+        val namedUserId = contactManager.getNamedUserId()
+        val identify = contactManager.identify("user-123")
+        val contactListUpdate = contactManager.subscribeToLists(
+            listIds = setOf("weekly-updates"),
+            scope = AirshipContactSubscriptionScope.Email
+        )
+        val privacy = privacyManager.setEnabledFeatures(
+            setOf(
+                AirshipPrivacyFeature.Push,
+                AirshipPrivacyFeature.TagsAndAttributes,
+                AirshipPrivacyFeature.Contacts
+            )
+        )
     }
 
     suspend fun mediaPicker(mediaPicker: MediaPicker) {
