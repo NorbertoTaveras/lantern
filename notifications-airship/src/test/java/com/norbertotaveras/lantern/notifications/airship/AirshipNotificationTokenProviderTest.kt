@@ -68,4 +68,18 @@ class AirshipNotificationTokenProviderTest {
         assertEquals("Unable to load Airship channel ID.", error.message)
         assertSame(failure, error.cause)
     }
+
+    @Test
+    fun deleteTokenReturnsUnsupportedFailure() = runBlocking {
+        val provider = AirshipNotificationTokenProvider(
+            gateway = FakeAirshipPushGateway(channelId = "airship-channel-123")
+        )
+
+        val result = provider.deleteToken()
+
+        val error = (result as SdkResult.Failure).error
+        assertEquals(AirshipNotificationErrorCodes.CHANNEL_DELETE_UNSUPPORTED, error.code)
+        assertEquals("Airship channel deletion is not supported.", error.message)
+        assertNull(error.cause)
+    }
 }

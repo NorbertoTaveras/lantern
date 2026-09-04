@@ -65,7 +65,12 @@ class AirshipNotificationTokenProvider(
 
     override suspend fun deleteToken(): SdkResult<Unit> {
         tokenState.value = null
-        return SdkResult.Success(Unit)
+        return SdkResult.Failure(
+            SdkError(
+                code = AirshipNotificationErrorCodes.CHANNEL_DELETE_UNSUPPORTED,
+                message = "Airship channel deletion is not supported."
+            )
+        )
     }
 
     private fun channelUnavailable(): SdkError {

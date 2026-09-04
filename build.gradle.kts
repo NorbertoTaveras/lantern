@@ -447,6 +447,7 @@ tasks.register("checkSdkArchitecture") {
             ),
             "notifications" to listOf(
                 "com.google.firebase",
+                "com.urbanairship.android",
             ),
             "analytics" to listOf(
                 "com.google.firebase",
@@ -637,7 +638,7 @@ tasks.register("checkSdkDependencyAllowlist") {
             "feature-flags" to commonExternalGroups,
             "notifications" to commonExternalGroups,
             "notifications-firebase" to commonExternalGroups + setOf("com.google.firebase"),
-            "notifications-airship" to commonExternalGroups,
+            "notifications-airship" to commonExternalGroups + setOf("com.urbanairship.android"),
             "media-picker" to commonExternalGroups + setOf("androidx.activity"),
             "analytics" to commonExternalGroups,
             "analytics-firebase" to commonExternalGroups + setOf("com.google.firebase"),

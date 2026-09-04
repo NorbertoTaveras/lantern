@@ -33,6 +33,10 @@ object AirshipNotificationErrorCodes {
      */
     const val CHANNEL_LOOKUP_FAILED = "airship_notifications_channel_lookup_failed"
     /**
+     * Airship channel deletion is not supported by this bridge.
+     */
+    const val CHANNEL_DELETE_UNSUPPORTED = "airship_notifications_channel_delete_unsupported"
+    /**
      * Reading Airship user notification status failed.
      */
     const val USER_NOTIFICATIONS_STATUS_FAILED = "airship_notifications_user_notifications_status_failed"

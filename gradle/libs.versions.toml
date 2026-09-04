@@ -1,5 +1,6 @@
 [versions]
 agp = "9.3.2"
+airship = "20.8.2"
 coreKtx = "1.19.0"
 credentials = "1.6.0"
 datastore = "1.2.1"
@@ -26,6 +27,7 @@ vanniktechMavenPublish = "0.37.0"
 workManager = "2.11.2"
 
 [libraries]
+airship-core = { module = "com.urbanairship.android:urbanairship-core", version.ref = "airship" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

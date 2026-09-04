@@ -20,7 +20,8 @@ package com.norbertotaveras.lantern.notifications.airship
  * Minimal Airship push surface consumed by Lantern notification adapters.
  *
  * Apps own Airship SDK initialization, credentials, push provider setup, and runtime
- * configuration. Implement this gateway with Airship APIs, then pass it to Lantern adapters.
+ * configuration. Use [AirshipSdkPushGateway] for the default Airship SDK singleton bridge, or
+ * provide a custom implementation in tests and advanced integrations.
  */
 interface AirshipPushGateway {
     /**

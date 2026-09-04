@@ -10,6 +10,8 @@ public final class com.norbertotaveras.lantern.notifications.airship.AirshipNoti
     descriptor: Ljava/lang/String;
   public static final java.lang.String CHANNEL_LOOKUP_FAILED;
     descriptor: Ljava/lang/String;
+  public static final java.lang.String CHANNEL_DELETE_UNSUPPORTED;
+    descriptor: Ljava/lang/String;
   public static final java.lang.String USER_NOTIFICATIONS_STATUS_FAILED;
     descriptor: Ljava/lang/String;
   public static final java.lang.String USER_NOTIFICATIONS_ENABLE_FAILED;
@@ -70,6 +72,20 @@ public interface com.norbertotaveras.lantern.notifications.airship.AirshipPushGa
     descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 
   public abstract java.lang.Object setUserNotificationsEnabled(boolean, kotlin.coroutines.Continuation<? super kotlin.Unit>);
+    descriptor: (ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com.norbertotaveras.lantern.notifications.airship.AirshipSdkPushGateway implements com.norbertotaveras.lantern.notifications.airship.AirshipPushGateway {
+  public com.norbertotaveras.lantern.notifications.airship.AirshipSdkPushGateway();
+    descriptor: ()V
+
+  public java.lang.Object getChannelId(kotlin.coroutines.Continuation<? super java.lang.String>);
+    descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object areUserNotificationsEnabled(kotlin.coroutines.Continuation<? super java.lang.Boolean>);
+    descriptor: (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+
+  public java.lang.Object setUserNotificationsEnabled(boolean, kotlin.coroutines.Continuation<? super kotlin.Unit>);
     descriptor: (ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
