@@ -416,17 +416,17 @@ public final class com.norbertotaveras.lantern.backgroundwork.NoOpBackgroundWork
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler implements com.norbertotaveras.lantern.backgroundwork.BackgroundWorkScheduler {
-  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger);
-    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;)V
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger, com.norbertotaveras.lantern.core.DispatcherProvider);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;Lcom/norbertotaveras/lantern/core/DispatcherProvider;)V
 
-  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map, com.norbertotaveras.lantern.logging.SdkLogger, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map, com.norbertotaveras.lantern.logging.SdkLogger, com.norbertotaveras.lantern.core.DispatcherProvider, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;Lcom/norbertotaveras/lantern/core/DispatcherProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
-  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger);
-    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;)V
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger, com.norbertotaveras.lantern.core.DispatcherProvider);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;Lcom/norbertotaveras/lantern/core/DispatcherProvider;)V
 
-  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map, com.norbertotaveras.lantern.logging.SdkLogger, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map, com.norbertotaveras.lantern.logging.SdkLogger, com.norbertotaveras.lantern.core.DispatcherProvider, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;Lcom/norbertotaveras/lantern/core/DispatcherProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
   public java.lang.Object enqueue(com.norbertotaveras.lantern.backgroundwork.BackgroundWorkRequest, kotlin.coroutines.Continuation<? super com.norbertotaveras.lantern.core.SdkResult<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkId>>);
     descriptor: (Lcom/norbertotaveras/lantern/backgroundwork/BackgroundWorkRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -440,14 +440,20 @@ public final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgro
   public kotlinx.coroutines.flow.Flow<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkInfo> observeWorkInfo-NkJymT4(java.lang.String);
     descriptor: (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
 
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;)V
 
-}
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(androidx.work.WorkManager, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>);
+    descriptor: (Landroidx/work/WorkManager;Ljava/util/Map;)V
 
-final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler$DirectExecutor implements java.util.concurrent.Executor {
-  public static final com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler$DirectExecutor INSTANCE;
-    descriptor: Lcom/norbertotaveras/lantern/backgroundwork/WorkManagerBackgroundWorkScheduler$DirectExecutor;
-  public void execute(java.lang.Runnable);
-    descriptor: (Ljava/lang/Runnable;)V
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>, com.norbertotaveras.lantern.logging.SdkLogger);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;Lcom/norbertotaveras/lantern/logging/SdkLogger;)V
+
+  public com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkScheduler(android.content.Context, java.util.Map<com.norbertotaveras.lantern.backgroundwork.BackgroundWorkName, ? extends java.lang.Class<? extends androidx.work.ListenableWorker>>);
+    descriptor: (Landroid/content/Context;Ljava/util/Map;)V
+
+
+
 }
 
 public final class com.norbertotaveras.lantern.backgroundwork.WorkManagerBackgroundWorkSchedulerKt {

@@ -30,11 +30,14 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.google.common.util.concurrent.ListenableFuture
 import com.norbertotaveras.lantern.backgroundwork.internal.BackgroundWorkRequestValidator
+import com.norbertotaveras.lantern.core.DefaultDispatcherProvider
+import com.norbertotaveras.lantern.core.DispatcherProvider
 import com.norbertotaveras.lantern.core.SdkError
 import com.norbertotaveras.lantern.core.SdkResult
 import com.norbertotaveras.lantern.logging.NoOpSdkLogger
 import com.norbertotaveras.lantern.logging.SdkLogger
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -46,23 +49,28 @@ import kotlin.coroutines.resume
 /**
  * [BackgroundWorkScheduler] implementation backed by AndroidX WorkManager.
  */
-class WorkManagerBackgroundWorkScheduler(
+class WorkManagerBackgroundWorkScheduler @JvmOverloads constructor(
     private val workManager: WorkManager,
     private val workerClasses: Map<BackgroundWorkName, Class<out ListenableWorker>>,
-    private val logger: SdkLogger = NoOpSdkLogger()
+    private val logger: SdkLogger = NoOpSdkLogger(),
+    dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider
 ) : BackgroundWorkScheduler {
+    private val futureCallbackExecutor: Executor = dispatcherProvider.default.asExecutor()
 
     /**
      * Creates a scheduler from [context] and a map of work names to WorkManager workers.
      */
+    @JvmOverloads
     constructor(
         context: Context,
         workerClasses: Map<BackgroundWorkName, Class<out ListenableWorker>>,
-        logger: SdkLogger = NoOpSdkLogger()
+        logger: SdkLogger = NoOpSdkLogger(),
+        dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider
     ) : this(
         workManager = WorkManager.getInstance(context.applicationContext),
         workerClasses = workerClasses,
-        logger = logger
+        logger = logger,
+        dispatcherProvider = dispatcherProvider
     )
 
     override suspend fun enqueue(request: BackgroundWorkRequest): SdkResult<BackgroundWorkId> {
@@ -176,15 +184,9 @@ class WorkManagerBackgroundWorkScheduler(
                         continuation.cancel(throwable)
                     }
                 },
-                DirectExecutor
+                futureCallbackExecutor
             )
             continuation.invokeOnCancellation { cancel(true) }
-        }
-    }
-
-    private object DirectExecutor : Executor {
-        override fun execute(command: Runnable) {
-            command.run()
         }
     }
 }
