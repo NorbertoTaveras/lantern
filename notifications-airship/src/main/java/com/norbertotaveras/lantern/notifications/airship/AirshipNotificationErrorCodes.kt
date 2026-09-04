@@ -44,4 +44,16 @@ object AirshipNotificationErrorCodes {
      * Updating Airship user notification status failed.
      */
     const val USER_NOTIFICATIONS_ENABLE_FAILED = "airship_notifications_user_notifications_enable_failed"
+    /**
+     * Reading Airship audience state failed.
+     */
+    const val AUDIENCE_LOOKUP_FAILED = "airship_notifications_audience_lookup_failed"
+    /**
+     * Updating Airship audience state failed.
+     */
+    const val AUDIENCE_UPDATE_FAILED = "airship_notifications_audience_update_failed"
+    /**
+     * Airship audience input was blank or otherwise invalid.
+     */
+    const val INVALID_AUDIENCE_VALUE = "airship_notifications_invalid_audience_value"
 }

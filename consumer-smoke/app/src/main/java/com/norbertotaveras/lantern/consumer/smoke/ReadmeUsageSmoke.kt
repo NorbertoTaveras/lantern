@@ -56,6 +56,12 @@ import com.norbertotaveras.lantern.network.okhttp.NetworkRetryConfig
 import com.norbertotaveras.lantern.network.okhttp.OkHttpNetworkClientFactory
 import com.norbertotaveras.lantern.network.okhttp.TokenProvider
 import com.norbertotaveras.lantern.notifications.DefaultNotificationPayloadParser
+import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceAttributeValue
+import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceGateway
+import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceManager
+import com.norbertotaveras.lantern.notifications.airship.AirshipConfigOptionsFactory
+import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationConfig
+import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationSite
 import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationTokenProvider
 import com.norbertotaveras.lantern.notifications.airship.AirshipPushGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipUserNotificationsManager
@@ -207,6 +213,18 @@ internal object ReadmeUsageSmoke {
     }
 
     suspend fun airshipNotifications() {
+        val airshipConfigOptions = AirshipConfigOptionsFactory.create(
+            AirshipNotificationConfig(
+                appKey = "airship-app-key",
+                appSecret = "airship-app-secret",
+                site = AirshipNotificationSite.US,
+                notificationIconResId = 1,
+                notificationAccentColor = 0xFF1A73E8.toInt(),
+                notificationChannel = "default",
+                userNotificationsEnabled = true
+            )
+        )
+
         val gateway = object : AirshipPushGateway {
             override suspend fun getChannelId(): String? = "airship-channel-id"
 
@@ -217,9 +235,37 @@ internal object ReadmeUsageSmoke {
 
         val tokenProvider = AirshipNotificationTokenProvider(gateway)
         val userNotificationsManager = AirshipUserNotificationsManager(gateway)
+        val audienceGateway = object : AirshipAudienceGateway {
+            override suspend fun getTags(): Set<String> = setOf("beta")
+
+            override suspend fun addTags(tags: Set<String>) = Unit
+
+            override suspend fun removeTags(tags: Set<String>) = Unit
+
+            override suspend fun clearTags() = Unit
+
+            override suspend fun setAttribute(
+                name: String,
+                value: AirshipAudienceAttributeValue
+            ) = Unit
+
+            override suspend fun removeAttribute(name: String) = Unit
+
+            override suspend fun subscribeToLists(listIds: Set<String>) = Unit
+
+            override suspend fun unsubscribeFromLists(listIds: Set<String>) = Unit
+        }
+        val audienceManager = AirshipAudienceManager(audienceGateway)
 
         val token = tokenProvider.getToken()
         val status = userNotificationsManager.getStatus()
+        val tags = audienceManager.getTags()
+        val tagUpdate = audienceManager.addTags(setOf("premium", "beta"))
+        val attributeUpdate = audienceManager.setAttribute(
+            name = "plan",
+            value = AirshipAudienceAttributeValue.StringValue("premium")
+        )
+        val listUpdate = audienceManager.subscribeToLists(setOf("weekly-updates"))
     }
 
     suspend fun mediaPicker(mediaPicker: MediaPicker) {

@@ -26,7 +26,7 @@ dependencies {
 
     implementation(project(":sdk-core"))
     implementation(project(":logging"))
-    implementation(libs.airship.core)
+    api(libs.airship.core)
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
