@@ -66,6 +66,7 @@ import com.norbertotaveras.lanternsample.R
 import com.norbertotaveras.lanternsample.navigation.SampleDestination
 import com.norbertotaveras.lanternsample.navigation.sampleDestinations
 import com.norbertotaveras.lanternsample.screens.AuthStateScreen
+import com.norbertotaveras.lanternsample.screens.AirshipScreen
 import com.norbertotaveras.lanternsample.screens.AnalyticsScreen
 import com.norbertotaveras.lanternsample.screens.AppVersioningScreen
 import com.norbertotaveras.lanternsample.screens.BackgroundWorkScreen
@@ -286,6 +287,7 @@ private fun SampleDestination.drawerBadge(): String? {
         SampleDestination.FeatureFlags,
         SampleDestination.Network,
         SampleDestination.Notifications,
+        SampleDestination.Airship,
         SampleDestination.MediaPicker,
         SampleDestination.Analytics,
         SampleDestination.DeepLinks,
@@ -353,6 +355,10 @@ private fun SampleNavHost(
 
         composable(SampleDestination.Notifications.route) {
             NotificationsScreen()
+        }
+
+        composable(SampleDestination.Airship.route) {
+            AirshipScreen()
         }
 
         composable(SampleDestination.MediaPicker.route) {

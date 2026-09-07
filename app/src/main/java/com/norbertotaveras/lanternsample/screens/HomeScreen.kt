@@ -59,8 +59,8 @@ fun HomeScreen() {
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "20"),
-                DemoMetric(label = "Live demos", value = "17"),
+                DemoMetric(label = "SDK modules", value = "21"),
+                DemoMetric(label = "Live demos", value = "18"),
                 DemoMetric(label = "UI modules", value = "0")
             )
         )
@@ -172,6 +172,13 @@ fun HomeScreen() {
                 )
 
                 ModuleRow(
+                    name = "notifications-airship",
+                    description = "Airship push, channel audience, contact identity, and privacy helpers.",
+                    status = "Live",
+                    icon = Icons.Filled.Notifications
+                )
+
+                ModuleRow(
                     name = "media-picker",
                     description = "Typed Android Photo Picker requests and result models.",
                     status = "Live",
@@ -229,6 +236,7 @@ fun HomeScreen() {
             InfoRow(label = "Feature flags", value = "Ready")
             InfoRow(label = "Network", value = "Ready")
             InfoRow(label = "Notifications", value = "Ready")
+            InfoRow(label = "Airship notifications", value = "Ready")
             InfoRow(label = "Media picker", value = "Ready")
             InfoRow(label = "Analytics", value = "Ready")
             InfoRow(label = "Deep links", value = "Ready")

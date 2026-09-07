@@ -119,6 +119,13 @@ sealed class SampleDestination(
         icon = Icons.Filled.Notifications
     )
 
+    data object Airship : SampleDestination(
+        route = "airship",
+        title = "Airship",
+        description = "Push, contact, and privacy helpers",
+        icon = Icons.Filled.Notifications
+    )
+
     data object MediaPicker : SampleDestination(
         route = "media_picker",
         title = "Media Picker",
@@ -174,6 +181,7 @@ val sampleDestinations = listOf(
     SampleDestination.FeatureFlags,
     SampleDestination.Network,
     SampleDestination.Notifications,
+    SampleDestination.Airship,
     SampleDestination.MediaPicker,
     SampleDestination.Analytics,
     SampleDestination.DeepLinks,
