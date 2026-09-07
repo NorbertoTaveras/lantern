@@ -28,7 +28,7 @@
 | `feature-flags` | Typed feature flags backed by static providers or remote config providers. |
 | `notifications` | Provider-neutral notification payloads, tokens, topics, channels, permissions, and deep-link abstractions. |
 | `notifications-firebase` | Firebase Messaging token and notification helpers. |
-| `notifications-airship` | Next release: Airship channel ID/token access, notification enablement, push events, audience, contact, and privacy helpers. |
+| `notifications-airship` | Airship channel ID/token access, notification enablement, push events, audience, contact, and privacy helpers. Available starting in `0.2.0`. |
 | `media-picker` | Typed wrapper around Android Photo Picker requests and results. |
 | `analytics` | Provider-neutral analytics events, parameters, users, and no-op provider. |
 | `analytics-firebase` | Firebase Analytics implementation. |

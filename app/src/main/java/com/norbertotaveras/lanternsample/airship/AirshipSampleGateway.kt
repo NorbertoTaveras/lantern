@@ -157,7 +157,7 @@ internal fun createAirshipSampleGateway(application: Application): AirshipSample
 private class DemoAirshipGateway(
     override val setupStatus: AirshipSampleSetupStatus
 ) : AirshipSampleGateway {
-    override val statusLabel: String = "Demo"
+    override val statusLabel: String = "Demo mode"
     override val description: String =
         "Preview Lantern's Airship push, channel audience, contact, and privacy helpers with a credential-free demo gateway."
     override val runtimeMode: String = "Demo gateway"
@@ -332,7 +332,7 @@ private class RealAirshipGateway(
     private val contactGateway: AirshipSdkContactGateway = AirshipSdkContactGateway(),
     private val privacyGateway: AirshipSdkPrivacyGateway = AirshipSdkPrivacyGateway()
 ) : AirshipSampleGateway {
-    override val statusLabel: String = "Real"
+    override val statusLabel: String = "Real mode"
     override val description: String =
         "Exercise Lantern's Airship helpers against the Airship SDK using local app-owned credentials."
     override val runtimeMode: String = "Airship SDK"

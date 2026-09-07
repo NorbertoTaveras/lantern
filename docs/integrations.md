@@ -110,8 +110,8 @@ val token = tokenProvider.getToken()
 `notifications-airship` adapts Airship push, channel audience, contact identity, and privacy/data collection controls into Lantern contracts.
 
 !!! note "Release availability"
-    Airship notification support is staged for the next Lantern release line. Keep public app builds
-    on the latest Maven Central version that contains the artifact you are using.
+    Airship notification support is available starting in Lantern `0.2.0`. Keep public app
+    builds on the latest Maven Central version that contains the artifact you are using.
 
 !!! info "Airship setup stays in the app"
     Airship app keys, app secrets, site, FCM provider setup, notification icon, default channel,

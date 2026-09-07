@@ -337,7 +337,7 @@ The core notification module also includes topic, channel, permission, token, pa
 
 ### Airship Notifications
 
-`notifications-airship` is staged for the next Lantern release. Use it when your app uses Airship for push messaging and audience management:
+`notifications-airship` is available starting in Lantern `0.2.0`. Use it when your app uses Airship for push messaging and audience management:
 
 ```kotlin
 implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")

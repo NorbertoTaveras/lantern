@@ -107,9 +107,9 @@ For example:
 
 The sample app module is not published.
 
-## Next Release Artifacts
+## Airship Artifacts
 
-The next Lantern release line adds Airship notification support:
+Lantern `0.2.0` adds Airship notification support:
 
 | Module | Artifact |
 | --- | --- |

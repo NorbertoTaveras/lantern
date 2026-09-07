@@ -8,7 +8,7 @@ implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:
 ```
 
 !!! note "Release availability"
-    The Airship module is part of the next Lantern release line. Keep public app builds on the
+    The Airship module is available starting in Lantern `0.2.0`. Keep public app builds on the
     latest Maven Central version that contains the artifact you are using.
 
 ## Use It For
