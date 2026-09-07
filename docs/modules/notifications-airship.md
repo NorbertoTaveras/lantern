@@ -73,6 +73,11 @@ AIRSHIP_APP_SECRET=your_airship_app_secret
 AIRSHIP_SITE=US
 ```
 
+When those values are missing, the Airship screen shows the exact missing property name and keeps
+using the credential-free demo gateway. When they are present, the sample attempts Airship `takeOff`
+and switches to the real SDK gateways only if Airship initializes successfully. The screen never
+prints the actual key or secret.
+
 ## Channel Token And Notification Enablement
 
 Airship identifies an app install with an Airship channel ID. Lantern exposes that channel ID through the notification-token contract:

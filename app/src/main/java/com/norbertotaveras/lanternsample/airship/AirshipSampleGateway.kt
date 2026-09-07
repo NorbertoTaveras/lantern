@@ -89,6 +89,7 @@ internal data class AirshipSampleSetupStatus(
     val appSecretConfigured: Boolean,
     val site: String,
     val initialized: Boolean,
+    val modeReason: String,
     val initializationError: String? = null
 )
 
@@ -100,38 +101,54 @@ internal fun createAirshipSampleGateway(application: Application): AirshipSample
         appKeyConfigured = appKey.isNotEmpty(),
         appSecretConfigured = appSecret.isNotEmpty(),
         site = site,
-        initialized = false
+        initialized = false,
+        modeReason = missingCredentialReason(appKey, appSecret)
+            ?: "Airship credentials are configured locally."
     )
-    if (appKey.isEmpty() || appSecret.isEmpty()) {
-        return DemoAirshipGateway(setupStatus = baseSetupStatus)
+    missingCredentialReason(appKey, appSecret)?.let { reason ->
+        return DemoAirshipGateway(
+            setupStatus = baseSetupStatus.copy(modeReason = reason)
+        )
+    }
+
+    val wasAlreadyInitialized = Airship.isFlyingOrTakingOff
+    if (wasAlreadyInitialized) {
+        return RealAirshipGateway(
+            setupStatus = baseSetupStatus.copy(
+                initialized = true,
+                modeReason = "Using an existing Airship SDK instance."
+            )
+        )
     }
 
     val initializationResult = runCatching {
-        if (!Airship.isFlyingOrTakingOff) {
-            Airship.takeOff(
-                application,
-                AirshipConfigOptionsFactory.create(
-                    AirshipNotificationConfig(
-                        appKey = appKey,
-                        appSecret = appSecret,
-                        site = site.toAirshipNotificationSite(),
-                        notificationChannel = sampleAirshipChannel.id.value,
-                        userNotificationsEnabled = true
-                    )
+        Airship.takeOff(
+            application,
+            AirshipConfigOptionsFactory.create(
+                AirshipNotificationConfig(
+                    appKey = appKey,
+                    appSecret = appSecret,
+                    site = site.toAirshipNotificationSite(),
+                    notificationChannel = sampleAirshipChannel.id.value,
+                    userNotificationsEnabled = true
                 )
             )
-        }
+        )
     }
 
     return if (Airship.isFlyingOrTakingOff) {
         RealAirshipGateway(
-            setupStatus = baseSetupStatus.copy(initialized = true)
+            setupStatus = baseSetupStatus.copy(
+                initialized = true,
+                modeReason = "Airship initialized from local.properties."
+            )
         )
     } else {
         DemoAirshipGateway(
             setupStatus = baseSetupStatus.copy(
-                initializationError = initializationResult.exceptionOrNull()?.message
-                    ?: "Airship did not finish initialization."
+                modeReason = "Airship takeOff failed; using demo gateway.",
+                initializationError = initializationResult.exceptionOrNull()?.safeMessage()
+                    ?: "Airship did not enter initialized or initializing state."
             )
         )
     }
@@ -492,4 +509,17 @@ private fun String.toAirshipNotificationSite(): AirshipNotificationSite {
         "EU" -> AirshipNotificationSite.EU
         else -> AirshipNotificationSite.US
     }
+}
+
+private fun missingCredentialReason(appKey: String, appSecret: String): String? {
+    return when {
+        appKey.isEmpty() && appSecret.isEmpty() -> "Missing AIRSHIP_APP_KEY and AIRSHIP_APP_SECRET."
+        appKey.isEmpty() -> "Missing AIRSHIP_APP_KEY."
+        appSecret.isEmpty() -> "Missing AIRSHIP_APP_SECRET."
+        else -> null
+    }
+}
+
+private fun Throwable.safeMessage(): String {
+    return message?.takeIf { it.isNotBlank() } ?: this::class.java.simpleName
 }

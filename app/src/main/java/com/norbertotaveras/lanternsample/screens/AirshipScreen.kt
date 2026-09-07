@@ -122,6 +122,7 @@ fun AirshipScreen() {
                 InfoRow(label = "App secret", value = if (gateway.setupStatus.appSecretConfigured) "Configured" else "Missing")
                 InfoRow(label = "Site", value = gateway.setupStatus.site)
                 InfoRow(label = "Airship initialized", value = if (gateway.setupStatus.initialized) "Yes" else "No")
+                InfoRow(label = "Mode reason", value = gateway.setupStatus.modeReason)
                 gateway.setupStatus.initializationError?.let { error ->
                     InfoRow(label = "Initialization error", value = error)
                 }
