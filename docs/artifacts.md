@@ -106,3 +106,15 @@ For example:
 - Add `lantern-auth-firebase-google` when Google sign-in should authenticate with Firebase.
 
 The sample app module is not published.
+
+## Next Release Artifacts
+
+The next Lantern release line adds Airship notification support:
+
+| Module | Artifact |
+| --- | --- |
+| `notifications-airship` | `lantern-notifications-airship` |
+
+```kotlin
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+```

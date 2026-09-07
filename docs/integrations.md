@@ -105,6 +105,31 @@ val tokenProvider = FirebaseMessagingTokenProvider()
 val token = tokenProvider.getToken()
 ```
 
+## Airship Notifications
+
+`notifications-airship` adapts Airship push, channel audience, contact identity, and privacy/data collection controls into Lantern contracts.
+
+!!! note "Release availability"
+    Airship notification support is staged for the next Lantern release line. Keep public app builds
+    on the latest Maven Central version that contains the artifact you are using.
+
+!!! info "Airship setup stays in the app"
+    Airship app keys, app secrets, site, FCM provider setup, notification icon, default channel,
+    dashboard campaigns, and notification permission timing are app responsibilities.
+
+```kotlin
+val pushGateway = AirshipSdkPushGateway()
+val tokenProvider = AirshipNotificationTokenProvider(pushGateway)
+val notificationManager = AirshipUserNotificationsManager(pushGateway)
+
+val token = tokenProvider.getToken()
+notificationManager.enableUserNotifications()
+```
+
+Use `AirshipAudienceManager` for channel tags, attributes, and subscription lists. Use `AirshipContactManager` for named users, contact attributes, and scoped contact subscription lists. Use `AirshipPrivacyManager` to connect app consent state to Airship privacy features.
+
+See [Airship Notifications](modules/notifications-airship.md) for complete setup and usage.
+
 ## Media Picker
 
 `media-picker` wraps Android Photo Picker in typed requests and results.

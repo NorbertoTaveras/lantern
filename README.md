@@ -335,6 +335,34 @@ val token = tokenProvider.getToken()
 
 The core notification module also includes topic, channel, permission, token, payload, and deep-link abstractions.
 
+### Airship Notifications
+
+`notifications-airship` is staged for the next Lantern release. Use it when your app uses Airship for push messaging and audience management:
+
+```kotlin
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+```
+
+```kotlin
+val pushGateway = AirshipSdkPushGateway()
+val tokenProvider = AirshipNotificationTokenProvider(pushGateway)
+val notificationManager = AirshipUserNotificationsManager(pushGateway)
+
+val token = tokenProvider.getToken()
+notificationManager.enableUserNotifications()
+```
+
+Airship initialization stays in the app. Configure Airship app keys, app secrets, site, FCM provider setup, notification icon, default channel, dashboard campaigns, and notification permission timing in your application.
+
+Lantern also exposes Airship helpers for:
+
+- push event observation and foreground display behavior
+- channel tags, attributes, and subscription lists
+- contact identity, attributes, and scoped subscription lists
+- privacy/data collection feature toggles
+
+Airship Message Center, Preference Center, and In-App Experiences should be added through separate optional modules because they depend on Airship product-specific UI and dashboard configuration.
+
 ## Media Picker
 
 `media-picker` wraps Android Photo Picker in typed requests and results:
