@@ -50,7 +50,7 @@ Or subclass `LanternAirshipAutopilot` when your app uses Airship's manifest-driv
 
 ```kotlin
 class AppAirshipAutopilot : LanternAirshipAutopilot() {
-    override fun createConfig(context: Context): AirshipNotificationConfig {
+    override fun createLanternAirshipConfig(context: Context): AirshipNotificationConfig {
         return AirshipNotificationConfig(
             appKey = BuildConfig.AIRSHIP_APP_KEY,
             appSecret = BuildConfig.AIRSHIP_APP_SECRET,
@@ -64,6 +64,14 @@ class AppAirshipAutopilot : LanternAirshipAutopilot() {
 ```
 
 Keep credentials out of source control. Use build config, environment-specific config, or your app's existing secret management flow.
+
+The Lantern sample app stays in demo mode unless these values are present in local `local.properties`:
+
+```properties
+AIRSHIP_APP_KEY=your_airship_app_key
+AIRSHIP_APP_SECRET=your_airship_app_secret
+AIRSHIP_SITE=US
+```
 
 ## Channel Token And Notification Enablement
 

@@ -27,6 +27,14 @@ android {
 
     val firebaseWebClientId: String =
         localProperties.getProperty("FIREBASE_WEB_CLIENT_ID", "")
+    val airshipAppKey: String =
+        localProperties.getProperty("AIRSHIP_APP_KEY", "")
+    val airshipAppSecret: String =
+        localProperties.getProperty("AIRSHIP_APP_SECRET", "")
+    val airshipSite: String =
+        localProperties.getProperty("AIRSHIP_SITE", "US")
+
+    fun String.asBuildConfigString(): String = "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
 
     defaultConfig {
         applicationId = "com.norbertotaveras.lanternsample"
@@ -43,6 +51,21 @@ android {
             "String",
             "LANTERN_VERSION",
             "\"${lanternVersion.get()}\""
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_APP_KEY",
+            airshipAppKey.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_APP_SECRET",
+            airshipAppSecret.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_SITE",
+            airshipSite.asBuildConfigString()
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

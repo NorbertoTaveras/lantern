@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,29 +34,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.norbertotaveras.lantern.core.SdkResult
-import com.norbertotaveras.lantern.notifications.NotificationChannelConfig
-import com.norbertotaveras.lantern.notifications.NotificationChannelId
-import com.norbertotaveras.lantern.notifications.NotificationChannelImportance
 import com.norbertotaveras.lantern.notifications.NotificationToken
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceAttributeValue
-import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceManager
-import com.norbertotaveras.lantern.notifications.airship.AirshipContactGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipContactManager
 import com.norbertotaveras.lantern.notifications.airship.AirshipContactSubscriptionScope
 import com.norbertotaveras.lantern.notifications.airship.AirshipNotificationTokenProvider
 import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyFeature
-import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyGateway
 import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyManager
-import com.norbertotaveras.lantern.notifications.airship.AirshipPushEvent
-import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventGateway
-import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventType
 import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventsManager
-import com.norbertotaveras.lantern.notifications.airship.AirshipPushGateway
-import com.norbertotaveras.lantern.notifications.airship.AirshipPushNotificationStatus
 import com.norbertotaveras.lantern.notifications.airship.AirshipUserNotificationsManager
+import com.norbertotaveras.lanternsample.airship.createAirshipSampleGateway
+import com.norbertotaveras.lanternsample.airship.sampleAirshipChannel
 import com.norbertotaveras.lanternsample.components.DemoMetric
 import com.norbertotaveras.lanternsample.components.DemoSection
 import com.norbertotaveras.lanternsample.components.FeatureScreen
@@ -64,15 +57,13 @@ import com.norbertotaveras.lanternsample.components.MetricRow
 import com.norbertotaveras.lanternsample.components.PrimaryDemoButton
 import com.norbertotaveras.lanternsample.components.SecondaryDemoButton
 import com.norbertotaveras.lanternsample.components.StatusMessage
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @Composable
 fun AirshipScreen() {
+    val application = LocalContext.current.applicationContext as android.app.Application
     val coroutineScope = rememberCoroutineScope()
-    val gateway = remember { SampleAirshipGateway() }
+    val gateway = remember { createAirshipSampleGateway(application) }
     val tokenProvider = remember(gateway) { AirshipNotificationTokenProvider(gateway) }
     val notificationManager = remember(gateway) { AirshipUserNotificationsManager(gateway) }
     val audienceManager = remember(gateway) { AirshipAudienceManager(gateway) }
@@ -83,15 +74,23 @@ fun AirshipScreen() {
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
+    LaunchedEffect(gateway) {
+        gateway.getChannelId()
+        gateway.areUserNotificationsEnabled()
+        gateway.getTags()
+        gateway.getNamedUserId()
+        gateway.getEnabledFeatures()
+    }
+
     FeatureScreen(
         title = "Airship",
-        subtitle = "Exercise Lantern's Airship push, channel audience, contact, and privacy helpers without committing Airship credentials.",
+        subtitle = gateway.description,
         icon = Icons.Filled.Notifications,
-        status = "Live"
+        status = gateway.statusLabel
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "Channel ID", value = gateway.channelId?.shortValue() ?: "Pending"),
+                DemoMetric(label = "Channel ID", value = if (gateway.channelId == null) "Pending" else "Ready"),
                 DemoMetric(label = "Notifications", value = if (gateway.userNotificationsEnabled) "Enabled" else "Disabled"),
                 DemoMetric(label = "Privacy features", value = gateway.enabledFeatures.size.toString())
             )
@@ -388,7 +387,7 @@ fun AirshipScreen() {
                 )
 
                 InfoRow(label = "Enabled features", value = gateway.enabledFeatures.displaySet())
-                InfoRow(label = "App-owned setup", value = "Credentials, FCM, icons, campaigns")
+                InfoRow(label = "Runtime mode", value = gateway.runtimeMode)
                 InfoRow(label = "Future modules", value = "Message Center, Preference Center, In-App Experiences")
             }
         }
@@ -396,183 +395,6 @@ fun AirshipScreen() {
         StatusMessage(message = message, errorMessage = errorMessage)
     }
 }
-
-private class SampleAirshipGateway :
-    AirshipPushGateway,
-    AirshipAudienceGateway,
-    AirshipPushEventGateway,
-    AirshipContactGateway,
-    AirshipPrivacyGateway {
-
-    var channelId by mutableStateOf<String?>("airship-channel-demo-123456")
-    var userNotificationsEnabled by mutableStateOf(true)
-    var foregroundDisplayEnabled by mutableStateOf(true)
-    var createdChannelId by mutableStateOf<String?>(null)
-    var tags by mutableStateOf(setOf("beta"))
-    var channelAttributes by mutableStateOf<Map<String, AirshipAudienceAttributeValue>>(emptyMap())
-    var channelSubscriptionLists by mutableStateOf(setOf("weekly-updates"))
-    var namedUserId by mutableStateOf<String?>(null)
-    var contactAttributes by mutableStateOf<Map<String, AirshipAudienceAttributeValue>>(emptyMap())
-    var contactSubscriptionLists by mutableStateOf<Map<AirshipContactSubscriptionScope, Set<String>>>(emptyMap())
-    var enabledFeatures by mutableStateOf(
-        setOf(
-            AirshipPrivacyFeature.Push,
-            AirshipPrivacyFeature.TagsAndAttributes,
-            AirshipPrivacyFeature.Contacts
-        )
-    )
-    var latestEvent by mutableStateOf(
-        AirshipPushEvent(
-            type = AirshipPushEventType.StatusChanged,
-            alert = "Airship demo gateway is ready.",
-            status = currentPushStatus()
-        )
-    )
-
-    private val eventState = MutableStateFlow(latestEvent)
-
-    override suspend fun getChannelId(): String? = channelId
-
-    override suspend fun areUserNotificationsEnabled(): Boolean = userNotificationsEnabled
-
-    override suspend fun setUserNotificationsEnabled(enabled: Boolean) {
-        userNotificationsEnabled = enabled
-        publishEvent(
-            AirshipPushEvent(
-                type = AirshipPushEventType.StatusChanged,
-                alert = "User notifications ${if (enabled) "enabled" else "disabled"}.",
-                status = currentPushStatus()
-            )
-        )
-    }
-
-    override suspend fun getTags(): Set<String> = tags
-
-    override suspend fun addTags(tags: Set<String>) {
-        this.tags = this.tags + tags
-    }
-
-    override suspend fun removeTags(tags: Set<String>) {
-        this.tags = this.tags - tags
-    }
-
-    override suspend fun clearTags() {
-        tags = emptySet()
-    }
-
-    override suspend fun setAttribute(
-        name: String,
-        value: AirshipAudienceAttributeValue
-    ) {
-        channelAttributes = channelAttributes + (name to value)
-        contactAttributes = contactAttributes + (name to value)
-    }
-
-    override suspend fun removeAttribute(name: String) {
-        channelAttributes = channelAttributes - name
-        contactAttributes = contactAttributes - name
-    }
-
-    override suspend fun subscribeToLists(listIds: Set<String>) {
-        channelSubscriptionLists = channelSubscriptionLists + listIds
-    }
-
-    override suspend fun unsubscribeFromLists(listIds: Set<String>) {
-        channelSubscriptionLists = channelSubscriptionLists - listIds
-    }
-
-    override fun observePushEvents(): Flow<AirshipPushEvent> = eventState.asStateFlow()
-
-    override suspend fun getPushNotificationStatus(): AirshipPushNotificationStatus = currentPushStatus()
-
-    override suspend fun createNotificationChannel(config: NotificationChannelConfig) {
-        createdChannelId = config.id.value
-    }
-
-    override suspend fun setForegroundNotificationDisplayEnabled(enabled: Boolean) {
-        foregroundDisplayEnabled = enabled
-    }
-
-    override suspend fun getNamedUserId(): String? = namedUserId
-
-    override suspend fun identify(namedUserId: String) {
-        this.namedUserId = namedUserId
-    }
-
-    override suspend fun reset() {
-        namedUserId = null
-        contactAttributes = emptyMap()
-        contactSubscriptionLists = emptyMap()
-    }
-
-    override suspend fun subscribeToLists(
-        listIds: Set<String>,
-        scope: AirshipContactSubscriptionScope
-    ) {
-        contactSubscriptionLists = contactSubscriptionLists + (
-            scope to (contactSubscriptionLists[scope].orEmpty() + listIds)
-        )
-    }
-
-    override suspend fun unsubscribeFromLists(
-        listIds: Set<String>,
-        scope: AirshipContactSubscriptionScope
-    ) {
-        contactSubscriptionLists = contactSubscriptionLists + (
-            scope to (contactSubscriptionLists[scope].orEmpty() - listIds)
-        )
-    }
-
-    override suspend fun getEnabledFeatures(): Set<AirshipPrivacyFeature> = enabledFeatures
-
-    override suspend fun setEnabledFeatures(features: Set<AirshipPrivacyFeature>) {
-        enabledFeatures = features
-    }
-
-    override suspend fun enableFeatures(features: Set<AirshipPrivacyFeature>) {
-        enabledFeatures = enabledFeatures + features
-    }
-
-    override suspend fun disableFeatures(features: Set<AirshipPrivacyFeature>) {
-        enabledFeatures = enabledFeatures - features
-    }
-
-    fun emitSampleEvent() {
-        publishEvent(
-            AirshipPushEvent(
-                type = AirshipPushEventType.Received,
-                title = "Lantern",
-                alert = "Sample Airship push payload.",
-                summary = "Demo event",
-                sendId = "sample-send-id",
-                metadata = "campaign=demo",
-                notificationPosted = foregroundDisplayEnabled
-            )
-        )
-    }
-
-    private fun currentPushStatus(): AirshipPushNotificationStatus {
-        return AirshipPushNotificationStatus(
-            userNotificationsEnabled = userNotificationsEnabled,
-            notificationsAllowed = true,
-            pushPrivacyFeatureEnabled = AirshipPrivacyFeature.Push in enabledFeatures,
-            pushTokenRegistered = !channelId.isNullOrBlank(),
-            optedIn = userNotificationsEnabled && AirshipPrivacyFeature.Push in enabledFeatures
-        )
-    }
-
-    private fun publishEvent(event: AirshipPushEvent) {
-        latestEvent = event
-        eventState.value = event
-    }
-}
-
-private val sampleAirshipChannel = NotificationChannelConfig(
-    id = NotificationChannelId.unsafe("airship_updates"),
-    name = "Airship updates",
-    description = "Lantern sample Airship notifications.",
-    importance = NotificationChannelImportance.Default
-)
 
 private fun SdkResult<Unit>.report(
     successMessage: String,

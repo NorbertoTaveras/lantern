@@ -287,13 +287,13 @@ private fun SampleDestination.drawerBadge(): String? {
         SampleDestination.FeatureFlags,
         SampleDestination.Network,
         SampleDestination.Notifications,
-        SampleDestination.Airship,
         SampleDestination.MediaPicker,
         SampleDestination.Analytics,
         SampleDestination.DeepLinks,
         SampleDestination.BackgroundWork,
         SampleDestination.AppVersioning -> "Live"
 
+        SampleDestination.Airship -> "Demo"
         SampleDestination.Home -> "Now"
         SampleDestination.AuthState,
         SampleDestination.Logging -> null
