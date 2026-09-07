@@ -77,18 +77,36 @@ internal interface AirshipSampleGateway :
     val contactSubscriptionLists: Map<AirshipContactSubscriptionScope, Set<String>>
     val enabledFeatures: Set<AirshipPrivacyFeature>
     val latestEvent: AirshipPushEvent
+    val setupStatus: AirshipSampleSetupStatus
 
     fun emitSampleEvent()
+
+    suspend fun refreshState()
 }
+
+internal data class AirshipSampleSetupStatus(
+    val appKeyConfigured: Boolean,
+    val appSecretConfigured: Boolean,
+    val site: String,
+    val initialized: Boolean,
+    val initializationError: String? = null
+)
 
 internal fun createAirshipSampleGateway(application: Application): AirshipSampleGateway {
     val appKey = BuildConfig.AIRSHIP_APP_KEY.trim()
     val appSecret = BuildConfig.AIRSHIP_APP_SECRET.trim()
+    val site = BuildConfig.AIRSHIP_SITE.trim().ifEmpty { "US" }
+    val baseSetupStatus = AirshipSampleSetupStatus(
+        appKeyConfigured = appKey.isNotEmpty(),
+        appSecretConfigured = appSecret.isNotEmpty(),
+        site = site,
+        initialized = false
+    )
     if (appKey.isEmpty() || appSecret.isEmpty()) {
-        return DemoAirshipGateway()
+        return DemoAirshipGateway(setupStatus = baseSetupStatus)
     }
 
-    runCatching {
+    val initializationResult = runCatching {
         if (!Airship.isFlyingOrTakingOff) {
             Airship.takeOff(
                 application,
@@ -96,7 +114,7 @@ internal fun createAirshipSampleGateway(application: Application): AirshipSample
                     AirshipNotificationConfig(
                         appKey = appKey,
                         appSecret = appSecret,
-                        site = BuildConfig.AIRSHIP_SITE.toAirshipNotificationSite(),
+                        site = site.toAirshipNotificationSite(),
                         notificationChannel = sampleAirshipChannel.id.value,
                         userNotificationsEnabled = true
                     )
@@ -106,13 +124,22 @@ internal fun createAirshipSampleGateway(application: Application): AirshipSample
     }
 
     return if (Airship.isFlyingOrTakingOff) {
-        RealAirshipGateway()
+        RealAirshipGateway(
+            setupStatus = baseSetupStatus.copy(initialized = true)
+        )
     } else {
-        DemoAirshipGateway()
+        DemoAirshipGateway(
+            setupStatus = baseSetupStatus.copy(
+                initializationError = initializationResult.exceptionOrNull()?.message
+                    ?: "Airship did not finish initialization."
+            )
+        )
     }
 }
 
-private class DemoAirshipGateway : AirshipSampleGateway {
+private class DemoAirshipGateway(
+    override val setupStatus: AirshipSampleSetupStatus
+) : AirshipSampleGateway {
     override val statusLabel: String = "Demo"
     override val description: String =
         "Preview Lantern's Airship push, channel audience, contact, and privacy helpers with a credential-free demo gateway."
@@ -262,6 +289,8 @@ private class DemoAirshipGateway : AirshipSampleGateway {
         )
     }
 
+    override suspend fun refreshState() = Unit
+
     private fun currentPushStatus(): AirshipPushNotificationStatus {
         return AirshipPushNotificationStatus(
             userNotificationsEnabled = userNotificationsEnabled,
@@ -279,6 +308,7 @@ private class DemoAirshipGateway : AirshipSampleGateway {
 }
 
 private class RealAirshipGateway(
+    override val setupStatus: AirshipSampleSetupStatus,
     private val pushGateway: AirshipSdkPushGateway = AirshipSdkPushGateway(),
     private val audienceGateway: AirshipSdkAudienceGateway = AirshipSdkAudienceGateway(),
     private val pushEventGateway: AirshipSdkPushEventGateway = AirshipSdkPushEventGateway(),
@@ -445,6 +475,15 @@ private class RealAirshipGateway(
             type = AirshipPushEventType.Received,
             alert = "Waiting for a real Airship push event."
         )
+    }
+
+    override suspend fun refreshState() {
+        getChannelId()
+        areUserNotificationsEnabled()
+        getTags()
+        getNamedUserId()
+        getEnabledFeatures()
+        getPushNotificationStatus()
     }
 }
 

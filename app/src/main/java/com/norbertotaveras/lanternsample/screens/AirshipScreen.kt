@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
@@ -75,11 +76,7 @@ fun AirshipScreen() {
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(gateway) {
-        gateway.getChannelId()
-        gateway.areUserNotificationsEnabled()
-        gateway.getTags()
-        gateway.getNamedUserId()
-        gateway.getEnabledFeatures()
+        gateway.refreshState()
     }
 
     FeatureScreen(
@@ -95,6 +92,41 @@ fun AirshipScreen() {
                 DemoMetric(label = "Privacy features", value = gateway.enabledFeatures.size.toString())
             )
         )
+
+        DemoSection(
+            title = "Sample setup",
+            description = "The screen runs in demo mode by default. Add Airship credentials to local.properties to switch to the real Airship SDK gateways.",
+            leadingIcon = Icons.Filled.Cloud
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                PrimaryDemoButton(
+                    text = "Refresh Airship state",
+                    icon = Icons.Filled.Refresh,
+                    onClick = {
+                        coroutineScope.launch {
+                            runCatching { gateway.refreshState() }
+                                .onSuccess {
+                                    errorMessage = null
+                                    message = "Airship sample state refreshed."
+                                }
+                                .onFailure {
+                                    message = null
+                                    errorMessage = it.message ?: "Unable to refresh Airship sample state."
+                                }
+                        }
+                    }
+                )
+
+                InfoRow(label = "Runtime mode", value = gateway.runtimeMode)
+                InfoRow(label = "App key", value = if (gateway.setupStatus.appKeyConfigured) "Configured" else "Missing")
+                InfoRow(label = "App secret", value = if (gateway.setupStatus.appSecretConfigured) "Configured" else "Missing")
+                InfoRow(label = "Site", value = gateway.setupStatus.site)
+                InfoRow(label = "Airship initialized", value = if (gateway.setupStatus.initialized) "Yes" else "No")
+                gateway.setupStatus.initializationError?.let { error ->
+                    InfoRow(label = "Initialization error", value = error)
+                }
+            }
+        }
 
         DemoSection(
             title = "Push and channel",
