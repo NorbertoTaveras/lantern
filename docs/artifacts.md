@@ -10,7 +10,7 @@ Lantern publishes each SDK module as a separate Maven artifact. Apps should depe
 Define the SDK version once in your Gradle build:
 
 ```kotlin
-val lanternVersion = "0.1.1"
+val lanternVersion = "0.2.0"
 ```
 
 ## Repository
@@ -109,7 +109,7 @@ The sample app module is not published.
 
 ## Airship Artifacts
 
-Lantern `0.2.0` adds Airship notification, Message Center, and Preference Center support. Use these artifacts with a Lantern version that is `0.2.0` or newer:
+Lantern includes Airship notification, Message Center, and Preference Center support:
 
 | Module | Artifact |
 | --- | --- |
@@ -118,9 +118,7 @@ Lantern `0.2.0` adds Airship notification, Message Center, and Preference Center
 | `preference-center-airship-compose` | `lantern-preference-center-airship-compose` |
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
 ```

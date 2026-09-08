@@ -28,7 +28,7 @@ Examples:
 Use the same Lantern version for every SDK module in your app:
 
 ```kotlin
-val lanternVersion = "0.1.1"
+val lanternVersion = "0.2.0"
 
 implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-auth-core:$lanternVersion")

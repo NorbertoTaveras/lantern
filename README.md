@@ -75,7 +75,7 @@ repositories {
 Then add the Lantern modules your app needs:
 
 ```kotlin
-val lanternVersion = "0.1.1"
+val lanternVersion = "0.2.0"
 
 implementation("io.github.norbertotaveras.lantern:lantern-core:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-logging:$lanternVersion")
@@ -91,6 +91,9 @@ implementation("io.github.norbertotaveras.lantern:lantern-remote-config-firebase
 implementation("io.github.norbertotaveras.lantern:lantern-feature-flags:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-media-picker:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-analytics:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-analytics-firebase:$lanternVersion")
@@ -117,8 +120,8 @@ Most apps should not install every module. Start with the provider-neutral modul
 | Remote config | `remote-config`, `remote-config-firebase` | Provider-neutral remote config contracts plus Firebase Remote Config implementation. |
 | Feature flags | `feature-flags` | Typed feature flags with static and remote-config-backed providers. |
 | Notifications | `notifications`, `notifications-firebase`, `notifications-airship` | Notification payloads, tokens, topics, channels, permissions, Firebase Messaging integration, and Airship push/audience helpers. |
-| Airship Message Center | `message-center-airship-compose` | Optional Airship Compose Message Center screen wrapper. Available starting in `0.2.0`. |
-| Airship Preference Center | `preference-center-airship-compose` | Optional Airship Compose Preference Center screen wrapper. Available starting in `0.2.0`. |
+| Airship Message Center | `message-center-airship-compose` | Optional Airship Compose Message Center screen wrapper. |
+| Airship Preference Center | `preference-center-airship-compose` | Optional Airship Compose Preference Center screen wrapper. |
 | Media picking | `media-picker` | Android Photo Picker wrapper with typed requests and results. |
 | Analytics | `analytics`, `analytics-firebase` | Typed analytics events, values, users, properties, no-op provider, and Firebase Analytics implementation. |
 | Deep links | `deep-links` | URI parsing, typed deep-link models, and scheme/host allow-listing. |
@@ -339,12 +342,10 @@ The core notification module also includes topic, channel, permission, token, pa
 
 ### Airship Notifications
 
-`notifications-airship` is available starting in Lantern `0.2.0`. Use it when your app uses Airship for push messaging and audience management:
+Use `notifications-airship` when your app uses Airship for push messaging and audience management:
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
 ```
 
 ```kotlin
@@ -367,12 +368,10 @@ Lantern also exposes Airship helpers for:
 
 ### Airship Message Center
 
-`message-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed Airship's official Message Center UI through a Lantern entry point:
+Use `message-center-airship-compose` when your Compose app wants to embed Airship's official Message Center UI through a Lantern entry point:
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
 ```
 
 ```kotlin
@@ -386,12 +385,10 @@ Airship Message Center content, dashboard setup, theming policy, and final navig
 
 ### Airship Preference Center
 
-`preference-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed an Airship Preference Center configured in the Airship dashboard:
+Use `preference-center-airship-compose` when your Compose app wants to embed an Airship Preference Center configured in the Airship dashboard:
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
 ```
 
 ```kotlin

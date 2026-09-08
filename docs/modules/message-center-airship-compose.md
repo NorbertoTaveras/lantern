@@ -3,13 +3,8 @@
 `message-center-airship-compose` provides a Lantern entry point for Airship's official Jetpack Compose Message Center UI.
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
 ```
-
-!!! note "Release availability"
-    This module is available starting in Lantern `0.2.0`. Keep public app builds on the latest Maven Central version that contains the artifact you are using.
 
 ## Use It For
 
@@ -52,8 +47,8 @@ Use `notifications-airship` for push, channel ID/token access, audience, contact
 Use `message-center-airship-compose` when your app also wants Airship's Message Center UI:
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
 ```
 
 ## App Responsibilities
