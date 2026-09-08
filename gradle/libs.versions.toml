@@ -28,6 +28,7 @@ workManager = "2.11.2"
 
 [libraries]
 airship-core = { module = "com.urbanairship.android:urbanairship-core", version.ref = "airship" }
+airship-message-center-compose = { module = "com.urbanairship.android:urbanairship-message-center-compose", version.ref = "airship" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

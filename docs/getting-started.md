@@ -5,7 +5,7 @@
 - Android min SDK: 24.
 - Android compile SDK: 37.1.
 - Kotlin: 2.4.10.
-- Android Gradle Plugin: 9.3.1.
+- Android Gradle Plugin: 9.3.2.
 - Java compatibility: Java 11.
 
 Provider-specific credentials and configuration stay in the consuming app. For example, Firebase `google-services.json`, OAuth client IDs, notification settings, and app signing fingerprints are not owned by SDK modules.

@@ -52,6 +52,7 @@ dependencies {
     implementation("io.github.norbertotaveras.lantern:lantern-notifications:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-media-picker:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics-firebase:${lanternVersion.get()}")

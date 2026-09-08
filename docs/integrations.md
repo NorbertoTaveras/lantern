@@ -130,6 +130,26 @@ Use `AirshipAudienceManager` for channel tags, attributes, and subscription list
 
 See [Airship Notifications](modules/notifications-airship.md) for complete setup and usage.
 
+## Airship Message Center
+
+`message-center-airship-compose` wraps Airship's official Compose Message Center UI behind a Lantern module entry point.
+
+!!! note "Release availability"
+    Airship Message Center Compose support is available starting in Lantern `0.2.0`.
+
+```kotlin
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+```
+
+```kotlin
+LanternAirshipMessageCenterScreen(
+    showListNavigateUpIcon = true,
+    onNavigateUp = { navController.popBackStack() }
+)
+```
+
+Airship initialization, dashboard content, theming decisions, and final navigation remain app-owned.
+
 ## Media Picker
 
 `media-picker` wraps Android Photo Picker in typed requests and results.
