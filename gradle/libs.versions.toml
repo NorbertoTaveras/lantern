@@ -1,5 +1,5 @@
 [versions]
-agp = "9.3.2"
+agp = "9.4.0"
 airship = "20.8.2"
 coreKtx = "1.19.0"
 credentials = "1.6.0"
