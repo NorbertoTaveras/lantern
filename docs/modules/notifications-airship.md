@@ -3,8 +3,10 @@
 `notifications-airship` bridges Airship push, channel audience, contact identity, and privacy/data collection controls into Lantern's notification and result contracts.
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
 ```
 
 !!! note "Release availability"
@@ -71,12 +73,14 @@ The Lantern sample app stays in demo mode unless these values are present in loc
 AIRSHIP_APP_KEY=your_airship_app_key
 AIRSHIP_APP_SECRET=your_airship_app_secret
 AIRSHIP_SITE=US
+AIRSHIP_PREFERENCE_CENTER_ID=your_preference_center_id
 ```
 
 When those values are missing, the Airship screen shows the exact missing property name and keeps
 using the credential-free demo gateway. When they are present, the sample attempts Airship `takeOff`
 and switches to the real SDK gateways only if Airship initializes successfully. The screen never
-prints the actual key or secret.
+prints the actual key or secret. `AIRSHIP_PREFERENCE_CENTER_ID` is optional and is only needed when
+you want the sample app to open a dashboard-configured Airship Preference Center.
 
 ## Channel Token And Notification Enablement
 
@@ -206,5 +210,5 @@ privacyManager.disableFeatures(setOf(AirshipPrivacyFeature.Analytics))
 Your app still owns legal review, consent copy, privacy policy, and the decision about which Airship features can run for each user.
 
 !!! info "Optional Airship UI"
-    Airship Message Center, Preference Center, and In-App Experiences should be added through
-    their own optional Lantern modules when available.
+    Airship Message Center and Preference Center are available through optional Compose modules
+    starting in Lantern `0.2.0`. In-App Experiences remain future work.

@@ -342,7 +342,9 @@ The core notification module also includes topic, channel, permission, token, pa
 `notifications-airship` is available starting in Lantern `0.2.0`. Use it when your app uses Airship for push messaging and audience management:
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
 ```
 
 ```kotlin
@@ -368,7 +370,9 @@ Lantern also exposes Airship helpers for:
 `message-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed Airship's official Message Center UI through a Lantern entry point:
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
 ```
 
 ```kotlin
@@ -385,7 +389,9 @@ Airship Message Center content, dashboard setup, theming policy, and final navig
 `preference-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed an Airship Preference Center configured in the Airship dashboard:
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
 ```
 
 ```kotlin

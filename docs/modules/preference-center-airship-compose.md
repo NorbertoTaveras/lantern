@@ -3,7 +3,9 @@
 `preference-center-airship-compose` provides a Lantern entry point for Airship's official Jetpack Compose Preference Center UI.
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
 ```
 
 !!! note "Release availability"
@@ -50,8 +52,8 @@ Use `notifications-airship` for push, channel ID/token access, audience, contact
 Use `preference-center-airship-compose` when your app also wants Airship's Preference Center UI:
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
 ```
 
 ## App Responsibilities

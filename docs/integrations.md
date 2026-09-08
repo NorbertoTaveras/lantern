@@ -113,6 +113,12 @@ val token = tokenProvider.getToken()
     Airship notification support is available starting in Lantern `0.2.0`. Keep public app
     builds on the latest Maven Central version that contains the artifact you are using.
 
+```kotlin
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+```
+
 !!! info "Airship setup stays in the app"
     Airship app keys, app secrets, site, FCM provider setup, notification icon, default channel,
     dashboard campaigns, and notification permission timing are app responsibilities.
@@ -138,7 +144,9 @@ See [Airship Notifications](modules/notifications-airship.md) for complete setup
     Airship Message Center Compose support is available starting in Lantern `0.2.0`.
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
 ```
 
 ```kotlin
@@ -158,7 +166,9 @@ Airship initialization, dashboard content, theming decisions, and final navigati
     Airship Preference Center Compose support is available starting in Lantern `0.2.0`.
 
 ```kotlin
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
 ```
 
 ```kotlin
