@@ -109,14 +109,8 @@ val token = tokenProvider.getToken()
 
 `notifications-airship` adapts Airship push, channel audience, contact identity, and privacy/data collection controls into Lantern contracts.
 
-!!! note "Release availability"
-    Airship notification support is available starting in Lantern `0.2.0`. Keep public app
-    builds on the latest Maven Central version that contains the artifact you are using.
-
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
 ```
 
 !!! info "Airship setup stays in the app"
@@ -140,13 +134,8 @@ See [Airship Notifications](modules/notifications-airship.md) for complete setup
 
 `message-center-airship-compose` wraps Airship's official Compose Message Center UI behind a Lantern module entry point.
 
-!!! note "Release availability"
-    Airship Message Center Compose support is available starting in Lantern `0.2.0`.
-
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
 ```
 
 ```kotlin
@@ -162,13 +151,8 @@ Airship initialization, dashboard content, theming decisions, and final navigati
 
 `preference-center-airship-compose` wraps Airship's official Compose Preference Center UI behind a Lantern module entry point.
 
-!!! note "Release availability"
-    Airship Preference Center Compose support is available starting in Lantern `0.2.0`.
-
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
 ```
 
 ```kotlin

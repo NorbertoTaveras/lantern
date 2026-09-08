@@ -3,15 +3,9 @@
 `notifications-airship` bridges Airship push, channel audience, contact identity, and privacy/data collection controls into Lantern's notification and result contracts.
 
 ```kotlin
-val lanternAirshipVersion = "0.2.0"
-
-implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternAirshipVersion")
-implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
 ```
-
-!!! note "Release availability"
-    The Airship module is available starting in Lantern `0.2.0`. Keep public app builds on the
-    latest Maven Central version that contains the artifact you are using.
 
 ## Use It For
 
@@ -211,4 +205,4 @@ Your app still owns legal review, consent copy, privacy policy, and the decision
 
 !!! info "Optional Airship UI"
     Airship Message Center and Preference Center are available through optional Compose modules
-    starting in Lantern `0.2.0`. In-App Experiences remain future work.
+    when your app needs Airship-hosted product UI. In-App Experiences remain future work.
