@@ -150,6 +150,26 @@ LanternAirshipMessageCenterScreen(
 
 Airship initialization, dashboard content, theming decisions, and final navigation remain app-owned.
 
+## Airship Preference Center
+
+`preference-center-airship-compose` wraps Airship's official Compose Preference Center UI behind a Lantern module entry point.
+
+!!! note "Release availability"
+    Airship Preference Center Compose support is available starting in Lantern `0.2.0`.
+
+```kotlin
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
+```
+
+```kotlin
+LanternAirshipPreferenceCenterScreen(
+    identifier = "my-first-pref-center",
+    onNavigateUp = { navController.popBackStack() }
+)
+```
+
+Airship Preference Center IDs, legal copy, subscription taxonomy, theming decisions, and final navigation remain app-owned.
+
 ## Media Picker
 
 `media-picker` wraps Android Photo Picker in typed requests and results.

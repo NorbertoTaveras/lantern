@@ -30,6 +30,7 @@
 | `notifications-firebase` | Firebase Messaging token and notification helpers. |
 | `notifications-airship` | Airship channel ID/token access, notification enablement, push events, audience, contact, and privacy helpers. Available starting in `0.2.0`. |
 | `message-center-airship-compose` | Optional Airship Compose Message Center wrapper for embedding Airship inbox UI. Available starting in `0.2.0`. |
+| `preference-center-airship-compose` | Optional Airship Compose Preference Center wrapper for embedding configured Airship preference centers. Available starting in `0.2.0`. |
 | `media-picker` | Typed wrapper around Android Photo Picker requests and results. |
 | `analytics` | Provider-neutral analytics events, parameters, users, and no-op provider. |
 | `analytics-firebase` | Firebase Analytics implementation. |
@@ -53,6 +54,7 @@
 - [Notifications](modules/notifications.md)
 - [Airship Notifications](modules/notifications-airship.md)
 - [Airship Message Center Compose](modules/message-center-airship-compose.md)
+- [Airship Preference Center Compose](modules/preference-center-airship-compose.md)
 - [Media Picker](modules/media-picker.md)
 - [Analytics](modules/analytics.md)
 - [Deep Links](modules/deep-links.md)

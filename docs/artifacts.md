@@ -109,14 +109,16 @@ The sample app module is not published.
 
 ## Airship Artifacts
 
-Lantern `0.2.0` adds Airship notification and Message Center support:
+Lantern `0.2.0` adds Airship notification, Message Center, and Preference Center support:
 
 | Module | Artifact |
 | --- | --- |
 | `notifications-airship` | `lantern-notifications-airship` |
 | `message-center-airship-compose` | `lantern-message-center-airship-compose` |
+| `preference-center-airship-compose` | `lantern-preference-center-airship-compose` |
 
 ```kotlin
 implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternVersion")
 implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternVersion")
 ```

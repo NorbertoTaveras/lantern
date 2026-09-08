@@ -67,6 +67,7 @@ nav:
       - Notifications: modules/notifications.md
       - Airship Notifications: modules/notifications-airship.md
       - Airship Message Center Compose: modules/message-center-airship-compose.md
+      - Airship Preference Center Compose: modules/preference-center-airship-compose.md
       - Media Picker: modules/media-picker.md
       - Analytics: modules/analytics.md
       - Deep Links: modules/deep-links.md

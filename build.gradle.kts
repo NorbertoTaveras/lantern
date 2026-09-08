@@ -217,6 +217,7 @@ val sdkModuleNames = listOf(
     "notifications-firebase",
     "notifications-airship",
     "message-center-airship-compose",
+    "preference-center-airship-compose",
     "media-picker",
     "analytics",
     "analytics-firebase",
@@ -614,6 +615,7 @@ tasks.register("checkSdkDependencyAllowlist") {
             "notifications-firebase" to setOf("sdk-core", "logging", "notifications"),
             "notifications-airship" to setOf("sdk-core", "logging", "notifications"),
             "message-center-airship-compose" to setOf("sdk-core", "logging"),
+            "preference-center-airship-compose" to setOf("sdk-core", "logging"),
             "media-picker" to setOf("sdk-core", "logging"),
             "analytics" to setOf("sdk-core", "logging"),
             "analytics-firebase" to setOf("sdk-core", "logging", "analytics"),
@@ -644,6 +646,11 @@ tasks.register("checkSdkDependencyAllowlist") {
             "notifications-firebase" to commonExternalGroups + setOf("com.google.firebase"),
             "notifications-airship" to commonExternalGroups + setOf("com.urbanairship.android"),
             "message-center-airship-compose" to commonExternalGroups + setOf(
+                "androidx.compose",
+                "androidx.compose.ui",
+                "com.urbanairship.android",
+            ),
+            "preference-center-airship-compose" to commonExternalGroups + setOf(
                 "androidx.compose",
                 "androidx.compose.ui",
                 "com.urbanairship.android",
