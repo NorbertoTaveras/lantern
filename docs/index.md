@@ -68,9 +68,9 @@ For feature-specific setup, start with the [Module Guide](modules.md) or jump in
 
     Firebase, Google, OAuth, notification, and app signing configuration stay in the consuming application.
 
--   :material-cellphone-cog: **UI-Independent SDK**
+-   :material-cellphone-cog: **UI-Independent Core**
 
-    SDK modules do not depend on Compose UI, so apps can use Compose, Views, or mixed UI stacks.
+    Provider-neutral SDK modules do not depend on Compose UI, while dedicated optional UI modules can wrap provider UI.
 
 </div>
 
@@ -100,7 +100,7 @@ Public releases are published to Maven Central.
 
 ## Design Principles
 
-- Keep SDK library modules UI-independent.
+- Keep provider-neutral SDK modules UI-independent.
 - Keep provider-neutral contracts separate from provider integrations.
 - Keep Firebase and Google configuration in the consuming app.
 - Prefer small public APIs over broad utility buckets.

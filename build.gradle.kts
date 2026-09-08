@@ -26,7 +26,7 @@ fun localProperty(name: String) = providers.provider {
 }
 
 val lanternVersion = providers.gradleProperty("LANTERN_VERSION")
-    .orElse("0.1.2-SNAPSHOT")
+    .orElse("0.2.0-SNAPSHOT")
 val lanternSourceRef = providers.gradleProperty("LANTERN_SOURCE_REF")
     .orElse(providers.environmentVariable("GITHUB_SHA"))
     .orElse("develop")
@@ -216,6 +216,8 @@ val sdkModuleNames = listOf(
     "notifications",
     "notifications-firebase",
     "notifications-airship",
+    "message-center-airship-compose",
+    "preference-center-airship-compose",
     "media-picker",
     "analytics",
     "analytics-firebase",
@@ -470,8 +472,10 @@ tasks.register("checkSdkArchitecture") {
 
             dependencies.forEach { dependency ->
                 val dependencyGroup = dependency.group.orEmpty()
-                check(forbiddenUiGroups.none { dependencyGroup == it || dependencyGroup.startsWith("$it.") }) {
-                    "SDK module :$moduleName must stay UI-independent, but depends on ${dependency.group}:${dependency.name}."
+                if (!moduleName.endsWith("-compose")) {
+                    check(forbiddenUiGroups.none { dependencyGroup == it || dependencyGroup.startsWith("$it.") }) {
+                        "SDK module :$moduleName must stay UI-independent, but depends on ${dependency.group}:${dependency.name}."
+                    }
                 }
 
                 providerIsolationRules[moduleName].orEmpty().forEach { forbiddenGroup ->
@@ -610,6 +614,8 @@ tasks.register("checkSdkDependencyAllowlist") {
             "notifications" to setOf("sdk-core", "logging", "deep-links", "permissions"),
             "notifications-firebase" to setOf("sdk-core", "logging", "notifications"),
             "notifications-airship" to setOf("sdk-core", "logging", "notifications"),
+            "message-center-airship-compose" to setOf("sdk-core", "logging"),
+            "preference-center-airship-compose" to setOf("sdk-core", "logging"),
             "media-picker" to setOf("sdk-core", "logging"),
             "analytics" to setOf("sdk-core", "logging"),
             "analytics-firebase" to setOf("sdk-core", "logging", "analytics"),
@@ -639,6 +645,16 @@ tasks.register("checkSdkDependencyAllowlist") {
             "notifications" to commonExternalGroups,
             "notifications-firebase" to commonExternalGroups + setOf("com.google.firebase"),
             "notifications-airship" to commonExternalGroups + setOf("com.urbanairship.android"),
+            "message-center-airship-compose" to commonExternalGroups + setOf(
+                "androidx.compose",
+                "androidx.compose.ui",
+                "com.urbanairship.android",
+            ),
+            "preference-center-airship-compose" to commonExternalGroups + setOf(
+                "androidx.compose",
+                "androidx.compose.ui",
+                "com.urbanairship.android",
+            ),
             "media-picker" to commonExternalGroups + setOf("androidx.activity"),
             "analytics" to commonExternalGroups,
             "analytics-firebase" to commonExternalGroups + setOf("com.google.firebase"),

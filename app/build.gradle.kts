@@ -7,7 +7,7 @@ plugins {
 }
 
 val lanternVersion = providers.gradleProperty("SAMPLE_APP_LANTERN_VERSION")
-    .orElse("0.1.2-SNAPSHOT")
+    .orElse("0.2.0-SNAPSHOT")
 
 android {
     namespace = "com.norbertotaveras.lanternsample"
@@ -27,6 +27,16 @@ android {
 
     val firebaseWebClientId: String =
         localProperties.getProperty("FIREBASE_WEB_CLIENT_ID", "")
+    val airshipAppKey: String =
+        localProperties.getProperty("AIRSHIP_APP_KEY", "")
+    val airshipAppSecret: String =
+        localProperties.getProperty("AIRSHIP_APP_SECRET", "")
+    val airshipSite: String =
+        localProperties.getProperty("AIRSHIP_SITE", "US")
+    val airshipPreferenceCenterId: String =
+        localProperties.getProperty("AIRSHIP_PREFERENCE_CENTER_ID", "")
+
+    fun String.asBuildConfigString(): String = "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
 
     defaultConfig {
         applicationId = "com.norbertotaveras.lanternsample"
@@ -43,6 +53,26 @@ android {
             "String",
             "LANTERN_VERSION",
             "\"${lanternVersion.get()}\""
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_APP_KEY",
+            airshipAppKey.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_APP_SECRET",
+            airshipAppSecret.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_SITE",
+            airshipSite.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_PREFERENCE_CENTER_ID",
+            airshipPreferenceCenterId.asBuildConfigString()
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -80,6 +110,9 @@ dependencies {
     implementation("io.github.norbertotaveras.lantern:lantern-network-okhttp:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-media-picker:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics-firebase:${lanternVersion.get()}")

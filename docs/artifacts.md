@@ -106,3 +106,21 @@ For example:
 - Add `lantern-auth-firebase-google` when Google sign-in should authenticate with Firebase.
 
 The sample app module is not published.
+
+## Airship Artifacts
+
+Lantern `0.2.0` adds Airship notification, Message Center, and Preference Center support. Use these artifacts with a Lantern version that is `0.2.0` or newer:
+
+| Module | Artifact |
+| --- | --- |
+| `notifications-airship` | `lantern-notifications-airship` |
+| `message-center-airship-compose` | `lantern-message-center-airship-compose` |
+| `preference-center-airship-compose` | `lantern-preference-center-airship-compose` |
+
+```kotlin
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
+```

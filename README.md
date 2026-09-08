@@ -32,7 +32,7 @@ The SDK is designed around small modules, Kotlin-first APIs, coroutines, Flow, t
 - Keep app code provider-neutral where possible.
 - Add Firebase, Google, OkHttp, and WorkManager integrations only when needed.
 - Handle expected failures through `SdkResult` instead of scattered provider exceptions.
-- Keep UI out of SDK modules so the library works with Compose, Views, or mixed apps.
+- Keep provider-neutral SDK modules UI-independent so the library works with Compose, Views, or mixed apps.
 - Keep Firebase and Google configuration in the consuming application.
 
 ## Status
@@ -57,7 +57,7 @@ The documentation source lives in [docs](docs/index.md). The generated Dokka ref
 - Android min SDK: 24.
 - Android compile SDK: 37.1.
 - Kotlin: 2.4.10.
-- Android Gradle Plugin: 9.3.1.
+- Android Gradle Plugin: 9.3.2.
 - Java compatibility: Java 11.
 - Firebase configuration, Google OAuth clients, notification setup, and other provider-specific app credentials stay in the consuming app.
 
@@ -116,7 +116,9 @@ Most apps should not install every module. Start with the provider-neutral modul
 | Networking | `network-okhttp` | OkHttp factory, auth header interceptor, default headers, retry, logging, and error mapping. |
 | Remote config | `remote-config`, `remote-config-firebase` | Provider-neutral remote config contracts plus Firebase Remote Config implementation. |
 | Feature flags | `feature-flags` | Typed feature flags with static and remote-config-backed providers. |
-| Notifications | `notifications`, `notifications-firebase` | Notification payloads, tokens, topics, channels, permissions, and Firebase Messaging integration. |
+| Notifications | `notifications`, `notifications-firebase`, `notifications-airship` | Notification payloads, tokens, topics, channels, permissions, Firebase Messaging integration, and Airship push/audience helpers. |
+| Airship Message Center | `message-center-airship-compose` | Optional Airship Compose Message Center screen wrapper. Available starting in `0.2.0`. |
+| Airship Preference Center | `preference-center-airship-compose` | Optional Airship Compose Preference Center screen wrapper. Available starting in `0.2.0`. |
 | Media picking | `media-picker` | Android Photo Picker wrapper with typed requests and results. |
 | Analytics | `analytics`, `analytics-firebase` | Typed analytics events, values, users, properties, no-op provider, and Firebase Analytics implementation. |
 | Deep links | `deep-links` | URI parsing, typed deep-link models, and scheme/host allow-listing. |
@@ -334,6 +336,72 @@ val token = tokenProvider.getToken()
 ```
 
 The core notification module also includes topic, channel, permission, token, payload, and deep-link abstractions.
+
+### Airship Notifications
+
+`notifications-airship` is available starting in Lantern `0.2.0`. Use it when your app uses Airship for push messaging and audience management:
+
+```kotlin
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:$lanternAirshipVersion")
+```
+
+```kotlin
+val pushGateway = AirshipSdkPushGateway()
+val tokenProvider = AirshipNotificationTokenProvider(pushGateway)
+val notificationManager = AirshipUserNotificationsManager(pushGateway)
+
+val token = tokenProvider.getToken()
+notificationManager.enableUserNotifications()
+```
+
+Airship initialization stays in the app. Configure Airship app keys, app secrets, site, FCM provider setup, notification icon, default channel, dashboard campaigns, and notification permission timing in your application.
+
+Lantern also exposes Airship helpers for:
+
+- push event observation and foreground display behavior
+- channel tags, attributes, and subscription lists
+- contact identity, attributes, and scoped subscription lists
+- privacy/data collection feature toggles
+
+### Airship Message Center
+
+`message-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed Airship's official Message Center UI through a Lantern entry point:
+
+```kotlin
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:$lanternAirshipVersion")
+```
+
+```kotlin
+LanternAirshipMessageCenterScreen(
+    showListNavigateUpIcon = true,
+    onNavigateUp = { navController.popBackStack() }
+)
+```
+
+Airship Message Center content, dashboard setup, theming policy, and final navigation still stay in your application.
+
+### Airship Preference Center
+
+`preference-center-airship-compose` is available starting in Lantern `0.2.0`. Use it when your Compose app wants to embed an Airship Preference Center configured in the Airship dashboard:
+
+```kotlin
+val lanternAirshipVersion = "0.2.0"
+
+implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:$lanternAirshipVersion")
+```
+
+```kotlin
+LanternAirshipPreferenceCenterScreen(
+    identifier = "my-first-pref-center",
+    onNavigateUp = { navController.popBackStack() }
+)
+```
+
+Airship Preference Center IDs, legal copy, subscription taxonomy, theming policy, and final navigation stay in your application and Airship dashboard.
 
 ## Media Picker
 

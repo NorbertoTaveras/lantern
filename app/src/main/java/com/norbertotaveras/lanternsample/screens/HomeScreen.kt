@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Collections
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Link
@@ -32,6 +33,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SyncAlt
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.Tune
@@ -59,9 +61,9 @@ fun HomeScreen() {
     ) {
         MetricRow(
             metrics = listOf(
-                DemoMetric(label = "SDK modules", value = "20"),
-                DemoMetric(label = "Live demos", value = "17"),
-                DemoMetric(label = "UI modules", value = "0")
+                DemoMetric(label = "SDK modules", value = "23"),
+                DemoMetric(label = "Live demos", value = "18"),
+                DemoMetric(label = "UI modules", value = "2")
             )
         )
 
@@ -172,6 +174,27 @@ fun HomeScreen() {
                 )
 
                 ModuleRow(
+                    name = "notifications-airship",
+                    description = "Airship push, channel audience, contact identity, and privacy helpers.",
+                    status = "Live",
+                    icon = Icons.Filled.Notifications
+                )
+
+                ModuleRow(
+                    name = "message-center-airship-compose",
+                    description = "Airship's official Message Center Compose UI behind a Lantern entry point.",
+                    status = "Live",
+                    icon = Icons.Filled.Email
+                )
+
+                ModuleRow(
+                    name = "preference-center-airship-compose",
+                    description = "Airship's official Preference Center Compose UI for app-owned preference IDs.",
+                    status = "Live",
+                    icon = Icons.Filled.Settings
+                )
+
+                ModuleRow(
                     name = "media-picker",
                     description = "Typed Android Photo Picker requests and result models.",
                     status = "Live",
@@ -229,6 +252,9 @@ fun HomeScreen() {
             InfoRow(label = "Feature flags", value = "Ready")
             InfoRow(label = "Network", value = "Ready")
             InfoRow(label = "Notifications", value = "Ready")
+            InfoRow(label = "Airship notifications", value = "Ready")
+            InfoRow(label = "Airship Message Center", value = "Ready")
+            InfoRow(label = "Airship Preference Center", value = "Ready")
             InfoRow(label = "Media picker", value = "Ready")
             InfoRow(label = "Analytics", value = "Ready")
             InfoRow(label = "Deep links", value = "Ready")
