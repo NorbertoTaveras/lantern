@@ -33,6 +33,8 @@ android {
         localProperties.getProperty("AIRSHIP_APP_SECRET", "")
     val airshipSite: String =
         localProperties.getProperty("AIRSHIP_SITE", "US")
+    val airshipPreferenceCenterId: String =
+        localProperties.getProperty("AIRSHIP_PREFERENCE_CENTER_ID", "")
 
     fun String.asBuildConfigString(): String = "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
 
@@ -66,6 +68,11 @@ android {
             "String",
             "AIRSHIP_SITE",
             airshipSite.asBuildConfigString()
+        )
+        buildConfigField(
+            "String",
+            "AIRSHIP_PREFERENCE_CENTER_ID",
+            airshipPreferenceCenterId.asBuildConfigString()
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -104,6 +111,8 @@ dependencies {
     implementation("io.github.norbertotaveras.lantern:lantern-notifications:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications-firebase:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-notifications-airship:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-message-center-airship-compose:${lanternVersion.get()}")
+    implementation("io.github.norbertotaveras.lantern:lantern-preference-center-airship-compose:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-media-picker:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics:${lanternVersion.get()}")
     implementation("io.github.norbertotaveras.lantern:lantern-analytics-firebase:${lanternVersion.get()}")

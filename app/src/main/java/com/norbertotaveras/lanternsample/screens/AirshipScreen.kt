@@ -18,15 +18,19 @@ package com.norbertotaveras.lanternsample.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,9 +39,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.norbertotaveras.lantern.core.SdkResult
+import com.norbertotaveras.lantern.messagecenter.airship.compose.LanternAirshipMessageCenterScreen
 import com.norbertotaveras.lantern.notifications.NotificationToken
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceAttributeValue
 import com.norbertotaveras.lantern.notifications.airship.AirshipAudienceManager
@@ -48,6 +54,8 @@ import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyFeature
 import com.norbertotaveras.lantern.notifications.airship.AirshipPrivacyManager
 import com.norbertotaveras.lantern.notifications.airship.AirshipPushEventsManager
 import com.norbertotaveras.lantern.notifications.airship.AirshipUserNotificationsManager
+import com.norbertotaveras.lantern.preferencecenter.airship.compose.LanternAirshipPreferenceCenterScreen
+import com.norbertotaveras.lanternsample.BuildConfig
 import com.norbertotaveras.lanternsample.airship.createAirshipSampleGateway
 import com.norbertotaveras.lanternsample.airship.sampleAirshipChannel
 import com.norbertotaveras.lanternsample.components.DemoMetric
@@ -74,9 +82,20 @@ fun AirshipScreen() {
     val latestEvent by pushEventsManager.observePushEvents().collectAsState(initial = gateway.latestEvent)
     var message by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var activeProduct by remember { mutableStateOf<AirshipProduct?>(null) }
+    val preferenceCenterId = BuildConfig.AIRSHIP_PREFERENCE_CENTER_ID.trim()
 
     LaunchedEffect(gateway) {
         gateway.refreshState()
+    }
+
+    activeProduct?.let { product ->
+        AirshipProductScreen(
+            product = product,
+            preferenceCenterId = preferenceCenterId,
+            onNavigateUp = { activeProduct = null }
+        )
+        return
     }
 
     FeatureScreen(
@@ -89,7 +108,8 @@ fun AirshipScreen() {
             metrics = listOf(
                 DemoMetric(label = "Channel ID", value = if (gateway.channelId == null) "Pending" else "Ready"),
                 DemoMetric(label = "Notifications", value = if (gateway.userNotificationsEnabled) "Enabled" else "Disabled"),
-                DemoMetric(label = "Privacy features", value = gateway.enabledFeatures.size.toString())
+                DemoMetric(label = "Privacy features", value = gateway.enabledFeatures.size.toString()),
+                DemoMetric(label = "Product UIs", value = if (gateway.setupStatus.initialized) "Live" else "Demo")
             )
         )
 
@@ -121,11 +141,68 @@ fun AirshipScreen() {
                 InfoRow(label = "App key", value = if (gateway.setupStatus.appKeyConfigured) "Configured" else "Missing")
                 InfoRow(label = "App secret", value = if (gateway.setupStatus.appSecretConfigured) "Configured" else "Missing")
                 InfoRow(label = "Site", value = gateway.setupStatus.site)
+                InfoRow(label = "Preference Center ID", value = if (preferenceCenterId.isNotBlank()) "Configured" else "Missing")
                 InfoRow(label = "Airship initialized", value = if (gateway.setupStatus.initialized) "Yes" else "No")
                 InfoRow(label = "Mode reason", value = gateway.setupStatus.modeReason)
                 gateway.setupStatus.initializationError?.let { error ->
                     InfoRow(label = "Initialization error", value = error)
                 }
+            }
+        }
+
+        DemoSection(
+            title = "Airship product UIs",
+            description = "The Message Center and Preference Center modules wrap Airship's official Compose screens. They open here only when the sample app is running against a real Airship SDK instance.",
+            leadingIcon = Icons.Filled.Email
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                SecondaryDemoButton(
+                    text = "Open Message Center",
+                    icon = Icons.Filled.Email,
+                    onClick = {
+                        if (gateway.setupStatus.initialized) {
+                            errorMessage = null
+                            message = null
+                            activeProduct = AirshipProduct.MessageCenter
+                        } else {
+                            message = null
+                            errorMessage = "Message Center needs real Airship credentials and SDK initialization."
+                        }
+                    }
+                )
+
+                SecondaryDemoButton(
+                    text = "Open Preference Center",
+                    icon = Icons.Filled.Settings,
+                    onClick = {
+                        when {
+                            !gateway.setupStatus.initialized -> {
+                                message = null
+                                errorMessage = "Preference Center needs real Airship credentials and SDK initialization."
+                            }
+                            preferenceCenterId.isBlank() -> {
+                                message = null
+                                errorMessage = "Add AIRSHIP_PREFERENCE_CENTER_ID to local.properties to open a dashboard-configured Preference Center."
+                            }
+                            else -> {
+                                errorMessage = null
+                                message = null
+                                activeProduct = AirshipProduct.PreferenceCenter
+                            }
+                        }
+                    }
+                )
+
+                InfoRow(
+                    label = "Message Center",
+                    value = if (gateway.setupStatus.initialized) "Available" else "Demo gated",
+                    supportingText = "Requires Airship credentials, SDK takeOff, and dashboard message content."
+                )
+                InfoRow(
+                    label = "Preference Center",
+                    value = if (preferenceCenterId.isBlank()) "Needs ID" else "Configured",
+                    supportingText = "The ID comes from the app's Airship dashboard configuration."
+                )
             }
         }
 
@@ -421,12 +498,41 @@ fun AirshipScreen() {
 
                 InfoRow(label = "Enabled features", value = gateway.enabledFeatures.displaySet())
                 InfoRow(label = "Runtime mode", value = gateway.runtimeMode)
-                InfoRow(label = "Future modules", value = "Message Center, Preference Center, In-App Experiences")
+                InfoRow(label = "Product UI modules", value = "Message Center, Preference Center")
+                InfoRow(label = "Future module", value = "In-App Experiences")
             }
         }
 
         StatusMessage(message = message, errorMessage = errorMessage)
     }
+}
+
+@Composable
+private fun AirshipProductScreen(
+    product: AirshipProduct,
+    preferenceCenterId: String,
+    onNavigateUp: () -> Unit
+) {
+    Surface(modifier = Modifier.fillMaxSize()) {
+        when (product) {
+            AirshipProduct.MessageCenter -> LanternAirshipMessageCenterScreen(
+                modifier = Modifier.fillMaxSize(),
+                showListNavigateUpIcon = true,
+                onNavigateUp = onNavigateUp
+            )
+
+            AirshipProduct.PreferenceCenter -> LanternAirshipPreferenceCenterScreen(
+                identifier = preferenceCenterId,
+                modifier = Modifier.fillMaxSize(),
+                onNavigateUp = onNavigateUp
+            )
+        }
+    }
+}
+
+private enum class AirshipProduct {
+    MessageCenter,
+    PreferenceCenter
 }
 
 private fun SdkResult<Unit>.report(
