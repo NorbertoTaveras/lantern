@@ -27,6 +27,7 @@ The SDK is organized into focused modules:
 | Core | `sdk-core`, `logging` |
 | Authentication | `auth-core`, `auth-firebase`, `auth-google`, `auth-firebase-google` |
 | App foundation | `permissions`, `secure-storage`, `network-okhttp`, `remote-config`, `feature-flags`, `notifications`, `media-picker`, `analytics`, `deep-links`, `background-work`, `app-versioning` |
+| Airship | `notifications-airship`, `message-center-airship-compose`, `preference-center-airship-compose` |
 
 Each detailed module page lists its purpose, artifact, setup notes, usage examples, and boundaries.
 
